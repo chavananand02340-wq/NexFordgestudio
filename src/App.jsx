@@ -242,7 +242,7 @@ function App() {
           </p>
 
           <div className="contact-actions">
-            <a href="https://wa.me/9999999999" className="contact-button">
+            <a href="https://wa.me/919405370657" className="contact-button">
               <MessageCircle size={19} />
               WhatsApp
               <ArrowUpRight size={17} />
@@ -255,7 +255,7 @@ function App() {
             </a>
 
             <a
-              href="https://instagram.com/"
+              href="https://instagram.com/nexforge_studio_"
               target="_blank"
               rel="noreferrer"
               className="contact-button"
