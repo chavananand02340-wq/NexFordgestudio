@@ -295,4 +295,17 @@ function App() {
   );
 }
 
+
 export default App;
+.project-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.project-visual {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+}
