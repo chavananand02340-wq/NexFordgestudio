@@ -58,7 +58,7 @@ const projects = [
     description:
       "A streamlined digital solution designed around a real business workflow.",
     image:
-      "https://images.unsplash.com/photo-1743090660977-babf07732432?fm=jpg&q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1771814536262-3c1320c8e9ce?fm=jpg&q=80&w=1200&auto=format&fit=crop",
   },
 ];
 
