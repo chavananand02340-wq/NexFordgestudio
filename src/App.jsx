@@ -43,6 +43,7 @@ const projects = [
     category: "Web Design & Development",
     description:
       "A premium digital experience crafted for a modern growing brand.",
+    image: "/images/project-alpha.jpg",
   },
   {
     number: "02",
@@ -50,6 +51,7 @@ const projects = [
     category: "Branding & Creative",
     description:
       "A bold identity system designed to create a stronger digital presence.",
+    image: "/images/project-nova.jpg",
   },
   {
     number: "03",
@@ -57,8 +59,7 @@ const projects = [
     category: "Custom Software",
     description:
       "A streamlined digital solution designed around a real business workflow.",
-    image:
-      "https://images.unsplash.com/photo-1771814536262-3c1320c8e9ce?fm=jpg&q=80&w=1200&auto=format&fit=crop",
+    image: "/images/project-flux.jpg",
   },
 ];
 
