@@ -36,22 +36,36 @@ const services = [
 
 const projects = [
   {
-    title: "Project Alpha",
-    category: "Web Design & Development",
-    description: "A premium digital experience crafted for a modern growing brand.",
+    title: "Beast Algo",
+    category: "Automated Trading Platform",
+    description:
+      "A fully automated trading system built for consistency, risk control, and long-term growth.",
     image: "/images/project-alpha.jpg",
+    link: "https://beast-algo.vercel.app/",
   },
   {
-    title: "Project Nova",
-    category: "Branding & Creative",
-    description: "A bold identity system designed to create a stronger digital presence.",
-    image: "/images/project-nova.jpg",
-  },
-  {
-    title: "Project Flux",
-    category: "Custom Software",
-    description: "A streamlined digital solution designed around a real business workflow.",
+    title: "Nashik Tours Cloud",
+    category: "Travel Booking SaaS",
+    description:
+      "Premium travel planning and booking platform for Nashik-based tours and travels businesses.",
     image: "/images/project-flux.jpg",
+    link: "https://tours-and-travels-clean.vercel.app/",
+  },
+  {
+    title: "SCC Coaching Portal",
+    category: "Student Management Software",
+    description:
+      "Manage students, fees, attendance, results and parent communication from one platform.",
+    image: "/images/project-nova.jpg",
+    link: "https://edusync.me/login",
+  },
+  {
+    title: "Memories Kraft",
+    category: "Custom Web Platform",
+    description:
+      "A custom digital platform built to bring memories and moments to life online.",
+    image: "/images/project-alpha.jpg",
+    link: "https://memories-kraft.vercel.app/",
   },
 ];
 
@@ -133,8 +147,13 @@ function App() {
                 <p className="project-category">{project.category}</p>
                 <h3>{project.title}</h3>
                 <p className="project-description">{project.description}</p>
-                <a href="#contact" className="project-link">
-                  Discuss a similar project <ArrowUpRight size={16} />
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="project-link"
+                >
+                  View live project <ArrowUpRight size={16} />
                 </a>
               </div>
             </article>
