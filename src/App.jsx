@@ -57,6 +57,8 @@ const projects = [
     category: "Custom Software",
     description:
       "A streamlined digital solution designed around a real business workflow.",
+    image:
+      "https://images.unsplash.com/photo-1743090660977-babf07732432?fm=jpg&q=80&w=1200&auto=format&fit=crop",
   },
 ];
 
@@ -162,7 +164,15 @@ function App() {
           {projects.map((project) => (
             <article className="project-card" key={project.number}>
               <div className="project-visual">
-                <div className="project-orb" />
+                {project.image ? (
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="project-image"
+                  />
+                ) : (
+                  <div className="project-orb" />
+                )}
                 <span>{project.number}</span>
               </div>
 
