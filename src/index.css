@@ -54,7 +54,7 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 16px 20px;
   position: sticky;
   top: 0;
   background: rgba(13, 12, 10, 0.85);
@@ -63,10 +63,15 @@ a {
   border-bottom: 1px solid var(--line);
 }
 
-.logo {
-  font-family: "Oswald", sans-serif;
-  font-weight: 700;
-  font-size: 20px;
+.logo-img {
+  height: 34px;
+  width: auto;
+  display: block;
+}
+
+.footer .logo-img {
+  height: 40px;
+  margin: 0 auto;
 }
 
 .nav-cta {
@@ -176,7 +181,6 @@ a {
   margin-bottom: 12px;
 }
 
-/* Services — horizontal slider */
 .services-scroll {
   margin-top: 24px;
   display: flex;
@@ -234,7 +238,6 @@ a {
   line-height: 1.5;
 }
 
-/* Work — horizontal slider */
 .work-heading p {
   color: var(--ink-muted);
   font-size: 14px;
@@ -394,7 +397,7 @@ a {
 .footer {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   align-items: center;
   padding: 28px 20px;
   border-top: 1px solid var(--line);
@@ -422,4 +425,4 @@ a {
   }
   .why-grid h2 { flex: 1; }
   .why-content { flex: 1.2; }
-  }
+}
