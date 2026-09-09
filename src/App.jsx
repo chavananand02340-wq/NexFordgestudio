@@ -1,5 +1,7 @@
+import { useState } from "react";
 import {
   ArrowUpRight,
+  Check,
   Code2,
   Instagram,
   Mail,
@@ -16,21 +18,45 @@ const services = [
     description:
       "High-performance websites designed to turn attention into action.",
     featured: true,
+    points: [
+      "Free initial consultation call",
+      "Custom design tailored to your brand",
+      "Mobile-first, fast-loading site",
+      "Support after launch",
+    ],
   },
   {
     icon: Share2,
     title: "Social Media Management",
     description: "Strategic content and social systems built around your brand.",
+    points: [
+      "Content calendar & strategy",
+      "Regular posting & engagement",
+      "Growth tracking & analytics",
+      "Consistent brand voice",
+    ],
   },
   {
     icon: Rocket,
     title: "Custom Software",
     description: "Purpose-built digital products for ambitious businesses.",
+    points: [
+      "Requirement analysis & planning",
+      "Scalable, secure architecture",
+      "Regular progress updates",
+      "Post-launch maintenance",
+    ],
   },
   {
     icon: Palette,
     title: "Branding & Creative",
     description: "Distinct visual identities that make your brand memorable.",
+    points: [
+      "Logo & visual identity design",
+      "Complete brand guidelines",
+      "Social & print-ready assets",
+      "Revisions until you're happy",
+    ],
   },
 ];
 
@@ -68,14 +94,32 @@ const projects = [
   },
 ];
 
+const WHATSAPP_NUMBER = "919405370657";
+
 function App() {
+  const [selected, setSelected] = useState(null);
+  const [showForm, setShowForm] = useState(false);
+  const [form, setForm] = useState({ name: "", contact: "", details: "" });
+
+  const handleSelect = (index) => {
+    setSelected(index === selected ? null : index);
+    setShowForm(false);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const service = services[selected]?.title || "a project";
+    const message = `Hi NexForge Studio! I'm interested in *${service}*.%0A%0AName: ${form.name}%0AContact: ${form.contact}%0ADetails: ${form.details}`;
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, "_blank");
+  };
+
   return (
     <main>
       <nav className="navbar">
         <a href="#home" className="logo">
           <img src="/logo.png" alt="NexForge Studio" className="logo-img" />
         </a>
-        <a href="#contact" className="nav-cta">
+        <a href="#start" className="nav-cta">
           Start a project
         </a>
       </nav>
@@ -92,7 +136,7 @@ function App() {
             digital experiences for businesses ready to move forward.
           </p>
           <div className="hero-actions">
-            <a href="#contact" className="button button-primary">
+            <a href="#start" className="button button-primary">
               Start a project <ArrowUpRight size={18} />
             </a>
             <a href="#work" className="button button-secondary">
@@ -182,6 +226,92 @@ function App() {
               <li>Built for growth</li>
             </ul>
           </div>
+        </div>
+      </section>
+
+      <section className="section start-section" id="start">
+        <h2>Start a project</h2>
+        <p className="start-intro">
+          Pick what you need — we'll show you exactly how we can help.
+        </p>
+
+        <div className="start-options">
+          {services.map((service, index) => {
+            const Icon = service.icon;
+            const isActive = selected === index;
+            return (
+              <div key={service.title} className="start-option-wrap">
+                <button
+                  type="button"
+                  className={`start-option ${isActive ? "active" : ""}`}
+                  onClick={() => handleSelect(index)}
+                >
+                  <div className="service-icon">
+                    <Icon size={22} strokeWidth={1.5} />
+                  </div>
+                  <span>{service.title}</span>
+                </button>
+
+                {isActive && (
+                  <div className="start-detail">
+                    <ul className="start-points">
+                      {service.points.map((point) => (
+                        <li key={point}>
+                          <Check size={16} className="check-icon" />
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+
+                    {!showForm && (
+                      <button
+                        type="button"
+                        className="button button-primary"
+                        onClick={() => setShowForm(true)}
+                      >
+                        Continue <ArrowUpRight size={16} />
+                      </button>
+                    )}
+
+                    {showForm && (
+                      <form className="start-form" onSubmit={handleSubmit}>
+                        <input
+                          type="text"
+                          placeholder="Your name"
+                          required
+                          value={form.name}
+                          onChange={(e) =>
+                            setForm({ ...form, name: e.target.value })
+                          }
+                        />
+                        <input
+                          type="text"
+                          placeholder="Phone or email"
+                          required
+                          value={form.contact}
+                          onChange={(e) =>
+                            setForm({ ...form, contact: e.target.value })
+                          }
+                        />
+                        <textarea
+                          placeholder="Tell us briefly about your project"
+                          rows={3}
+                          required
+                          value={form.details}
+                          onChange={(e) =>
+                            setForm({ ...form, details: e.target.value })
+                          }
+                        />
+                        <button type="submit" className="button button-primary">
+                          <MessageCircle size={17} /> Send on WhatsApp
+                        </button>
+                      </form>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </section>
 
