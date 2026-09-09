@@ -39,7 +39,7 @@ const projects = [
     title: "Beast Algo",
     category: "Automated Trading Platform",
     description:
-      "A fully automated trading system built for consistency, risk control, and long-term growth.",
+      "A fully automated trading system built for consistency and long-term growth.",
     image: "/images/project-alpha.jpg",
     link: "https://beast-algo.vercel.app/",
   },
@@ -47,7 +47,7 @@ const projects = [
     title: "Nashik Tours Cloud",
     category: "Travel Booking SaaS",
     description:
-      "Premium travel planning and booking platform for Nashik-based tours and travels businesses.",
+      "Premium travel planning and booking platform for tours and travels businesses.",
     image: "/images/project-flux.jpg",
     link: "https://tours-and-travels-clean.vercel.app/",
   },
@@ -55,15 +55,14 @@ const projects = [
     title: "SCC Coaching Portal",
     category: "Student Management Software",
     description:
-      "Manage students, fees, attendance, results and parent communication from one platform.",
+      "Manage students, fees, attendance and parent communication in one place.",
     image: "/images/project-nova.jpg",
     link: "https://edusync.me/login",
   },
   {
     title: "Memories Kraft",
     category: "Custom Web Platform",
-    description:
-      "A custom digital platform built to bring memories and moments to life online.",
+    description: "A custom digital platform built to bring memories to life online.",
     image: "/images/project-alpha.jpg",
     link: "https://memories-kraft.vercel.app/",
   },
@@ -128,22 +127,19 @@ function App() {
       <section className="section work-section" id="work">
         <div className="work-heading">
           <h2>Selected work</h2>
-          <p>
-            A look at the kind of projects we love building. More case
-            studies coming soon.
-          </p>
+          <p>Swipe through the kind of projects we love building.</p>
         </div>
 
-        <div className="projects-grid">
+        <div className="projects-scroll">
           {projects.map((project) => (
             <article className="project-card" key={project.title}>
               <img
                 src={project.image}
                 alt={project.title}
-                className="project-image"
+                className="project-thumb"
                 loading="lazy"
               />
-              <div className="project-overlay">
+              <div className="project-info">
                 <p className="project-category">{project.category}</p>
                 <h3>{project.title}</h3>
                 <p className="project-description">{project.description}</p>
@@ -153,7 +149,7 @@ function App() {
                   rel="noreferrer"
                   className="project-link"
                 >
-                  View live project <ArrowUpRight size={16} />
+                  View live <ArrowUpRight size={15} />
                 </a>
               </div>
             </article>
