@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
+  ArrowRight,
   ArrowUpRight,
   Check,
   Code2,
@@ -11,13 +12,13 @@ import {
   Share2,
 } from "lucide-react";
 
+const WHATSAPP_NUMBER = "919405370657";
+
 const services = [
   {
     icon: Code2,
     title: "Website Development",
-    description:
-      "High-performance websites designed to turn attention into action.",
-    featured: true,
+    description: "High-performance websites designed to turn attention into action.",
     points: [
       "Free initial consultation call",
       "Custom design tailored to your brand",
@@ -64,24 +65,21 @@ const projects = [
   {
     title: "Beast Algo",
     category: "Automated Trading Platform",
-    description:
-      "A fully automated trading system built for consistency and long-term growth.",
+    description: "A fully automated trading system built for consistency and long-term growth.",
     image: "/images/beast-algo.jpg",
     link: "https://beast-algo.vercel.app/",
   },
   {
     title: "Nashik Tours Cloud",
     category: "Travel Booking SaaS",
-    description:
-      "Premium travel planning and booking platform for tours and travels businesses.",
+    description: "Premium travel planning and booking platform for tours and travels businesses.",
     image: "/images/nashik-tours.jpg",
     link: "https://tours-and-travels-clean.vercel.app/",
   },
   {
     title: "SCC Coaching Portal",
     category: "Student Management Software",
-    description:
-      "Manage students, fees, attendance and parent communication in one place.",
+    description: "Manage students, fees, attendance and parent communication in one place.",
     image: "/images/scc-portal.jpg",
     link: "https://edusync.me/login",
   },
@@ -94,9 +92,268 @@ const projects = [
   },
 ];
 
-const WHATSAPP_NUMBER = "919405370657";
+/* --- simple client-side navigation, no router library needed --- */
+function navigate(path) {
+  window.history.pushState({}, "", path);
+  window.dispatchEvent(new PopStateEvent("popstate"));
+  window.scrollTo(0, 0);
+}
 
-function App() {
+/* --- scroll-reveal wrapper --- */
+function Reveal({ children, delay = 0, className = "" }) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`reveal ${visible ? "revealed" : ""} ${className}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function Navbar({ showStartCta = true }) {
+  return (
+    <nav className="navbar">
+      <a
+        href="/"
+        className="logo"
+        onClick={(e) => {
+          e.preventDefault();
+          navigate("/");
+        }}
+      >
+        <img src="/logo.png" alt="NexForge Studio" className="logo-img" />
+      </a>
+
+      {showStartCta && (
+        <a
+          href="/start-project"
+          className="nav-cta"
+          onClick={(e) => {
+            e.preventDefault();
+            navigate("/start-project");
+          }}
+        >
+          Start a project <ArrowUpRight size={14} />
+        </a>
+      )}
+    </nav>
+  );
+}
+
+function HomePage() {
+  return (
+    <main>
+      <Navbar />
+
+      <section id="home" className="hero">
+        <div className="hero-glow" />
+        <div className="hero-content">
+          <h1>
+            <span className="line">Digital experiences,</span>
+            <span className="line accent">forged to stand out.</span>
+          </h1>
+          <p className="hero-description">
+            NexForge Studio builds premium websites, software, brands and
+            digital experiences for businesses ready to move forward.
+          </p>
+          <div className="hero-actions">
+            <a
+              href="/start-project"
+              className="button button-primary"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/start-project");
+              }}
+            >
+              Let's build something <ArrowUpRight size={18} />
+            </a>
+            <a href="#work" className="button button-secondary">
+              View our work <ArrowRight size={16} />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section className="section services-section" id="services">
+        <Reveal>
+          <h2>What we do</h2>
+        </Reveal>
+
+        <div className="services-scroll">
+          {services.map((service, index) => {
+            const Icon = service.icon;
+            return (
+              <article className="service-card" key={service.title}>
+                <div className="card-top">
+                  <div className="service-icon">
+                    <Icon size={22} strokeWidth={1.5} />
+                  </div>
+                  <span className="card-number">0{index + 1}</span>
+                </div>
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+                <span className="card-arrow">
+                  <ArrowUpRight size={16} />
+                </span>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="section work-section" id="work">
+        <Reveal>
+          <div className="work-heading">
+            <h2>Selected work</h2>
+            <p>Swipe through the kind of projects we love building.</p>
+          </div>
+        </Reveal>
+
+        <div className="projects-scroll">
+          {projects.map((project) => (
+            <article className="project-card" key={project.title}>
+              <div className="project-image-wrap">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="project-thumb"
+                  loading="lazy"
+                />
+              </div>
+              <div className="project-info">
+                <p className="project-category">{project.category}</p>
+                <h3>{project.title}</h3>
+                <p className="project-description">{project.description}</p>
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="project-link"
+                >
+                  View project <ArrowUpRight size={15} />
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section why-section">
+        <div className="why-grid">
+          <Reveal>
+            <h2>
+              Less noise.
+              <br />
+              <span className="accent">More impact.</span>
+            </h2>
+          </Reveal>
+
+          <div className="why-content">
+            <Reveal delay={80}>
+              <p className="large-text">
+                We don't believe in building digital products just to fill
+                screens.
+              </p>
+            </Reveal>
+
+            <Reveal delay={140}>
+              <p>
+                Every project starts with understanding the idea, the
+                audience and the goal. Then we turn that thinking into a
+                focused digital experience that looks sharp and works even
+                harder.
+              </p>
+            </Reveal>
+
+            <ul className="principles">
+              {["Strategy first", "Design with purpose", "Built for growth"].map(
+                (item, i) => (
+                  <Reveal delay={200 + i * 80} key={item}>
+                    <li>{item}</li>
+                  </Reveal>
+                )
+              )}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section className="section teaser-section">
+        <Reveal>
+          <div className="teaser-box">
+            <h2>Have a project in mind?</h2>
+            <p>Let's build it.</p>
+            <a
+              href="/start-project"
+              className="button button-primary"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/start-project");
+              }}
+            >
+              Start your project <ArrowUpRight size={18} />
+            </a>
+          </div>
+        </Reveal>
+      </section>
+
+      <section className="section contact-section" id="contact">
+        <div className="contact-glow" />
+        <div className="contact-content">
+          <h2>
+            Prefer to talk directly?
+          </h2>
+          <p>Reach us on WhatsApp, email or Instagram — whatever's easiest.</p>
+
+          <div className="contact-actions">
+            <a href="https://wa.me/919405370657" className="contact-button">
+              <MessageCircle size={19} /> WhatsApp
+            </a>
+            <a href="mailto:hello@nexforge.studio" className="contact-button">
+              <Mail size={19} /> Email
+            </a>
+            <a
+              href="https://instagram.com/nexforge_studio_"
+              target="_blank"
+              rel="noreferrer"
+              className="contact-button"
+            >
+              <Instagram size={19} /> Instagram
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <footer className="footer">
+        <img src="/logo.png" alt="NexForge Studio" className="logo-img" />
+        <span>© 2026 NexForge Studio</span>
+      </footer>
+    </main>
+  );
+}
+
+function StartProjectPage() {
   const [selected, setSelected] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ name: "", contact: "", details: "" });
@@ -115,122 +372,21 @@ function App() {
 
   return (
     <main>
-      <nav className="navbar">
-        <a href="#home" className="logo">
-          <img src="/logo.png" alt="NexForge Studio" className="logo-img" />
+      <Navbar showStartCta={false} />
+
+      <section className="section start-page">
+        <a
+          href="/"
+          className="back-link"
+          onClick={(e) => {
+            e.preventDefault();
+            navigate("/");
+          }}
+        >
+          ← Back home
         </a>
-        <a href="#start" className="nav-cta">
-          Start a project
-        </a>
-      </nav>
 
-      <section id="home" className="hero">
-        <div className="hero-glow" />
-        <div className="hero-content">
-          <h1>
-            <span className="line">Digital experiences,</span>
-            <span className="line accent">forged to stand out.</span>
-          </h1>
-          <p className="hero-description">
-            NexForge Studio builds premium websites, software, brands and
-            digital experiences for businesses ready to move forward.
-          </p>
-          <div className="hero-actions">
-            <a href="#start" className="button button-primary">
-              Start a project <ArrowUpRight size={18} />
-            </a>
-            <a href="#work" className="button button-secondary">
-              See our work
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <section className="section services-section" id="services">
-        <h2>What we do</h2>
-
-        <div className="services-scroll">
-          {services.map((service) => {
-            const Icon = service.icon;
-            return (
-              <article
-                className={`service-card ${service.featured ? "featured" : ""}`}
-                key={service.title}
-              >
-                <div className="service-icon">
-                  <Icon size={24} strokeWidth={1.5} />
-                </div>
-                <h3>{service.title}</h3>
-                <p>{service.description}</p>
-              </article>
-            );
-          })}
-        </div>
-      </section>
-
-      <section className="section work-section" id="work">
-        <div className="work-heading">
-          <h2>Selected work</h2>
-          <p>Swipe through the kind of projects we love building.</p>
-        </div>
-
-        <div className="projects-scroll">
-          {projects.map((project) => (
-            <article className="project-card" key={project.title}>
-              <img
-                src={project.image}
-                alt={project.title}
-                className="project-thumb"
-                loading="lazy"
-              />
-              <div className="project-info">
-                <p className="project-category">{project.category}</p>
-                <h3>{project.title}</h3>
-                <p className="project-description">{project.description}</p>
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="project-link"
-                >
-                  View live <ArrowUpRight size={15} />
-                </a>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="section why-section">
-        <div className="why-grid">
-          <h2>
-            Less noise.
-            <br />
-            <span className="accent">More impact.</span>
-          </h2>
-
-          <div className="why-content">
-            <p className="large-text">
-              We don't believe in building digital products just to fill
-              screens.
-            </p>
-            <p>
-              Every project starts with understanding the idea, the audience
-              and the goal. Then we turn that thinking into a focused digital
-              experience that looks sharp and works even harder.
-            </p>
-
-            <ul className="principles">
-              <li>Strategy first</li>
-              <li>Design with purpose</li>
-              <li>Built for growth</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section className="section start-section" id="start">
-        <h2>Start a project</h2>
+        <h1 className="start-title">Start your project</h1>
         <p className="start-intro">
           Pick what you need — we'll show you exactly how we can help.
         </p>
@@ -315,44 +471,24 @@ function App() {
         </div>
       </section>
 
-      <section className="section contact-section" id="contact">
-        <div className="contact-glow" />
-        <div className="contact-content">
-          <h2>
-            Have an idea?
-            <br />
-            <span className="accent">Let's build it.</span>
-          </h2>
-          <p>
-            Tell us what you're working on. Let's turn the idea into
-            something people remember.
-          </p>
-
-          <div className="contact-actions">
-            <a href="https://wa.me/919405370657" className="contact-button">
-              <MessageCircle size={19} /> WhatsApp
-            </a>
-            <a href="mailto:hello@nexforge.studio" className="contact-button">
-              <Mail size={19} /> Email
-            </a>
-            <a
-              href="https://instagram.com/nexforge_studio_"
-              target="_blank"
-              rel="noreferrer"
-              className="contact-button"
-            >
-              <Instagram size={19} /> Instagram
-            </a>
-          </div>
-        </div>
-      </section>
-
       <footer className="footer">
         <img src="/logo.png" alt="NexForge Studio" className="logo-img" />
         <span>© 2026 NexForge Studio</span>
       </footer>
     </main>
   );
+}
+
+function App() {
+  const [route, setRoute] = useState(window.location.pathname);
+
+  useEffect(() => {
+    const onPop = () => setRoute(window.location.pathname);
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+
+  return route === "/start-project" ? <StartProjectPage /> : <HomePage />;
 }
 
 export default App;
