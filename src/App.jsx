@@ -73,7 +73,7 @@ function App() {
     <main>
       <nav className="navbar">
         <a href="#home" className="logo">
-          NexForge
+          <img src="/logo.png" alt="NexForge Studio" className="logo-img" />
         </a>
         <a href="#contact" className="nav-cta">
           Start a project
@@ -218,7 +218,7 @@ function App() {
       </section>
 
       <footer className="footer">
-        <span className="logo">NexForge</span>
+        <img src="/logo.png" alt="NexForge Studio" className="logo-img" />
         <span>© 2026 NexForge Studio</span>
       </footer>
     </main>
