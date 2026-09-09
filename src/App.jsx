@@ -40,7 +40,7 @@ const projects = [
     category: "Automated Trading Platform",
     description:
       "A fully automated trading system built for consistency and long-term growth.",
-    image: "/images/project-alpha.jpg",
+    image: "/images/beast-algo.jpg",
     link: "https://beast-algo.vercel.app/",
   },
   {
@@ -48,7 +48,7 @@ const projects = [
     category: "Travel Booking SaaS",
     description:
       "Premium travel planning and booking platform for tours and travels businesses.",
-    image: "/images/project-flux.jpg",
+    image: "/images/nashik-tours.jpg",
     link: "https://tours-and-travels-clean.vercel.app/",
   },
   {
@@ -56,14 +56,14 @@ const projects = [
     category: "Student Management Software",
     description:
       "Manage students, fees, attendance and parent communication in one place.",
-    image: "/images/project-nova.jpg",
+    image: "/images/scc-portal.jpg",
     link: "https://edusync.me/login",
   },
   {
     title: "Memories Kraft",
     category: "Custom Web Platform",
     description: "A custom digital platform built to bring memories to life online.",
-    image: "/images/project-alpha.jpg",
+    image: "/images/memories-kraft.jpg",
     link: "https://memories-kraft.vercel.app/",
   },
 ];
