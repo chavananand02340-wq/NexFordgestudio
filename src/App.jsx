@@ -6,13 +6,17 @@ import {
   Code2,
   Instagram,
   Mail,
+  Menu,
   MessageCircle,
   Palette,
   Rocket,
   Share2,
+  X,
 } from "lucide-react";
 
 const WHATSAPP_NUMBER = "919405370657";
+const WHATSAPP_DEFAULT_MSG =
+  "Hi NexForge Studio! I'd like to know more about your services.";
 
 const services = [
   {
@@ -29,12 +33,13 @@ const services = [
   {
     icon: Share2,
     title: "Social Media Management",
-    description: "Strategic content and social systems built around your brand.",
+    description:
+      "Content systems and posting infrastructure that keep your brand consistent — built to compound, not just fill a calendar.",
     points: [
       "Content calendar & strategy",
-      "Regular posting & engagement",
+      "Consistent, on-brand execution",
       "Growth tracking & analytics",
-      "Consistent brand voice",
+      "Built to scale with your business",
     ],
   },
   {
@@ -92,15 +97,13 @@ const projects = [
   },
 ];
 
-/* --- simple client-side navigation, no router library needed --- */
 function navigate(path) {
   window.history.pushState({}, "", path);
   window.dispatchEvent(new PopStateEvent("popstate"));
   window.scrollTo(0, 0);
 }
 
-/* --- scroll-reveal wrapper --- */
-function Reveal({ children, delay = 0, className = "" }) {
+function Reveal({ children, delay = 0 }) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
 
@@ -123,7 +126,7 @@ function Reveal({ children, delay = 0, className = "" }) {
   return (
     <div
       ref={ref}
-      className={`reveal ${visible ? "revealed" : ""} ${className}`}
+      className={`reveal ${visible ? "revealed" : ""}`}
       style={{ transitionDelay: `${delay}ms` }}
     >
       {children}
@@ -131,32 +134,46 @@ function Reveal({ children, delay = 0, className = "" }) {
   );
 }
 
-function Navbar({ showStartCta = true }) {
+function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const go = (path) => (e) => {
+    e.preventDefault();
+    setMenuOpen(false);
+    if (path.startsWith("/")) {
+      navigate(path);
+    } else {
+      const el = document.querySelector(path);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <nav className="navbar">
-      <a
-        href="/"
-        className="logo"
-        onClick={(e) => {
-          e.preventDefault();
-          navigate("/");
-        }}
-      >
+      <a href="/" className="logo" onClick={go("/")}>
         <img src="/logo.png" alt="NexForge Studio" className="logo-img" />
       </a>
 
-      {showStartCta && (
+      <div className={`nav-links ${menuOpen ? "open" : ""}`}>
+        <a href="#work" onClick={go("#work")}>Work</a>
+        <a href="#services" onClick={go("#services")}>Services</a>
+        <a href="#about" onClick={go("#about")}>About</a>
         <a
           href="/start-project"
           className="nav-cta"
-          onClick={(e) => {
-            e.preventDefault();
-            navigate("/start-project");
-          }}
+          onClick={go("/start-project")}
         >
           Start a project <ArrowUpRight size={14} />
         </a>
-      )}
+      </div>
+
+      <button
+        className="menu-toggle"
+        onClick={() => setMenuOpen(!menuOpen)}
+        aria-label="Toggle menu"
+      >
+        {menuOpen ? <X size={22} /> : <Menu size={22} />}
+      </button>
     </nav>
   );
 }
@@ -176,6 +193,9 @@ function HomePage() {
           <p className="hero-description">
             NexForge Studio builds premium websites, software, brands and
             digital experiences for businesses ready to move forward.
+          </p>
+          <p className="hero-trustline">
+            Websites · Software · Branding · Digital Experiences
           </p>
           <div className="hero-actions">
             <a
@@ -204,7 +224,15 @@ function HomePage() {
           {services.map((service, index) => {
             const Icon = service.icon;
             return (
-              <article className="service-card" key={service.title}>
+              <a
+                href="/start-project"
+                className="service-card"
+                key={service.title}
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate("/start-project");
+                }}
+              >
                 <div className="card-top">
                   <div className="service-icon">
                     <Icon size={22} strokeWidth={1.5} />
@@ -213,10 +241,10 @@ function HomePage() {
                 </div>
                 <h3>{service.title}</h3>
                 <p>{service.description}</p>
-                <span className="card-arrow">
-                  <ArrowUpRight size={16} />
+                <span className="explore-link">
+                  Explore service <ArrowUpRight size={15} />
                 </span>
-              </article>
+              </a>
             );
           })}
         </div>
@@ -251,12 +279,25 @@ function HomePage() {
                   rel="noreferrer"
                   className="project-link"
                 >
-                  View project <ArrowUpRight size={15} />
+                  View case study <ArrowUpRight size={15} />
                 </a>
               </div>
             </article>
           ))}
         </div>
+      </section>
+
+      <section className="section about-section" id="about">
+        <Reveal>
+          <h2>About NexForge</h2>
+          <p className="about-text">
+            NexForge Studio is a small, focused digital studio building
+            websites, software and brand experiences for founders who want
+            to move fast without cutting corners. No bloated teams, no
+            generic templates — just thoughtful design and solid engineering,
+            built around what your business actually needs.
+          </p>
+        </Reveal>
       </section>
 
       <section className="section why-section">
@@ -290,7 +331,10 @@ function HomePage() {
               {["Strategy first", "Design with purpose", "Built for growth"].map(
                 (item, i) => (
                   <Reveal delay={200 + i * 80} key={item}>
-                    <li>{item}</li>
+                    <li>
+                      <span className="principle-number">0{i + 1}</span>
+                      {item}
+                    </li>
                   </Reveal>
                 )
               )}
@@ -318,38 +362,54 @@ function HomePage() {
         </Reveal>
       </section>
 
-      <section className="section contact-section" id="contact">
-        <div className="contact-glow" />
-        <div className="contact-content">
-          <h2>
-            Prefer to talk directly?
-          </h2>
-          <p>Reach us on WhatsApp, email or Instagram — whatever's easiest.</p>
-
-          <div className="contact-actions">
-            <a href="https://wa.me/919405370657" className="contact-button">
-              <MessageCircle size={19} /> WhatsApp
-            </a>
-            <a href="mailto:hello@nexforge.studio" className="contact-button">
-              <Mail size={19} /> Email
-            </a>
-            <a
-              href="https://instagram.com/nexforge_studio_"
-              target="_blank"
-              rel="noreferrer"
-              className="contact-button"
-            >
-              <Instagram size={19} /> Instagram
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <footer className="footer">
-        <img src="/logo.png" alt="NexForge Studio" className="logo-img" />
-        <span>© 2026 NexForge Studio</span>
-      </footer>
+      <Footer />
     </main>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="footer">
+      <div className="footer-grid">
+        <div className="footer-brand">
+          <img src="/logo.png" alt="NexForge Studio" className="logo-img" />
+          <p>Digital experiences, forged.</p>
+        </div>
+
+        <div className="footer-col">
+          <h4>Services</h4>
+          <a href="#services">Website Development</a>
+          <a href="#services">Social Media Management</a>
+          <a href="#services">Custom Software</a>
+          <a href="#services">Branding & Creative</a>
+        </div>
+
+        <div className="footer-col">
+          <h4>Connect</h4>
+          <a
+            href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+              WHATSAPP_DEFAULT_MSG
+            )}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            WhatsApp
+          </a>
+          <a href="mailto:hello@nexforge.studio">Email</a>
+          <a
+            href="https://instagram.com/nexforge_studio_"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Instagram
+          </a>
+        </div>
+      </div>
+
+      <div className="footer-bottom">
+        <span>© 2026 NexForge Studio</span>
+      </div>
+    </footer>
   );
 }
 
@@ -372,7 +432,18 @@ function StartProjectPage() {
 
   return (
     <main>
-      <Navbar showStartCta={false} />
+      <nav className="navbar">
+        <a
+          href="/"
+          className="logo"
+          onClick={(e) => {
+            e.preventDefault();
+            navigate("/");
+          }}
+        >
+          <img src="/logo.png" alt="NexForge Studio" className="logo-img" />
+        </a>
+      </nav>
 
       <section className="section start-page">
         <a
@@ -471,10 +542,7 @@ function StartProjectPage() {
         </div>
       </section>
 
-      <footer className="footer">
-        <img src="/logo.png" alt="NexForge Studio" className="logo-img" />
-        <span>© 2026 NexForge Studio</span>
-      </footer>
+      <Footer />
     </main>
   );
 }
