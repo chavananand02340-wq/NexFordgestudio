@@ -105,7 +105,7 @@ function App() {
       <section className="section services-section" id="services">
         <h2>What we do</h2>
 
-        <div className="services-grid">
+        <div className="services-scroll">
           {services.map((service) => {
             const Icon = service.icon;
             return (
