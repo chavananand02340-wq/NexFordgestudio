@@ -176,14 +176,30 @@ a {
   margin-bottom: 12px;
 }
 
-.services-grid {
+/* Services — horizontal slider */
+.services-scroll {
   margin-top: 24px;
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
   gap: 14px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 10px;
+  margin-left: -20px;
+  margin-right: -20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.services-scroll::-webkit-scrollbar {
+  display: none;
 }
 
 .service-card {
+  flex: 0 0 auto;
+  width: 240px;
+  scroll-snap-align: start;
   background: var(--bg-alt);
   border: 1px solid var(--line);
   border-radius: 16px;
@@ -388,12 +404,6 @@ a {
 }
 
 @media (min-width: 640px) {
-  .services-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .service-card.featured {
-    grid-column: span 2;
-  }
   .contact-actions {
     flex-direction: row;
   }
@@ -412,4 +422,4 @@ a {
   }
   .why-grid h2 { flex: 1; }
   .why-content { flex: 1.2; }
-}
+  }
