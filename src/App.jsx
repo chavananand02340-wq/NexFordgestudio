@@ -376,18 +376,18 @@ function HomePage() {
               )}`}
               target="_blank"
               rel="noreferrer"
-              className="contact-button"
+              className="contact-button whatsapp"
             >
               <MessageCircle size={19} /> WhatsApp
             </a>
-            <a href={`mailto:${CONTACT_EMAIL}`} className="contact-button">
+            <a href={`mailto:${CONTACT_EMAIL}`} className="contact-button email">
               <Mail size={19} /> Email
             </a>
             <a
               href="https://instagram.com/nexforge_studio_"
               target="_blank"
               rel="noreferrer"
-              className="contact-button"
+              className="contact-button instagram"
             >
               <Instagram size={19} /> Instagram
             </a>
