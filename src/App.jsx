@@ -17,6 +17,7 @@ import {
 const WHATSAPP_NUMBER = "919405370657";
 const WHATSAPP_DEFAULT_MSG =
   "Hi NexForge Studio! I'd like to know more about your services.";
+const CONTACT_EMAIL = "nexforgestudio22@gmail.com";
 
 const services = [
   {
@@ -362,6 +363,38 @@ function HomePage() {
         </Reveal>
       </section>
 
+      <section className="section contact-section" id="contact">
+        <div className="contact-glow" />
+        <div className="contact-content">
+          <h2>Prefer to talk directly?</h2>
+          <p>Reach us on WhatsApp, email or Instagram — whatever's easiest.</p>
+
+          <div className="contact-actions">
+            <a
+              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+                WHATSAPP_DEFAULT_MSG
+              )}`}
+              target="_blank"
+              rel="noreferrer"
+              className="contact-button"
+            >
+              <MessageCircle size={19} /> WhatsApp
+            </a>
+            <a href={`mailto:${CONTACT_EMAIL}`} className="contact-button">
+              <Mail size={19} /> Email
+            </a>
+            <a
+              href="https://instagram.com/nexforge_studio_"
+              target="_blank"
+              rel="noreferrer"
+              className="contact-button"
+            >
+              <Instagram size={19} /> Instagram
+            </a>
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </main>
   );
@@ -395,7 +428,7 @@ function Footer() {
           >
             WhatsApp
           </a>
-          <a href="mailto:hello@nexforge.studio">Email</a>
+          <a href={`mailto:${CONTACT_EMAIL}`}>Email</a>
           <a
             href="https://instagram.com/nexforge_studio_"
             target="_blank"
