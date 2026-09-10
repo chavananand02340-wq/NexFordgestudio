@@ -47,6 +47,7 @@ a {
   padding: 56px 20px;
   max-width: 1100px;
   margin: 0 auto;
+  scroll-margin-top: 90px;
 }
 
 /* Navbar */
@@ -129,6 +130,7 @@ a {
   align-items: center;
   padding: 20px;
   overflow: hidden;
+  scroll-margin-top: 90px;
 }
 
 .hero-glow {
@@ -677,4 +679,4 @@ a {
   }
   .why-grid h2 { flex: 1; }
   .why-content { flex: 1.2; }
-    }
+  }
