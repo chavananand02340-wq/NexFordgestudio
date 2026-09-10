@@ -13,6 +13,7 @@ import {
   Share2,
   X,
 } from "lucide-react";
+import Hero3D from "./components/Hero3D";
 
 const WHATSAPP_NUMBER = "919405370657";
 const WHATSAPP_DEFAULT_MSG =
@@ -186,32 +187,38 @@ function HomePage() {
 
       <section id="home" className="hero">
         <div className="hero-glow" />
-        <div className="hero-content">
-          <h1>
-            <span className="line">Digital experiences,</span>
-            <span className="line accent">forged to stand out.</span>
-          </h1>
-          <p className="hero-description">
-            NexForge Studio builds premium websites, software, brands and
-            digital experiences for businesses ready to move forward.
-          </p>
-          <p className="hero-trustline">
-            Websites · Software · Branding · Digital Experiences
-          </p>
-          <div className="hero-actions">
-            <a
-              href="/start-project"
-              className="button button-primary"
-              onClick={(e) => {
-                e.preventDefault();
-                navigate("/start-project");
-              }}
-            >
-              Let's build something <ArrowUpRight size={18} />
-            </a>
-            <a href="#work" className="button button-secondary">
-              View our work <ArrowRight size={16} />
-            </a>
+        <div className="hero-inner">
+          <div className="hero-content">
+            <h1>
+              <span className="line">Digital experiences,</span>
+              <span className="line accent">forged to stand out.</span>
+            </h1>
+            <p className="hero-description">
+              NexForge Studio builds premium websites, software, brands and
+              digital experiences for businesses ready to move forward.
+            </p>
+            <p className="hero-trustline">
+              Websites · Software · Branding · Digital Experiences
+            </p>
+            <div className="hero-actions">
+              <a
+                href="/start-project"
+                className="button button-primary"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate("/start-project");
+                }}
+              >
+                Let's build something <ArrowUpRight size={18} />
+              </a>
+              <a href="#work" className="button button-secondary">
+                View our work <ArrowRight size={16} />
+              </a>
+            </div>
+          </div>
+
+          <div className="hero-visual" aria-hidden="true">
+            <Hero3D />
           </div>
         </div>
       </section>
