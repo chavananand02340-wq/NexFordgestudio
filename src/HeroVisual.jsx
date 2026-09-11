@@ -77,7 +77,7 @@ export default function HeroVisual() {
     if (cageRef.current) {
       const reveal = ramp(p, 0.2, 0.5);
       const exit = ramp(p, 0.78, 1);
-      const scale = 1.5 + reveal * 0.3; // capped, was too large
+      const scale = 1.1 + reveal * 0.2; // smaller & safer
       cageRef.current.scale.setScalar(scale);
       cageRef.current.rotation.y += delta * 0.08;
       cageRef.current.material.opacity = reveal * 0.55 * (1 - exit);
@@ -86,7 +86,7 @@ export default function HeroVisual() {
     if (coreRef.current) {
       const reveal = ramp(p, 0.28, 0.55);
       const exit = ramp(p, 0.78, 1);
-      const scale = 0.4 + reveal * 0.25; // capped
+      const scale = 0.3 + reveal * 0.18; // smaller & safer
       coreRef.current.scale.setScalar(scale);
       coreRef.current.material.opacity = reveal * (1 - exit);
       coreRef.current.material.emissiveIntensity = 1.2 + reveal * 1.8;
@@ -110,7 +110,7 @@ export default function HeroVisual() {
     <group ref={groupRef}>
       <Float speed={1.1} rotationIntensity={0.35} floatIntensity={0.7}>
         <mesh ref={mainRef} castShadow={false} receiveShadow={false}>
-          <icosahedronGeometry args={[1.5, 1]} />
+          <icosahedronGeometry args={[1.1, 1]} />
           <meshPhysicalMaterial
             color="#15151b"
             metalness={1}
@@ -125,7 +125,7 @@ export default function HeroVisual() {
         </mesh>
 
         <mesh ref={cageRef}>
-          <icosahedronGeometry args={[1, 1]} />
+          <icosahedronGeometry args={[0.75, 1]} />
           <meshBasicMaterial color="#ff6a3d" wireframe transparent opacity={0} />
         </mesh>
 
