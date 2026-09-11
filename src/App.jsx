@@ -1,38 +1,45 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowUpRight,
+  Check,
+  ChevronRight,
   Instagram,
   Mail,
   Menu,
   MessageCircle,
   X,
 } from "lucide-react";
-import Hero3D from "./Hero3D";
 
-const WHATSAPP = "919405370657";
+import Hero3D from "./components/Hero3D";
+
+const WHATSAPP_NUMBER = "919405370657";
 const EMAIL = "nexforgestudio22@gmail.com";
-const INSTAGRAM = "nexforge_studio_";
+const INSTAGRAM = "https://instagram.com/nexforge_studio_";
 
 const services = [
   {
     number: "01",
     title: "Website Development",
-    text: "Premium websites built to look sharp, load fast and turn attention into action.",
+    description:
+      "Premium websites built to look sharp, load fast and turn attention into action.",
   },
   {
     number: "02",
     title: "Social Media Management",
-    text: "Consistent content, creative direction and strategy that makes your brand easier to notice.",
+    description:
+      "Consistent content and social strategy designed to build attention, trust and growth.",
   },
   {
     number: "03",
     title: "Custom Software",
-    text: "Tailored digital tools and systems designed around the way your business actually works.",
+    description:
+      "Practical digital tools and custom software built around how your business actually works.",
   },
   {
     number: "04",
     title: "Branding & Creative",
-    text: "Visual identities and creative systems that give your business a stronger presence.",
+    description:
+      "Distinct visual identities, creative systems and brand assets that make businesses memorable.",
   },
 ];
 
@@ -46,27 +53,48 @@ const projects = [
   {
     number: "02",
     title: "Nashik Tours",
-    category: "Travel / Tourism",
+    category: "Travel / Hospitality",
     image: "/images/nashik-tours.jpg",
   },
   {
     number: "03",
     title: "SCC Portal",
-    category: "Digital Platform",
+    category: "Education / Platform",
     image: "/images/scc-portal.jpg",
   },
   {
     number: "04",
     title: "Memories Kraft",
-    category: "Creative / E-commerce",
+    category: "Brand / E-commerce",
     image: "/images/memories-kraft.jpg",
+  },
+];
+
+const whyNexForge = [
+  {
+    number: "01",
+    title: "Built around the business",
+    description:
+      "We don't start with a template. We understand the goal first, then build around it.",
+  },
+  {
+    number: "02",
+    title: "Design that means something",
+    description:
+      "Every visual decision has a purpose — clarity, credibility, attention or conversion.",
+  },
+  {
+    number: "03",
+    title: "Made to move forward",
+    description:
+      "From first idea to launch, we focus on digital work that actually helps the business grow.",
   },
 ];
 
 function navigate(path) {
   window.history.pushState({}, "", path);
   window.dispatchEvent(new PopStateEvent("popstate"));
-  window.scrollTo(0, 0);
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function Reveal({ children, className = "" }) {
@@ -74,49 +102,60 @@ function Reveal({ children, className = "" }) {
 }
 
 function Navbar() {
-  const [open, setOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  const goTo = (id) => {
-    setOpen(false);
+  const goToSection = (id) => {
+    setMenuOpen(false);
 
     if (window.location.pathname !== "/") {
       navigate("/");
       setTimeout(() => {
-        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+        document.getElementById(id)?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
       }, 100);
       return;
     }
 
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById(id)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
   };
 
   return (
     <header className="navbar">
-      <button className="brand" onClick={() => goTo("home")}>
+      <button
+        className="brand"
+        onClick={() => {
+          setMenuOpen(false);
+          navigate("/");
+        }}
+        aria-label="NexForge Studio home"
+      >
         NEXFORGE<span>.</span>
       </button>
 
-      <nav className={`nav-links ${open ? "open" : ""}`}>
-        <button onClick={() => goTo("services")}>Services</button>
-        <button onClick={() => goTo("work")}>Work</button>
-        <button onClick={() => goTo("about")}>About</button>
-        <button onClick={() => goTo("contact")}>Contact</button>
+      <nav className={`nav-links ${menuOpen ? "open" : ""}`}>
+        <button onClick={() => goToSection("services")}>Services</button>
+        <button onClick={() => goToSection("work")}>Work</button>
+        <button onClick={() => goToSection("about")}>About</button>
+        <button onClick={() => goToSection("contact")}>Contact</button>
       </nav>
 
-      <button
-        className="nav-cta"
-        onClick={() => navigate("/start-project")}
-      >
+      <button className="nav-cta" onClick={() => navigate("/start-project")}>
         Start a Project
-        <ArrowUpRight size={16} />
+        <ArrowUpRight size={15} />
       </button>
 
       <button
         className="menu-button"
-        onClick={() => setOpen(!open)}
-        aria-label="Toggle menu"
+        onClick={() => setMenuOpen((value) => !value)}
+        aria-label={menuOpen ? "Close menu" : "Open menu"}
+        aria-expanded={menuOpen}
       >
-        {open ? <X size={22} /> : <Menu size={22} />}
+        {menuOpen ? <X size={22} /> : <Menu size={22} />}
       </button>
     </header>
   );
@@ -127,15 +166,15 @@ function HomePage() {
     <>
       <Navbar />
 
+      {/* ================= HERO ================= */}
       <main>
-        {/* HERO */}
         <section id="home" className="hero">
           <div className="hero-glow" />
 
           <div className="hero-layout">
             <div className="hero-content">
               <Reveal>
-                <p className="eyebrow">DIGITAL STUDIO · INDIA</p>
+                <p className="eyebrow">Digital Studio · India</p>
               </Reveal>
 
               <Reveal>
@@ -162,15 +201,15 @@ function HomePage() {
                     onClick={() => navigate("/start-project")}
                   >
                     Start a Project
-                    <ArrowUpRight size={18} />
+                    <ArrowUpRight size={17} />
                   </button>
 
                   <button
                     className="secondary-button"
                     onClick={() => {
-                      document
-                        .getElementById("work")
-                        ?.scrollIntoView({ behavior: "smooth" });
+                      document.getElementById("work")?.scrollIntoView({
+                        behavior: "smooth",
+                      });
                     }}
                   >
                     Explore Our Work
@@ -195,12 +234,12 @@ function HomePage() {
           </div>
         </section>
 
-        {/* SERVICES */}
+        {/* ================= SERVICES ================= */}
         <section id="services" className="section services-section">
           <Reveal>
             <div className="section-heading">
               <div>
-                <p className="section-label">01 / WHAT WE DO</p>
+                <p className="section-label">01 / What We Do</p>
                 <h2>
                   BUILT FOR
                   <br />
@@ -219,13 +258,16 @@ function HomePage() {
             {services.map((service) => (
               <Reveal key={service.number}>
                 <article className="service-card">
-                  <span className="service-number">{service.number}</span>
+                  <div>
+                    <span className="service-number">{service.number}</span>
+                  </div>
 
                   <div className="service-card-bottom">
                     <h3>{service.title}</h3>
-                    <p>{service.text}</p>
+                    <p>{service.description}</p>
+
                     <span className="service-arrow">
-                      <ArrowUpRight size={20} />
+                      <ArrowUpRight size={22} />
                     </span>
                   </div>
                 </article>
@@ -234,22 +276,22 @@ function HomePage() {
           </div>
         </section>
 
-        {/* SELECTED WORK */}
+        {/* ================= WORK ================= */}
         <section id="work" className="section work-section">
           <Reveal>
             <div className="section-heading">
               <div>
-                <p className="section-label">02 / SELECTED WORK</p>
+                <p className="section-label">02 / Selected Work</p>
                 <h2>
                   WORK THAT
                   <br />
-                  <span>SPEAKS.</span>
+                  <span>MOVES.</span>
                 </h2>
               </div>
 
               <p className="section-intro">
-                A selection of digital work built with strategy, design and
-                attention to detail.
+                A selection of digital experiences we've designed and built
+                for ambitious ideas and growing businesses.
               </p>
             </div>
           </Reveal>
@@ -259,10 +301,16 @@ function HomePage() {
               <Reveal key={project.number}>
                 <article className="project-card">
                   <div className="project-image">
-                    <img src={project.image} alt={project.title} />
+                    <img
+                      src={project.image}
+                      alt={`${project.title} project`}
+                      loading="lazy"
+                    />
+
                     <div className="project-overlay">
                       <span>
-                        VIEW PROJECT <ArrowUpRight size={18} />
+                        View Project
+                        <ArrowUpRight size={14} />
                       </span>
                     </div>
                   </div>
@@ -283,107 +331,82 @@ function HomePage() {
           </div>
         </section>
 
-        {/* ABOUT */}
+        {/* ================= ABOUT ================= */}
         <section id="about" className="section about-section">
           <Reveal>
-            <p className="section-label">03 / ABOUT NEXFORGE</p>
-          </Reveal>
+            <div className="about-grid">
+              <div>
+                <p className="section-label">03 / About NexForge</p>
 
-          <div className="about-grid">
-            <Reveal>
-              <h2>
-                WE DON'T JUST
-                <br />
-                <span>MAKE WEBSITES.</span>
-              </h2>
-            </Reveal>
+                <h2>
+                  NOT JUST
+                  <br />
+                  <span>A WEBSITE.</span>
+                </h2>
+              </div>
 
-            <Reveal>
               <div className="about-copy">
                 <p>
-                  NexForge Studio is a digital agency focused on building
-                  brands and digital products that feel as good as they
+                  NexForge Studio is a digital studio focused on building
+                  brands, websites and software that feel as good as they
                   perform.
                 </p>
 
                 <p>
-                  We combine design, development and creative thinking to
-                  create digital experiences that are clear, modern and built
-                  to grow with your business.
+                  We combine strategy, design and technology to turn ideas
+                  into digital experiences people remember — without
+                  unnecessary complexity.
                 </p>
 
                 <button
                   className="text-link"
                   onClick={() => navigate("/start-project")}
                 >
-                  Let's build something
-                  <ArrowUpRight size={18} />
+                  Start something with us
+                  <ChevronRight size={17} />
                 </button>
               </div>
-            </Reveal>
-          </div>
+            </div>
+          </Reveal>
         </section>
 
-        {/* WHY NEXFORGE */}
+        {/* ================= WHY ================= */}
         <section className="section why-section">
           <Reveal>
             <div className="section-heading">
               <div>
-                <p className="section-label">04 / WHY NEXFORGE</p>
+                <p className="section-label">04 / Why NexForge</p>
                 <h2>
-                  SMALL TEAM.
+                  WHY WE
                   <br />
-                  <span>BIG OUTPUT.</span>
+                  <span>BUILD.</span>
                 </h2>
               </div>
 
               <p className="section-intro">
-                No unnecessary layers. No cookie-cutter templates. Just
-                thoughtful digital work made around your goals.
+                Good digital work isn't about adding more. It's about making
+                the right things better.
               </p>
             </div>
           </Reveal>
 
           <div className="why-grid">
-            <Reveal>
-              <div className="why-item">
-                <span>01</span>
-                <h3>STRATEGY FIRST</h3>
-                <p>
-                  Every project starts with understanding what you need,
-                  who you're trying to reach and where you want to go.
-                </p>
-              </div>
-            </Reveal>
-
-            <Reveal>
-              <div className="why-item">
-                <span>02</span>
-                <h3>BUILT WITH INTENT</h3>
-                <p>
-                  Every section, interaction and visual decision has a
-                  purpose — nothing is there just to fill space.
-                </p>
-              </div>
-            </Reveal>
-
-            <Reveal>
-              <div className="why-item">
-                <span>03</span>
-                <h3>MADE TO MOVE</h3>
-                <p>
-                  We build systems that can evolve with your business instead
-                  of becoming outdated after launch.
-                </p>
-              </div>
-            </Reveal>
+            {whyNexForge.map((item) => (
+              <Reveal key={item.number}>
+                <article className="why-item">
+                  <span>{item.number}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                </article>
+              </Reveal>
+            ))}
           </div>
         </section>
 
-        {/* CTA */}
+        {/* ================= CTA ================= */}
         <section className="teaser-section">
           <Reveal>
-            <p className="section-label">READY WHEN YOU ARE</p>
+            <p className="section-label">Ready when you are</p>
 
             <h2>
               HAVE AN IDEA?
@@ -396,61 +419,58 @@ function HomePage() {
               onClick={() => navigate("/start-project")}
             >
               Start a Project
-              <ArrowUpRight size={18} />
+              <ArrowUpRight size={17} />
             </button>
           </Reveal>
         </section>
 
-        {/* CONTACT */}
+        {/* ================= CONTACT ================= */}
         <section id="contact" className="section contact-section">
+          <div className="contact-glow" />
+
           <Reveal>
             <div className="contact-heading">
-              <p className="section-label">05 / GET IN TOUCH</p>
+              <p className="section-label">05 / Contact</p>
 
               <h2>
-                LET'S TALK
+                LET'S MAKE
                 <br />
-                <span>BUSINESS.</span>
+                <span>SOMETHING GOOD.</span>
               </h2>
 
               <p>
-                Got a project, idea or business that needs a better digital
+                Have a project, idea or business that needs a stronger digital
                 presence? Tell us what you're building.
               </p>
             </div>
-          </Reveal>
 
-          <Reveal>
             <div className="contact-actions">
               <a
                 className="contact-button whatsapp"
-                href={`https://wa.me/${WHATSAPP}`}
+                href={`https://wa.me/${WHATSAPP_NUMBER}`}
                 target="_blank"
                 rel="noreferrer"
               >
-                <MessageCircle size={20} />
+                <MessageCircle size={19} />
                 WhatsApp
-                <ArrowUpRight size={18} />
               </a>
 
               <a
                 className="contact-button email"
                 href={`mailto:${EMAIL}`}
               >
-                <Mail size={20} />
+                <Mail size={19} />
                 Email
-                <ArrowUpRight size={18} />
               </a>
 
               <a
                 className="contact-button instagram"
-                href={`https://instagram.com/${INSTAGRAM}`}
+                href={INSTAGRAM}
                 target="_blank"
                 rel="noreferrer"
               >
-                <Instagram size={20} />
+                <Instagram size={19} />
                 Instagram
-                <ArrowUpRight size={18} />
               </a>
             </div>
           </Reveal>
@@ -464,45 +484,50 @@ function HomePage() {
 
 function Footer() {
   const scrollTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   return (
     <footer className="footer">
       <div className="footer-top">
-        <button className="footer-brand" onClick={scrollTop}>
-          NEXFORGE<span>.</span>
-        </button>
+        <div>
+          <button className="footer-brand" onClick={scrollTop}>
+            NEXFORGE<span>.</span>
+          </button>
 
-        <p>Digital Experiences, Forged.</p>
+          <p>Digital Experiences, Forged.</p>
+        </div>
 
         <button className="back-top" onClick={scrollTop}>
           BACK TO TOP
-          <ArrowUpRight size={16} />
+          <ArrowUpRight size={13} />
         </button>
       </div>
 
       <div className="footer-bottom">
-        <span>© {new Date().getFullYear()} NexForge Studio</span>
+        <span>© 2026 NexForge Studio</span>
 
         <div className="footer-socials">
           <a
-            href={`https://instagram.com/${INSTAGRAM}`}
+            href={INSTAGRAM}
             target="_blank"
             rel="noreferrer"
           >
             Instagram
           </a>
 
+          <a href={`mailto:${EMAIL}`}>Email</a>
+
           <a
-            href={`https://wa.me/${WHATSAPP}`}
+            href={`https://wa.me/${WHATSAPP_NUMBER}`}
             target="_blank"
             rel="noreferrer"
           >
             WhatsApp
           </a>
-
-          <a href={`mailto:${EMAIL}`}>Email</a>
         </div>
       </div>
     </footer>
@@ -514,6 +539,27 @@ function StartProjectPage() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    const form = new FormData(event.currentTarget);
+
+    const name = form.get("name") || "";
+    const contact = form.get("contact") || "";
+    const project = form.get("project") || "";
+
+    const message = `Hi NexForge Studio,
+
+My name is ${name}.
+Contact: ${contact}
+
+Project:
+${project}`;
+
+    window.open(
+      `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
+
     setSubmitted(true);
   };
 
@@ -523,94 +569,87 @@ function StartProjectPage() {
 
       <main className="start-project-page">
         <section className="start-project-hero">
-          <Reveal>
-            <p className="section-label">START A PROJECT</p>
+          <div>
+            <p className="section-label">Start a Project</p>
 
             <h1>
               LET'S BUILD
               <br />
-              <span>SOMETHING GREAT.</span>
+              <span>WHAT'S NEXT.</span>
             </h1>
 
             <p>
-              Tell us a little about what you're working on. We'll take it
-              from there.
+              Tell us a little about your idea. We'll take it from there.
             </p>
-          </Reveal>
+          </div>
         </section>
 
         <section className="project-form-section">
-          <Reveal>
-            {submitted ? (
-              <div className="form-success">
-                <p className="section-label">MESSAGE RECEIVED</p>
-                <h2>
-                  THANKS FOR
-                  <br />
-                  <span>REACHING OUT.</span>
-                </h2>
-                <p>
-                  We'll get back to you as soon as possible.
-                </p>
-
-                <button
-                  className="primary-button"
-                  onClick={() => navigate("/")}
-                >
-                  Back Home
-                  <ArrowUpRight size={18} />
-                </button>
-              </div>
-            ) : (
-              <form className="project-form" onSubmit={handleSubmit}>
-                <div className="form-row">
-                  <label>
-                    <span>YOUR NAME</span>
-                    <input
-                      type="text"
-                      name="name"
-                      placeholder="Your name"
-                      required
-                    />
-                  </label>
-
-                  <label>
-                    <span>EMAIL</span>
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="you@example.com"
-                      required
-                    />
-                  </label>
-                </div>
-
+          {!submitted ? (
+            <form className="project-form" onSubmit={handleSubmit}>
+              <div className="form-row">
                 <label>
-                  <span>COMPANY / BRAND</span>
+                  <span>YOUR NAME</span>
                   <input
                     type="text"
-                    name="company"
-                    placeholder="Your company or brand"
-                  />
-                </label>
-
-                <label>
-                  <span>WHAT DO YOU NEED?</span>
-                  <textarea
-                    name="message"
-                    rows="6"
-                    placeholder="Tell us about your project..."
+                    name="name"
+                    placeholder="Your name"
                     required
                   />
                 </label>
 
-                <button className="primary-button" type="submit">
-                  Send Enquiry
-                  <ArrowUpRight size={18} />
-                </button>
-              </form>
-            )}
-          </Reveal>
+                <label>
+                  <span>PHONE / EMAIL</span>
+                  <input
+                    type="text"
+                    name="contact"
+                    placeholder="Phone or email"
+                    required
+                  />
+                </label>
+              </div>
+
+              <label>
+                <span>YOUR PROJECT</span>
+                <textarea
+                  name="project"
+                  rows="7"
+                  placeholder="Tell us briefly about your project"
+                  required
+                />
+              </label>
+
+              <button type="submit" className="primary-button">
+                Send on WhatsApp
+                <ArrowUpRight size={17} />
+              </button>
+            </form>
+          ) : (
+            <div className="form-success">
+              <p className="section-label">Message Ready</p>
+
+              <h2>
+                LET'S GET
+                <br />
+                <span>BUILDING.</span>
+              </h2>
+
+              <p>
+                Your WhatsApp message has been prepared. Send it to start the
+                conversation with NexForge Studio.
+              </p>
+
+              <a
+                className="primary-button"
+                href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Open WhatsApp
+                <ArrowUpRight size={17} />
+              </a>
+            </div>
+          )}
         </section>
       </main>
 
@@ -622,7 +661,7 @@ function StartProjectPage() {
 function App() {
   const [path, setPath] = useState(window.location.pathname);
 
-  useState(() => {
+  useEffect(() => {
     const handlePopState = () => {
       setPath(window.location.pathname);
     };
@@ -632,13 +671,17 @@ function App() {
     return () => {
       window.removeEventListener("popstate", handlePopState);
     };
-  });
+  }, []);
 
-  return path === "/start-project" ? (
-    <StartProjectPage />
-  ) : (
-    <HomePage />
-  );
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [path]);
+
+  if (path === "/start-project") {
+    return <StartProjectPage />;
+  }
+
+  return <HomePage />;
 }
 
 export default App;
