@@ -77,7 +77,7 @@ export default function HeroVisual() {
     if (cageRef.current) {
       const reveal = ramp(p, 0.2, 0.5);
       const exit = ramp(p, 0.78, 1);
-      const scale = 1.5 + reveal * 0.5;
+      const scale = 1.5 + reveal * 0.3; // capped, was too large
       cageRef.current.scale.setScalar(scale);
       cageRef.current.rotation.y += delta * 0.08;
       cageRef.current.material.opacity = reveal * 0.55 * (1 - exit);
@@ -86,7 +86,7 @@ export default function HeroVisual() {
     if (coreRef.current) {
       const reveal = ramp(p, 0.28, 0.55);
       const exit = ramp(p, 0.78, 1);
-      const scale = 0.4 + reveal * 0.35;
+      const scale = 0.4 + reveal * 0.25; // capped
       coreRef.current.scale.setScalar(scale);
       coreRef.current.material.opacity = reveal * (1 - exit);
       coreRef.current.material.emissiveIntensity = 1.2 + reveal * 1.8;
@@ -153,4 +153,4 @@ export default function HeroVisual() {
       <Sparkles count={20} scale={5} size={1.6} speed={0.2} color="#3b82f6" opacity={0.35} />
     </group>
   );
-        }
+}
