@@ -1,14 +1,6 @@
 import { useEffect, useState } from "react";
-import {
-  ArrowUpRight,
-  Check,
-  ChevronRight,
-  Instagram,
-  Mail,
-  Menu,
-  MessageCircle,
-  X,
-} from "lucide-react";
+import { Instagram, Mail, MessageCircle, Menu, X, ArrowUpRight } from "lucide-react";
+import HeroVisual from "./HeroVisual";
 
 const WHATSAPP_NUMBER = "919405370657";
 const EMAIL = "nexforgestudio22@gmail.com";
@@ -17,36 +9,36 @@ const INSTAGRAM = "https://instagram.com/nexforge_studio_";
 const services = [
   {
     number: "01",
-    title: "Website Development",
+    title: "Websites",
     description:
-      "Premium websites built to look sharp, load fast and turn attention into action.",
+      "Premium, high-performance websites engineered to load fast and convert.",
     points: [
-      "Free initial consultation call",
-      "Custom design tailored to your brand",
-      "Mobile-first, fast-loading site",
+      "Free initial consultation",
+      "Custom design, no templates",
+      "Mobile-first build",
       "Support after launch",
     ],
   },
   {
     number: "02",
-    title: "Social Media Management",
+    title: "Social Media",
     description:
-      "Consistent content and social strategy designed to build attention, trust and growth.",
+      "Consistent content systems and strategy that build trust over time.",
     points: [
       "Content calendar & strategy",
       "Consistent, on-brand execution",
-      "Growth tracking & analytics",
-      "Built to scale with your business",
+      "Growth tracking",
+      "Built to scale",
     ],
   },
   {
     number: "03",
-    title: "Custom Software",
+    title: "Software",
     description:
-      "Practical digital tools and custom software built around how your business actually works.",
+      "Custom digital tools built around how your business actually works.",
     points: [
-      "Requirement analysis & planning",
-      "Scalable, secure architecture",
+      "Requirement analysis",
+      "Scalable architecture",
       "Regular progress updates",
       "Post-launch maintenance",
     ],
@@ -55,12 +47,12 @@ const services = [
     number: "04",
     title: "Branding & Creative",
     description:
-      "Distinct visual identities, creative systems and brand assets that make businesses memorable.",
+      "Distinct visual identities that make businesses memorable.",
     points: [
-      "Logo & visual identity design",
+      "Logo & identity design",
       "Complete brand guidelines",
-      "Social & print-ready assets",
-      "Revisions until you're happy",
+      "Print & social assets",
+      "Revisions included",
     ],
   },
 ];
@@ -96,25 +88,12 @@ const projects = [
   },
 ];
 
-const whyNexForge = [
-  {
-    number: "01",
-    title: "Built around the business",
-    description:
-      "We don't start with a template. We understand the goal first, then build around it.",
-  },
-  {
-    number: "02",
-    title: "Design that means something",
-    description:
-      "Every visual decision has a purpose — clarity, credibility, attention or conversion.",
-  },
-  {
-    number: "03",
-    title: "Made to move forward",
-    description:
-      "From first idea to launch, we focus on digital work that actually helps the business grow.",
-  },
+const whyPoints = [
+  { number: "01", title: "Custom work", description: "No templates, no shortcuts — every project is built from the ground up." },
+  { number: "02", title: "Strategy + design + development", description: "One team handling the full picture, not fragments handed off in pieces." },
+  { number: "03", title: "Modern technology", description: "Built on current, well-supported tools — fast, secure, maintainable." },
+  { number: "04", title: "Brand-focused", description: "Every decision serves the brand first, not just the pixel." },
+  { number: "05", title: "Attention to detail", description: "The small things — spacing, timing, wording — are never an afterthought." },
 ];
 
 function navigate(path) {
@@ -123,386 +102,173 @@ function navigate(path) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-function Reveal({ children, className = "" }) {
-  return <div className={`reveal ${className}`}>{children}</div>;
+function BrandMark() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <polygon points="12,2 22,8 22,16 12,22 2,16 2,8" stroke="#ffffff" strokeWidth="1" />
+    </svg>
+  );
 }
 
-function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
+function Nav() {
+  const [open, setOpen] = useState(false);
 
-  const goToSection = (id) => {
-    setMenuOpen(false);
-
+  const go = (id) => {
+    setOpen(false);
     if (window.location.pathname !== "/") {
       navigate("/");
       setTimeout(() => {
-        document.getElementById(id)?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
       }, 100);
       return;
     }
-
-    document.getElementById(id)?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <header className="navbar">
-      <button
-        className="brand"
-        onClick={() => {
-          setMenuOpen(false);
-          navigate("/");
-        }}
-        aria-label="NexForge Studio home"
-      >
-        NEXFORGE<span>.</span>
-      </button>
+    <>
+      <header className="nav">
+        <button className="brand-lockup" onClick={() => { setOpen(false); navigate("/"); }}>
+          <BrandMark />
+          <span>NexForge Studio</span>
+        </button>
 
-      <nav className={`nav-links ${menuOpen ? "open" : ""}`}>
-        <button onClick={() => goToSection("services")}>Services</button>
-        <button onClick={() => goToSection("work")}>Work</button>
-        <button onClick={() => goToSection("about")}>About</button>
-        <button onClick={() => goToSection("contact")}>Contact</button>
-      </nav>
+        <button className="menu-trigger" onClick={() => setOpen(true)} aria-label="Open menu">
+          <Menu size={22} />
+        </button>
+      </header>
 
-      <button className="nav-cta" onClick={() => navigate("/start-project")}>
-        Start a Project
-        <ArrowUpRight size={15} />
-      </button>
+      {open && (
+        <div className="nav-overlay">
+          <button className="menu-close" onClick={() => setOpen(false)} aria-label="Close menu">
+            <X size={24} />
+          </button>
 
-      <button
-        className="menu-button"
-        onClick={() => setMenuOpen((value) => !value)}
-        aria-label={menuOpen ? "Close menu" : "Open menu"}
-        aria-expanded={menuOpen}
-      >
-        {menuOpen ? <X size={22} /> : <Menu size={22} />}
-      </button>
-    </header>
+          <nav className="overlay-links">
+            <button onClick={() => go("services")}>Services</button>
+            <button onClick={() => go("work")}>Work</button>
+            <button onClick={() => go("why")}>Why</button>
+            <button onClick={() => go("contact")}>Contact</button>
+          </nav>
+
+          <button
+            className="btn-ghost"
+            onClick={() => { setOpen(false); navigate("/start-project"); }}
+          >
+            Start a Project
+          </button>
+        </div>
+      )}
+    </>
   );
 }
 
 function HomePage() {
   return (
     <>
-      <Navbar />
+      <Nav />
 
-      {/* ================= HERO ================= */}
       <main>
         <section id="home" className="hero">
-          <div className="hero-glow" />
+          <div className="hero-3d-wrap">
+            <HeroVisual />
+          </div>
 
-          <div className="hero-layout">
-            <div className="hero-content">
-              <Reveal>
-                <p className="eyebrow">Digital Studio · India</p>
-              </Reveal>
-
-              <Reveal>
-                <h1>
-                  DIGITAL
-                  <br />
-                  EXPERIENCES,
-                  <br />
-                  <span>FORGED.</span>
-                </h1>
-              </Reveal>
-
-              <Reveal>
-                <p className="hero-description">
-                  We build premium websites, custom software, brands and
-                  digital experiences for businesses ready to move forward.
-                </p>
-              </Reveal>
-
-              <Reveal>
-                <div className="hero-actions">
-                  <button
-                    className="primary-button"
-                    onClick={() => navigate("/start-project")}
-                  >
-                    Start a Project
-                    <ArrowUpRight size={17} />
-                  </button>
-
-                  <button
-                    className="secondary-button"
-                    onClick={() => {
-                      document.getElementById("work")?.scrollIntoView({
-                        behavior: "smooth",
-                      });
-                    }}
-                  >
-                    Explore Our Work
-                  </button>
-                </div>
-              </Reveal>
-
-              <Reveal>
-                <div className="hero-trust">
-                  <span>WEBSITE</span>
-                  <i />
-                  <span>SOFTWARE</span>
-                  <i />
-                  <span>BRANDING</span>
-                  <i />
-                  <span>GROWTH</span>
-                </div>
-              </Reveal>
+          <div className="hero-content">
+            <h1>Nexforge Studio</h1>
+            <p className="hero-subtext">
+              Premium digital experiences, engineered with intent.
+            </p>
+            <div className="hero-actions">
+              <button className="btn-ghost" onClick={() => navigate("/start-project")}>
+                Start a Project
+              </button>
+              <button
+                className="btn-ghost"
+                onClick={() => document.getElementById("work")?.scrollIntoView({ behavior: "smooth" })}
+              >
+                View Work
+              </button>
             </div>
           </div>
         </section>
 
-        {/* ================= SERVICES ================= */}
-        <section id="services" className="section services-section">
-          <Reveal>
-            <div className="section-heading">
-              <div>
-                <p className="section-label">01 / What We Do</p>
-                <h2>
-                  BUILT FOR
-                  <br />
-                  <span>FORWARD.</span>
-                </h2>
-              </div>
-
-              <p className="section-intro">
-                From the first idea to the final pixel, we create digital
-                experiences that make businesses look and work better.
-              </p>
-            </div>
-          </Reveal>
-
+        <section id="services" className="section">
+          <p className="caption">What We Do</p>
           <div className="services-grid">
-            {services.map((service) => (
-              <Reveal key={service.number}>
-                <article className="service-card">
-                  <div>
-                    <span className="service-number">{service.number}</span>
-                  </div>
-
-                  <div className="service-card-bottom">
-                    <h3>{service.title}</h3>
-                    <p>{service.description}</p>
-
-                    <span className="service-arrow">
-                      <ArrowUpRight size={22} />
-                    </span>
-                  </div>
-                </article>
-              </Reveal>
+            {services.map((s) => (
+              <article className="ghost-card" key={s.number}>
+                <span className="caption">{s.number}</span>
+                <h3>{s.title}</h3>
+                <p className="body-sm">{s.description}</p>
+              </article>
             ))}
           </div>
         </section>
 
-        {/* ================= WORK ================= */}
         <section id="work" className="section work-section">
-          <Reveal>
-            <div className="section-heading">
-              <div>
-                <p className="section-label">02 / Selected Work</p>
-                <h2>
-                  WORK THAT
-                  <br />
-                  <span>MOVES.</span>
-                </h2>
-              </div>
-
-              <p className="section-intro">
-                A selection of digital experiences we've designed and built
-                for ambitious ideas and growing businesses.
-              </p>
-            </div>
-          </Reveal>
-
-          <div className="projects-grid">
-            {projects.map((project) => (
-              <Reveal key={project.number}>
-                <a
-                  className="project-card"
-                  href={project.link}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <div className="project-image">
-                    <img
-                      src={project.image}
-                      alt={`${project.title} project`}
-                      loading="lazy"
-                    />
-
-                    <div className="project-overlay">
-                      <span>
-                        View Project
-                        <ArrowUpRight size={14} />
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="project-info">
-                    <div>
-                      <span className="project-number">
-                        {project.number}
-                      </span>
-                      <h3>{project.title}</h3>
-                    </div>
-
-                    <p>{project.category}</p>
-                  </div>
-                </a>
-              </Reveal>
+          <p className="caption">Selected Work</p>
+          <div className="work-list">
+            {projects.map((p) => (
+              <article className="work-item" key={p.number}>
+                <div className="work-image">
+                  <img src={p.image} alt={p.title} loading="lazy" />
+                </div>
+                <div className="work-meta">
+                  <span className="caption">{p.number} / {p.category}</span>
+                  <h3>{p.title}</h3>
+                  <a
+                    className="btn-ghost btn-ghost-sm"
+                    href={p.link}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    View Project <ArrowUpRight size={14} />
+                  </a>
+                </div>
+              </article>
             ))}
           </div>
         </section>
 
-        {/* ================= ABOUT ================= */}
-        <section id="about" className="section about-section">
-          <Reveal>
-            <div className="about-grid">
-              <div>
-                <p className="section-label">03 / About NexForge</p>
-
-                <h2>
-                  NOT JUST
-                  <br />
-                  <span>A WEBSITE.</span>
-                </h2>
+        <section id="why" className="section">
+          <p className="caption">Why NexForge</p>
+          <div className="why-list">
+            {whyPoints.map((w) => (
+              <div className="why-row" key={w.number}>
+                <span className="caption">{w.number}</span>
+                <div>
+                  <h3>{w.title}</h3>
+                  <p className="body-sm">{w.description}</p>
+                </div>
               </div>
-
-              <div className="about-copy">
-                <p>
-                  NexForge Studio is a digital studio focused on building
-                  brands, websites and software that feel as good as they
-                  perform.
-                </p>
-
-                <p>
-                  We combine strategy, design and technology to turn ideas
-                  into digital experiences people remember — without
-                  unnecessary complexity.
-                </p>
-
-                <button
-                  className="text-link"
-                  onClick={() => navigate("/start-project")}
-                >
-                  Start something with us
-                  <ChevronRight size={17} />
-                </button>
-              </div>
-            </div>
-          </Reveal>
-        </section>
-
-        {/* ================= WHY ================= */}
-        <section className="section why-section">
-          <Reveal>
-            <div className="section-heading">
-              <div>
-                <p className="section-label">04 / Why NexForge</p>
-                <h2>
-                  WHY WE
-                  <br />
-                  <span>BUILD.</span>
-                </h2>
-              </div>
-
-              <p className="section-intro">
-                Good digital work isn't about adding more. It's about making
-                the right things better.
-              </p>
-            </div>
-          </Reveal>
-
-          <div className="why-grid">
-            {whyNexForge.map((item) => (
-              <Reveal key={item.number}>
-                <article className="why-item">
-                  <span>{item.number}</span>
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
-                </article>
-              </Reveal>
             ))}
           </div>
         </section>
 
-        {/* ================= CTA ================= */}
-        <section className="teaser-section">
-          <Reveal>
-            <p className="section-label">Ready when you are</p>
-
-            <h2>
-              HAVE AN IDEA?
-              <br />
-              <span>LET'S BUILD IT.</span>
-            </h2>
-
-            <button
-              className="primary-button"
-              onClick={() => navigate("/start-project")}
+        <section id="contact" className="section cta-section">
+          <h2>Have an idea? Let's build it.</h2>
+          <div className="contact-actions">
+            <a
+              className="btn-ghost"
+              href={`https://wa.me/${WHATSAPP_NUMBER}`}
+              target="_blank"
+              rel="noreferrer"
             >
-              Start a Project
-              <ArrowUpRight size={17} />
-            </button>
-          </Reveal>
-        </section>
-
-        {/* ================= CONTACT ================= */}
-        <section id="contact" className="section contact-section">
-          <div className="contact-glow" />
-
-          <Reveal>
-            <div className="contact-heading">
-              <p className="section-label">05 / Contact</p>
-
-              <h2>
-                LET'S MAKE
-                <br />
-                <span>SOMETHING GOOD.</span>
-              </h2>
-
-              <p>
-                Have a project, idea or business that needs a stronger digital
-                presence? Tell us what you're building.
-              </p>
-            </div>
-
-            <div className="contact-actions">
-              <a
-                className="contact-button whatsapp"
-                href={`https://wa.me/${WHATSAPP_NUMBER}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <MessageCircle size={19} />
-                WhatsApp
-              </a>
-
-              <a
-                className="contact-button email"
-                href={`mailto:${EMAIL}`}
-              >
-                <Mail size={19} />
-                Email
-              </a>
-
-              <a
-                className="contact-button instagram"
-                href={INSTAGRAM}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Instagram size={19} />
-                Instagram
-              </a>
-            </div>
-          </Reveal>
+              <MessageCircle size={17} /> WhatsApp
+            </a>
+            <a className="btn-ghost" href={`mailto:${EMAIL}`}>
+              <Mail size={17} /> Email
+            </a>
+            <a
+              className="btn-ghost"
+              href={INSTAGRAM}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Instagram size={17} /> Instagram
+            </a>
+          </div>
         </section>
       </main>
 
@@ -512,52 +278,13 @@ function HomePage() {
 }
 
 function Footer() {
-  const scrollTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
   return (
     <footer className="footer">
-      <div className="footer-top">
-        <div>
-          <button className="footer-brand" onClick={scrollTop}>
-            NEXFORGE<span>.</span>
-          </button>
-
-          <p>Digital Experiences, Forged.</p>
-        </div>
-
-        <button className="back-top" onClick={scrollTop}>
-          BACK TO TOP
-          <ArrowUpRight size={13} />
-        </button>
-      </div>
-
-      <div className="footer-bottom">
-        <span>© 2026 NexForge Studio</span>
-
-        <div className="footer-socials">
-          <a
-            href={INSTAGRAM}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Instagram
-          </a>
-
-          <a href={`mailto:${EMAIL}`}>Email</a>
-
-          <a
-            href={`https://wa.me/${WHATSAPP_NUMBER}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            WhatsApp
-          </a>
-        </div>
+      <span className="caption">NexForge Studio</span>
+      <div className="footer-links">
+        <a href={INSTAGRAM} target="_blank" rel="noreferrer">Instagram</a>
+        <a href={`mailto:${EMAIL}`}>Email</a>
+        <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noreferrer">WhatsApp</a>
       </div>
     </footer>
   );
@@ -575,54 +302,31 @@ function StartProjectPage() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
     const form = new FormData(event.currentTarget);
-
     const name = form.get("name") || "";
     const contact = form.get("contact") || "";
     const project = form.get("project") || "";
     const serviceTitle = services[selected]?.title || "a project";
 
-    const message = `Hi NexForge Studio,
-
-My name is ${name}.
-Contact: ${contact}
-Interested in: ${serviceTitle}
-
-Project:
-${project}`;
+    const message = `Hi NexForge Studio,\n\nMy name is ${name}.\nContact: ${contact}\nInterested in: ${serviceTitle}\n\nProject:\n${project}`;
 
     window.open(
       `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`,
       "_blank",
       "noopener,noreferrer"
     );
-
     setSubmitted(true);
   };
 
   return (
     <>
-      <Navbar />
+      <Nav />
+      <main className="start-page">
+        <section className="section">
+          <p className="caption">Start a Project</p>
+          <h1>Let's build what's next.</h1>
+          <p className="body-sm start-intro">Pick what you need — we'll show you how we can help.</p>
 
-      <main className="start-project-page">
-        <section className="start-project-hero">
-          <div>
-            <p className="section-label">Start a Project</p>
-
-            <h1>
-              LET'S BUILD
-              <br />
-              <span>WHAT'S NEXT.</span>
-            </h1>
-
-            <p>
-              Pick what you need — we'll show you exactly how we can help.
-            </p>
-          </div>
-        </section>
-
-        <section className="project-form-section">
           {!submitted ? (
             <div className="start-options">
               {services.map((service, index) => {
@@ -634,78 +338,41 @@ ${project}`;
                       className={`start-option ${isActive ? "active" : ""}`}
                       onClick={() => handleSelect(index)}
                     >
-                      <span className="service-number">{service.number}</span>
+                      <span className="caption">{service.number}</span>
                       <span>{service.title}</span>
-                      <ArrowUpRight
-                        size={18}
-                        className={`start-option-arrow ${
-                          isActive ? "rotated" : ""
-                        }`}
-                      />
+                      <ArrowUpRight size={16} className={isActive ? "rotated" : ""} />
                     </button>
 
                     {isActive && (
                       <div className="start-detail">
                         <ul className="start-points">
                           {service.points.map((point) => (
-                            <li key={point}>
-                              <Check size={16} className="check-icon" />
-                              {point}
-                            </li>
+                            <li key={point}>— {point}</li>
                           ))}
                         </ul>
 
                         {!showForm && (
-                          <button
-                            type="button"
-                            className="primary-button"
-                            onClick={() => setShowForm(true)}
-                          >
+                          <button type="button" className="btn-ghost" onClick={() => setShowForm(true)}>
                             Continue
-                            <ArrowUpRight size={16} />
                           </button>
                         )}
 
                         {showForm && (
-                          <form
-                            className="project-form"
-                            onSubmit={handleSubmit}
-                          >
-                            <div className="form-row">
-                              <label>
-                                <span>YOUR NAME</span>
-                                <input
-                                  type="text"
-                                  name="name"
-                                  placeholder="Your name"
-                                  required
-                                />
-                              </label>
-
-                              <label>
-                                <span>PHONE / EMAIL</span>
-                                <input
-                                  type="text"
-                                  name="contact"
-                                  placeholder="Phone or email"
-                                  required
-                                />
-                              </label>
-                            </div>
-
+                          <form className="project-form" onSubmit={handleSubmit}>
                             <label>
-                              <span>YOUR PROJECT</span>
-                              <textarea
-                                name="project"
-                                rows="5"
-                                placeholder="Tell us briefly about your project"
-                                required
-                              />
+                              <span className="caption">Your Name</span>
+                              <input type="text" name="name" required />
                             </label>
-
-                            <button type="submit" className="primary-button">
+                            <label>
+                              <span className="caption">Phone / Email</span>
+                              <input type="text" name="contact" required />
+                            </label>
+                            <label>
+                              <span className="caption">Your Project</span>
+                              <textarea name="project" rows="4" required />
+                            </label>
+                            <button type="submit" className="btn-ghost">
                               Send on WhatsApp
-                              <ArrowUpRight size={17} />
                             </button>
                           </form>
                         )}
@@ -717,33 +384,17 @@ ${project}`;
             </div>
           ) : (
             <div className="form-success">
-              <p className="section-label">Message Ready</p>
-
-              <h2>
-                LET'S GET
-                <br />
-                <span>BUILDING.</span>
-              </h2>
-
-              <p>
-                Your WhatsApp message has been prepared. Send it to start the
-                conversation with NexForge Studio.
+              <h2>Message ready.</h2>
+              <p className="body-sm">
+                Your WhatsApp message has been prepared. Send it to start the conversation.
               </p>
-
-              <a
-                className="primary-button"
-                href={`https://wa.me/${WHATSAPP_NUMBER}`}
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a className="btn-ghost" href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noreferrer">
                 Open WhatsApp
-                <ArrowUpRight size={17} />
               </a>
             </div>
           )}
         </section>
       </main>
-
       <Footer />
     </>
   );
@@ -753,26 +404,14 @@ function App() {
   const [path, setPath] = useState(window.location.pathname);
 
   useEffect(() => {
-    const handlePopState = () => {
-      setPath(window.location.pathname);
-    };
-
-    window.addEventListener("popstate", handlePopState);
-
-    return () => {
-      window.removeEventListener("popstate", handlePopState);
-    };
+    const onPop = () => setPath(window.location.pathname);
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
   }, []);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [path]);
+  useEffect(() => { window.scrollTo(0, 0); }, [path]);
 
-  if (path === "/start-project") {
-    return <StartProjectPage />;
-  }
-
-  return <HomePage />;
+  return path === "/start-project" ? <StartProjectPage /> : <HomePage />;
 }
 
 export default App;
