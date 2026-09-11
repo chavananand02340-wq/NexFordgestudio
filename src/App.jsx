@@ -10,8 +10,6 @@ import {
   X,
 } from "lucide-react";
 
-import Hero3D from "./Hero3D";
-
 const WHATSAPP_NUMBER = "919405370657";
 const EMAIL = "nexforgestudio22@gmail.com";
 const INSTAGRAM = "https://instagram.com/nexforge_studio_";
@@ -22,24 +20,48 @@ const services = [
     title: "Website Development",
     description:
       "Premium websites built to look sharp, load fast and turn attention into action.",
+    points: [
+      "Free initial consultation call",
+      "Custom design tailored to your brand",
+      "Mobile-first, fast-loading site",
+      "Support after launch",
+    ],
   },
   {
     number: "02",
     title: "Social Media Management",
     description:
       "Consistent content and social strategy designed to build attention, trust and growth.",
+    points: [
+      "Content calendar & strategy",
+      "Consistent, on-brand execution",
+      "Growth tracking & analytics",
+      "Built to scale with your business",
+    ],
   },
   {
     number: "03",
     title: "Custom Software",
     description:
       "Practical digital tools and custom software built around how your business actually works.",
+    points: [
+      "Requirement analysis & planning",
+      "Scalable, secure architecture",
+      "Regular progress updates",
+      "Post-launch maintenance",
+    ],
   },
   {
     number: "04",
     title: "Branding & Creative",
     description:
       "Distinct visual identities, creative systems and brand assets that make businesses memorable.",
+    points: [
+      "Logo & visual identity design",
+      "Complete brand guidelines",
+      "Social & print-ready assets",
+      "Revisions until you're happy",
+    ],
   },
 ];
 
@@ -49,24 +71,28 @@ const projects = [
     title: "Beast Algo",
     category: "Trading / Technology",
     image: "/images/beast-algo.jpg",
+    link: "https://beast-algo.vercel.app/",
   },
   {
     number: "02",
     title: "Nashik Tours",
     category: "Travel / Hospitality",
     image: "/images/nashik-tours.jpg",
+    link: "https://tours-and-travels-clean.vercel.app/",
   },
   {
     number: "03",
     title: "SCC Portal",
     category: "Education / Platform",
     image: "/images/scc-portal.jpg",
+    link: "https://edusync.me/login",
   },
   {
     number: "04",
     title: "Memories Kraft",
     category: "Brand / E-commerce",
     image: "/images/memories-kraft.jpg",
+    link: "https://memories-kraft.vercel.app/",
   },
 ];
 
@@ -229,8 +255,6 @@ function HomePage() {
                 </div>
               </Reveal>
             </div>
-
-            <Hero3D />
           </div>
         </section>
 
@@ -299,7 +323,12 @@ function HomePage() {
           <div className="projects-grid">
             {projects.map((project) => (
               <Reveal key={project.number}>
-                <article className="project-card">
+                <a
+                  className="project-card"
+                  href={project.link}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <div className="project-image">
                     <img
                       src={project.image}
@@ -325,7 +354,7 @@ function HomePage() {
 
                     <p>{project.category}</p>
                   </div>
-                </article>
+                </a>
               </Reveal>
             ))}
           </div>
@@ -535,7 +564,14 @@ function Footer() {
 }
 
 function StartProjectPage() {
+  const [selected, setSelected] = useState(null);
+  const [showForm, setShowForm] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  const handleSelect = (index) => {
+    setSelected(index === selected ? null : index);
+    setShowForm(false);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -545,11 +581,13 @@ function StartProjectPage() {
     const name = form.get("name") || "";
     const contact = form.get("contact") || "";
     const project = form.get("project") || "";
+    const serviceTitle = services[selected]?.title || "a project";
 
     const message = `Hi NexForge Studio,
 
 My name is ${name}.
 Contact: ${contact}
+Interested in: ${serviceTitle}
 
 Project:
 ${project}`;
@@ -579,51 +617,104 @@ ${project}`;
             </h1>
 
             <p>
-              Tell us a little about your idea. We'll take it from there.
+              Pick what you need — we'll show you exactly how we can help.
             </p>
           </div>
         </section>
 
         <section className="project-form-section">
           {!submitted ? (
-            <form className="project-form" onSubmit={handleSubmit}>
-              <div className="form-row">
-                <label>
-                  <span>YOUR NAME</span>
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Your name"
-                    required
-                  />
-                </label>
+            <div className="start-options">
+              {services.map((service, index) => {
+                const isActive = selected === index;
+                return (
+                  <div key={service.number} className="start-option-wrap">
+                    <button
+                      type="button"
+                      className={`start-option ${isActive ? "active" : ""}`}
+                      onClick={() => handleSelect(index)}
+                    >
+                      <span className="service-number">{service.number}</span>
+                      <span>{service.title}</span>
+                      <ArrowUpRight
+                        size={18}
+                        className={`start-option-arrow ${
+                          isActive ? "rotated" : ""
+                        }`}
+                      />
+                    </button>
 
-                <label>
-                  <span>PHONE / EMAIL</span>
-                  <input
-                    type="text"
-                    name="contact"
-                    placeholder="Phone or email"
-                    required
-                  />
-                </label>
-              </div>
+                    {isActive && (
+                      <div className="start-detail">
+                        <ul className="start-points">
+                          {service.points.map((point) => (
+                            <li key={point}>
+                              <Check size={16} className="check-icon" />
+                              {point}
+                            </li>
+                          ))}
+                        </ul>
 
-              <label>
-                <span>YOUR PROJECT</span>
-                <textarea
-                  name="project"
-                  rows="7"
-                  placeholder="Tell us briefly about your project"
-                  required
-                />
-              </label>
+                        {!showForm && (
+                          <button
+                            type="button"
+                            className="primary-button"
+                            onClick={() => setShowForm(true)}
+                          >
+                            Continue
+                            <ArrowUpRight size={16} />
+                          </button>
+                        )}
 
-              <button type="submit" className="primary-button">
-                Send on WhatsApp
-                <ArrowUpRight size={17} />
-              </button>
-            </form>
+                        {showForm && (
+                          <form
+                            className="project-form"
+                            onSubmit={handleSubmit}
+                          >
+                            <div className="form-row">
+                              <label>
+                                <span>YOUR NAME</span>
+                                <input
+                                  type="text"
+                                  name="name"
+                                  placeholder="Your name"
+                                  required
+                                />
+                              </label>
+
+                              <label>
+                                <span>PHONE / EMAIL</span>
+                                <input
+                                  type="text"
+                                  name="contact"
+                                  placeholder="Phone or email"
+                                  required
+                                />
+                              </label>
+                            </div>
+
+                            <label>
+                              <span>YOUR PROJECT</span>
+                              <textarea
+                                name="project"
+                                rows="5"
+                                placeholder="Tell us briefly about your project"
+                                required
+                              />
+                            </label>
+
+                            <button type="submit" className="primary-button">
+                              Send on WhatsApp
+                              <ArrowUpRight size={17} />
+                            </button>
+                          </form>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           ) : (
             <div className="form-success">
               <p className="section-label">Message Ready</p>
