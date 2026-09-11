@@ -1,6 +1,6 @@
 import { Component } from "react";
 
-class HeroBoundary extends Component {
+export default class HeroBoundary extends Component {
   constructor(props) {
     super(props);
     this.state = { hasError: false };
@@ -11,13 +11,13 @@ class HeroBoundary extends Component {
   }
 
   componentDidCatch(error) {
-    console.error("Hero scene failed, showing fallback:", error);
+    console.warn("Hero 3D failed, falling back to static hero glow:", error);
   }
 
   render() {
-    if (this.state.hasError) return this.props.fallback;
+    if (this.state.hasError) {
+      return <div className="hero-fallback-glow" aria-hidden="true" />;
+    }
     return this.props.children;
   }
 }
-
-export default HeroBoundary;
