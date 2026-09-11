@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import "./index.css";
 import HeroBoundary from "./HeroBoundary";
 import HeroScene from "./HeroScene";
-import { registerHeroStage, unregisterHeroStage } from "./scrollProgress";
+import AmbientField from "./AmbientField";
 
 const WHATSAPP_NUMBER = "919405370657";
 const EMAIL = "nexforgestudio22@gmail.com";
@@ -117,62 +117,43 @@ function Footer({ onNavigate }) {
 }
 
 function Home({ onNavigate }) {
-  const stageRef = useRef(null);
-  const [heroActive, setHeroActive] = useState(true);
-
-  useEffect(() => {
-    if (stageRef.current) registerHeroStage(stageRef.current);
-    return () => unregisterHeroStage();
-  }, []);
-
-  useEffect(() => {
-    if (!stageRef.current) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setHeroActive(entry.isIntersecting),
-      { rootMargin: "20% 0px 20% 0px" }
-    );
-    observer.observe(stageRef.current);
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <>
-      <div className="hero-scroll-stage" ref={stageRef}>
-        <section className="hero hero-sticky">
-          <div className="hero-canvas-wrap" aria-hidden="true">
-            <HeroBoundary>
-              <HeroScene active={heroActive} />
-            </HeroBoundary>
+      <section className="hero">
+        <div className="hero-canvas-wrap" aria-hidden="true">
+          <HeroBoundary>
+            <HeroScene />
+          </HeroBoundary>
+        </div>
+        <div className="hero-scrim" aria-hidden="true" />
+        <div className="hero-content">
+          <div className="eyebrow">Digital Studio · India</div>
+          <h1>
+            Digital Experiences,
+            <br />
+            <span className="accent">Forged.</span>
+          </h1>
+          <p className="lead">
+            We build premium websites, custom software, brands and digital
+            experiences for businesses ready to move forward.
+          </p>
+          <div className="hero-actions">
+            <a
+              href="/start-project"
+              className="pill-btn primary"
+              onClick={(e) => { e.preventDefault(); onNavigate("/start-project"); }}
+            >
+              Start a Project ↗
+            </a>
+            <a href="#work" className="pill-btn outline">Explore Our Work</a>
           </div>
-          <div className="hero-content">
-            <div className="eyebrow">Digital Studio · India</div>
-            <h1>
-              Digital Experiences,
-              <br />
-              <span className="accent">Forged.</span>
-            </h1>
-            <p className="lead">
-              We build premium websites, custom software, brands and digital
-              experiences for businesses ready to move forward.
-            </p>
-            <div className="hero-actions">
-              <a
-                href="/start-project"
-                className="pill-btn primary"
-                onClick={(e) => { e.preventDefault(); onNavigate("/start-project"); }}
-              >
-                Start a Project ↗
-              </a>
-              <a href="#work" className="pill-btn outline">Explore Our Work</a>
-            </div>
-            <div className="hero-tags">
-              WEBSITE <span className="dot">•</span> SOFTWARE{" "}
-              <span className="dot">•</span> BRANDING{" "}
-              <span className="dot">•</span> GROWTH
-            </div>
+          <div className="hero-tags">
+            WEBSITE <span className="dot">•</span> SOFTWARE{" "}
+            <span className="dot">•</span> BRANDING{" "}
+            <span className="dot">•</span> GROWTH
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
 
       <section className="section" id="services">
         <div className="container">
@@ -448,6 +429,7 @@ export default function App() {
 
   return (
     <>
+      <AmbientField />
       <Header onNavigate={navigate} />
       {path === "/start-project" ? (
         <StartProject />
@@ -457,4 +439,4 @@ export default function App() {
       <Footer onNavigate={navigate} />
     </>
   );
-}
+      }
