@@ -1,9 +1,7 @@
 // Lightweight scroll-progress engine.
-// Tracks how far the user has scrolled through the tall hero stage (0 -> 1),
-// smooths it with damping (no raw scrollY jitter), and exposes it two ways:
-//  1. as a CSS custom property (--hero-progress) for cheap CSS-driven fades
-//  2. as a subscribable value for the R3F scene to read inside useFrame
-// Only one rAF loop runs for the whole app, so this stays cheap.
+// Tracks how far the user has scrolled through the hero stage (0 -> 1),
+// smooths it with damping, and exposes ready-to-use CSS variables so
+// nothing needs extra JS math elsewhere.
 
 const state = { raw: 0, smooth: 0 };
 const listeners = new Set();
@@ -24,10 +22,15 @@ function tick() {
   state.smooth += (state.raw - state.smooth) * 0.09;
   if (Math.abs(state.smooth - state.raw) < 0.0005) state.smooth = state.raw;
 
-  document.documentElement.style.setProperty(
-    "--hero-progress",
-    state.smooth.toFixed(4)
-  );
+  // text stays fully visible until 65% through the story, then fades out
+  const fade = Math.min(1, Math.max(0, 1 - Math.max(0, state.smooth - 0.65) * 2.9));
+  const lift = state.smooth * -60;
+
+  const root = document.documentElement.style;
+  root.setProperty("--hero-progress", state.smooth.toFixed(4));
+  root.setProperty("--hero-fade", fade.toFixed(4));
+  root.setProperty("--hero-lift", lift.toFixed(2) + "px");
+
   listeners.forEach((fn) => fn(state.smooth));
   rafId = requestAnimationFrame(tick);
 }
