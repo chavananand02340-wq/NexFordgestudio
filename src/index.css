@@ -119,12 +119,22 @@ button { font-family: inherit; cursor: pointer; }
   justify-content: center;
 }
 
-/* ---------- Hero (scroll-driven) ---------- */
-.hero-scroll-stage {
-  position: relative;
-  height: 160vh;
+/* ---------- Ambient field (persistent depth behind the whole page) ---------- */
+.ambient-field {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+.ambient-field canvas {
+  width: 100% !important;
+  height: 100% !important;
 }
 
+/* ---------- Hero ---------- */
+/* Simple, robust in-flow section -- no scroll-pin, no sticky, no
+   scroll-linked camera math. The object is a constant premium
+   centerpiece; a scrim keeps the headline readable over it. */
 .hero {
   position: relative;
   padding: 40px 24px;
@@ -133,12 +143,7 @@ button { font-family: inherit; cursor: pointer; }
   flex-direction: column;
   justify-content: center;
   overflow: hidden;
-  height: calc(100vh - 84px);
-}
-
-.hero.hero-sticky {
-  position: sticky;
-  top: 84px;
+  min-height: calc(100vh - 84px);
 }
 
 .hero-canvas-wrap {
@@ -164,6 +169,19 @@ button { font-family: inherit; cursor: pointer; }
   pointer-events: none;
 }
 
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(
+    ellipse 90% 65% at 50% 46%,
+    rgba(13, 12, 10, 0.78) 0%,
+    rgba(13, 12, 10, 0.5) 45%,
+    transparent 75%
+  );
+  pointer-events: none;
+}
+
 .hero-fallback-glow {
   position: absolute;
   inset: 0;
@@ -172,16 +190,12 @@ button { font-family: inherit; cursor: pointer; }
 
 .hero-content {
   position: relative;
-  z-index: 1;
-  opacity: var(--hero-fade, 1);
-  transform: translateY(var(--hero-lift, 0px));
+  z-index: 2;
 }
 
 @media (max-width: 640px) {
   body { padding-top: 74px; }
-  .hero { height: calc(100vh - 74px); }
-  .hero.hero-sticky { top: 74px; }
-  .hero-scroll-stage { height: 130vh; }
+  .hero { min-height: calc(100vh - 74px); }
 }
 
 .eyebrow {
@@ -222,7 +236,45 @@ button { font-family: inherit; cursor: pointer; }
 .hero-tags span.dot { color: var(--accent); margin: 0 10px; }
 
 /* ---------- Section headers ---------- */
-.section { padding: 70px 0; border-top: 1px solid var(--border); }
+.section { position: relative; padding: 70px 0; border-top: 1px solid var(--border); }
+.section::before {
+  content: "";
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  width: 640px;
+  max-width: 160%;
+  height: 260px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse, rgba(124, 58, 237, 0.08), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+.section > .container,
+.section > .scroll-row {
+  position: relative;
+  z-index: 1;
+}
+#work::before {
+  background:
+    radial-gradient(ellipse at 30% 0%, rgba(59, 130, 246, 0.13), transparent 60%),
+    radial-gradient(ellipse at 70% 100%, rgba(255, 106, 61, 0.09), transparent 60%);
+  height: 420px;
+}
+.contact-cta { position: relative; }
+.contact-cta::before {
+  content: "";
+  position: absolute;
+  inset: -20% -10%;
+  background: radial-gradient(ellipse at 50% 40%, rgba(124, 58, 237, 0.15), transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+.contact-cta h2,
+.contact-cta a {
+  position: relative;
+  z-index: 1;
+}
 .section-eyebrow {
   color: var(--text-dim);
   letter-spacing: 0.18em;
@@ -472,4 +524,4 @@ textarea.field { min-height: 100px; resize: vertical; }
   align-items: center;
   justify-content: center;
   gap: 8px;
-}
+  }
