@@ -108,12 +108,23 @@ button { font-family: inherit; cursor: pointer; }
   justify-content: center;
 }
 
-/* ---------- Hero ---------- */
+/* ---------- Hero (scroll-driven) ---------- */
+.hero-scroll-stage {
+  position: relative;
+  height: 340vh;
+}
+
+.hero-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  min-height: unset;
+}
+
 .hero {
   position: relative;
   padding: 60px 24px 40px;
   text-align: center;
-  min-height: 82vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -152,6 +163,13 @@ button { font-family: inherit; cursor: pointer; }
 .hero-content {
   position: relative;
   z-index: 1;
+  opacity: calc(1 - var(--hero-progress, 0) * 2.2);
+  transform: translateY(calc(var(--hero-progress, 0) * -60px));
+  transition: opacity 0.05s linear;
+}
+
+@media (max-width: 640px) {
+  .hero-scroll-stage { height: 260vh; }
 }
 
 .eyebrow {
@@ -442,4 +460,4 @@ textarea.field { min-height: 100px; resize: vertical; }
   align-items: center;
   justify-content: center;
   gap: 8px;
-  }
+                     }
