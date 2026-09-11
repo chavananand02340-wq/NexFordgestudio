@@ -12,14 +12,14 @@ function CameraRig() {
 
   useFrame(() => {
     const p = progress.current;
-    const targetZ =
-      p < 0.5
-        ? 6 - p * 2 * 2.4
-        : 3.6 + (p - 0.5) * 2 * 1.9;
-    const orbitX = Math.sin(p * Math.PI) * 1.1;
-    const orbitY = Math.sin(p * Math.PI * 0.6) * 0.4;
+    // Safe range: camera never gets closer than 4.5 units, so the
+    // object never fills the whole screen or gets clipped into.
+    const targetZ = p < 0.5 ? 6 - p * 2 * 1.0 : 5.0 + (p - 0.5) * 2 * 0.8;
+    const safeZ = Math.max(4.5, targetZ);
+    const orbitX = Math.sin(p * Math.PI) * 0.5;
+    const orbitY = Math.sin(p * Math.PI * 0.6) * 0.18;
 
-    camera.position.z += (targetZ - camera.position.z) * 0.06;
+    camera.position.z += (safeZ - camera.position.z) * 0.06;
     camera.position.x += (orbitX - camera.position.x) * 0.06;
     camera.position.y += (orbitY - camera.position.y) * 0.06;
     camera.lookAt(0, 0, 0);
