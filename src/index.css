@@ -111,14 +111,7 @@ button { font-family: inherit; cursor: pointer; }
 /* ---------- Hero (scroll-driven) ---------- */
 .hero-scroll-stage {
   position: relative;
-  height: 340vh;
-}
-
-.hero-sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  min-height: unset;
+  height: 200vh;
 }
 
 .hero {
@@ -129,6 +122,17 @@ button { font-family: inherit; cursor: pointer; }
   flex-direction: column;
   justify-content: center;
   overflow: hidden;
+  height: 100vh;
+}
+
+/* IMPORTANT: this combined selector has higher specificity than plain
+   .hero, so it always wins the cascade. Previously .hero-sticky set
+   position:sticky but .hero (declared later, equal specificity) was
+   silently overriding it back to relative -- that's what collapsed the
+   whole 3D section into a giant dead scroll gap. */
+.hero.hero-sticky {
+  position: sticky;
+  top: 0;
 }
 
 .hero-canvas-wrap {
@@ -163,13 +167,12 @@ button { font-family: inherit; cursor: pointer; }
 .hero-content {
   position: relative;
   z-index: 1;
-  opacity: calc(1 - var(--hero-progress, 0) * 2.2);
-  transform: translateY(calc(var(--hero-progress, 0) * -60px));
-  transition: opacity 0.05s linear;
+  opacity: var(--hero-fade, 1);
+  transform: translateY(var(--hero-lift, 0px));
 }
 
 @media (max-width: 640px) {
-  .hero-scroll-stage { height: 260vh; }
+  .hero-scroll-stage { height: 160vh; }
 }
 
 .eyebrow {
@@ -460,4 +463,4 @@ textarea.field { min-height: 100px; resize: vertical; }
   align-items: center;
   justify-content: center;
   gap: 8px;
-                     }
+  }
