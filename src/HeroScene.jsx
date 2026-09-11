@@ -12,12 +12,13 @@ function CameraRig() {
 
   useFrame(() => {
     const p = progress.current;
-    // Safe range: camera never gets closer than 4.5 units, so the
-    // object never fills the whole screen or gets clipped into.
-    const targetZ = p < 0.5 ? 6 - p * 2 * 1.0 : 5.0 + (p - 0.5) * 2 * 0.8;
-    const safeZ = Math.max(4.5, targetZ);
-    const orbitX = Math.sin(p * Math.PI) * 0.5;
-    const orbitY = Math.sin(p * Math.PI * 0.6) * 0.18;
+    // Kept deliberately conservative: camera never comes closer than 7
+    // units, so the object can never fill/clip the screen regardless
+    // of device viewport quirks.
+    const targetZ = p < 0.5 ? 9 - p * 2 * 2 : 7 + (p - 0.5) * 2 * 1.2;
+    const safeZ = Math.max(7, targetZ);
+    const orbitX = Math.sin(p * Math.PI) * 0.4;
+    const orbitY = Math.sin(p * Math.PI * 0.6) * 0.15;
 
     camera.position.z += (safeZ - camera.position.z) * 0.06;
     camera.position.x += (orbitX - camera.position.x) * 0.06;
@@ -35,7 +36,7 @@ export default function HeroScene({ active = true }) {
       dpr={[1, 1.5]}
       frameloop={active ? "always" : "never"}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-      camera={{ position: [0, 0, 6], fov: 38 }}
+      camera={{ position: [0, 0, 9], fov: 38 }}
     >
       <ambientLight intensity={0.15} />
       <pointLight position={[-4, 3, 4]} intensity={65} color="#7c3aed" />
