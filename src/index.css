@@ -327,48 +327,9 @@ h2 span {
 }
 
 /* =========================
-   3D HERO
-========================= */
-
-.hero-3d {
-  position: relative;
-  width: min(100%, 520px);
-  height: 300px;
-  margin-top: 4px;
-  flex-shrink: 0;
-  z-index: 1;
-  pointer-events: auto;
-}
-
-.hero-3d canvas {
-  width: 100% !important;
-  height: 100% !important;
-  display: block;
-}
-
-.hero-3d::after {
-  content: "";
-  position: absolute;
-  inset: 18% 8%;
-  background: radial-gradient(
-    circle,
-    rgba(66, 217, 255, 0.11),
-    transparent 68%
-  );
-  filter: blur(25px);
-  z-index: -1;
-  pointer-events: none;
-}
-
-.hero-3d-fallback {
-  display: none;
-}
-
-/* =========================
    REVEAL / ANIMATIONS
 ========================= */
 
-/* Keep content visible even if JS reveal logic is unavailable. */
 .reveal {
   opacity: 1;
   transform: none;
@@ -432,16 +393,33 @@ h2 span {
 }
 
 /* =========================
-   SERVICES
+   SERVICES / WORK — horizontal swipe rows
 ========================= */
 
-.services-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
+.services-grid,
+.projects-grid {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 8px;
+  margin-left: -20px;
+  margin-right: -20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.services-grid::-webkit-scrollbar,
+.projects-grid::-webkit-scrollbar {
+  display: none;
 }
 
 .service-card {
+  flex: 0 0 auto;
+  width: min(82vw, 300px);
+  scroll-snap-align: start;
   min-height: 250px;
   background: var(--bg-alt);
   border: 1px solid var(--line);
@@ -482,17 +460,11 @@ h2 span {
   margin-top: 18px;
 }
 
-/* =========================
-   WORK
-========================= */
-
-.projects-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 14px;
-}
-
 .project-card {
+  flex: 0 0 auto;
+  width: min(82vw, 300px);
+  scroll-snap-align: start;
+  display: block;
   background: var(--bg-alt);
   border: 1px solid var(--line);
   border-radius: 16px;
@@ -874,6 +846,77 @@ h2 span {
   margin-bottom: 24px;
 }
 
+/* Start project — service selection */
+
+.start-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.start-option-wrap {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--bg-alt);
+}
+
+.start-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  background: none;
+  border: none;
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+}
+
+.start-option.active {
+  border-bottom: 1px solid var(--line);
+}
+
+.start-option-arrow {
+  margin-left: auto;
+  color: var(--ember);
+  transition: transform 0.2s ease;
+}
+
+.start-option-arrow.rotated {
+  transform: rotate(135deg);
+}
+
+.start-detail {
+  padding: 18px;
+}
+
+.start-points {
+  list-style: none;
+  margin-bottom: 18px;
+}
+
+.start-points li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+
+.check-icon {
+  color: var(--ember);
+  flex-shrink: 0;
+}
+
+.start-detail .project-form {
+  margin-top: 18px;
+}
+
 /* =========================
    TABLET
 ========================= */
@@ -906,15 +949,6 @@ h2 span {
 
   .hero {
     padding: 55px 28px 75px;
-  }
-
-  .hero-3d {
-    height: 350px;
-  }
-
-  .services-grid,
-  .projects-grid {
-    grid-template-columns: repeat(2, 1fr);
   }
 
   .why-grid {
@@ -963,36 +997,8 @@ h2 span {
     padding: 60px 28px 80px;
   }
 
-  .hero-layout {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 35px;
-  }
-
-  .hero-content {
-    flex: 1;
-    max-width: 610px;
-    text-align: left;
-  }
-
   .hero h1 {
     font-size: clamp(56px, 6.2vw, 86px);
-  }
-
-  .hero-actions {
-    justify-content: flex-start;
-  }
-
-  .hero-trust {
-    justify-content: flex-start;
-  }
-
-  .hero-3d {
-    flex: 0 1 520px;
-    width: 48%;
-    height: 420px;
-    margin-top: 0;
   }
 
   .section-heading {
@@ -1036,14 +1042,10 @@ h2 span {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-
-  .hero-3d {
-    display: none;
-  }
 }
 
 @supports not (backdrop-filter: blur(8px)) {
   .navbar {
     background: var(--bg);
   }
-}
+  }
