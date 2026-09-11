@@ -28,6 +28,10 @@ html, body {
   scroll-behavior: smooth;
 }
 
+body {
+  padding-top: 84px; /* reserves space for the now-fixed header */
+}
+
 h1, h2, h3, .display {
   font-family: 'Oswald', sans-serif;
   text-transform: uppercase;
@@ -48,10 +52,17 @@ button { font-family: inherit; cursor: pointer; }
 }
 
 /* ---------- Header ---------- */
+/* position: fixed (not sticky) on purpose -- a sticky header combined
+   with a sticky WebGL canvas section below it caused a real Android
+   Chrome bug where the canvas painted OVER the header during scroll,
+   making it disappear entirely. Fixed positioning has no such
+   stacking conflict. body gets padding-top below to compensate. */
 .site-header {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 50;
+  left: 0;
+  right: 0;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -111,28 +122,23 @@ button { font-family: inherit; cursor: pointer; }
 /* ---------- Hero (scroll-driven) ---------- */
 .hero-scroll-stage {
   position: relative;
-  height: 200vh;
+  height: 160vh;
 }
 
 .hero {
   position: relative;
-  padding: 60px 24px 40px;
+  padding: 40px 24px;
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
   overflow: hidden;
-  height: 100vh;
+  height: calc(100vh - 84px);
 }
 
-/* IMPORTANT: this combined selector has higher specificity than plain
-   .hero, so it always wins the cascade. Previously .hero-sticky set
-   position:sticky but .hero (declared later, equal specificity) was
-   silently overriding it back to relative -- that's what collapsed the
-   whole 3D section into a giant dead scroll gap. */
 .hero.hero-sticky {
   position: sticky;
-  top: 0;
+  top: 84px;
 }
 
 .hero-canvas-wrap {
@@ -172,7 +178,10 @@ button { font-family: inherit; cursor: pointer; }
 }
 
 @media (max-width: 640px) {
-  .hero-scroll-stage { height: 160vh; }
+  body { padding-top: 74px; }
+  .hero { height: calc(100vh - 74px); }
+  .hero.hero-sticky { top: 74px; }
+  .hero-scroll-stage { height: 130vh; }
 }
 
 .eyebrow {
@@ -463,4 +472,4 @@ textarea.field { min-height: 100px; resize: vertical; }
   align-items: center;
   justify-content: center;
   gap: 8px;
-  }
+}
