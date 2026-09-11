@@ -11,29 +11,141 @@ const INSTAGRAM = "nexforge_studio_";
 const services = [
   {
     num: "01",
+    slug: "website-development",
     title: "Website Development",
     desc: "Premium websites built to look sharp, load fast and turn attention into action.",
+    tagline: "A website that actually earns its place in your business — fast, credible, and built to convert.",
+    problems: [
+      "Visitors leave before the page even loads",
+      "The site looks outdated next to newer competitors",
+      "There's no clear next step for someone ready to buy or enquire",
+      "Updating content means calling a developer every time",
+    ],
+    capabilities: [
+      { title: "Business & agency websites", desc: "Clean, credible sites that make a strong first impression." },
+      { title: "Landing pages", desc: "Focused, conversion-first pages for campaigns and launches." },
+      { title: "E-commerce", desc: "Product catalogues, checkout flows and storefronts built to sell." },
+      { title: "Web applications", desc: "Custom logged-in tools and dashboards, not just static pages." },
+      { title: "Performance & responsive design", desc: "Fast load times and a layout that works on every screen size." },
+    ],
+    process: [
+      { title: "Understand the goal", desc: "We start with what the site needs to achieve, not a template." },
+      { title: "Design with intent", desc: "Every layout decision serves clarity, credibility or conversion." },
+      { title: "Build & optimize", desc: "Clean code, fast performance, mobile-first from day one." },
+      { title: "Launch & support", desc: "We stay involved after launch — updates, fixes, improvements." },
+    ],
+    whyUs: [
+      "Built around your business, not a generic template",
+      "Fast, modern tech that stays easy to maintain",
+      "Direct communication, no agency bureaucracy",
+      "Ongoing support after launch",
+    ],
+    relatedWork: ["beast-algo", "nashik-tours", "scc-portal", "memories-kraft"],
   },
   {
     num: "02",
+    slug: "social-media-management",
     title: "Social Media Management",
     desc: "Consistent, on-brand content and growth tracking designed to scale.",
+    tagline: "Consistent, on-brand social presence that actually grows — without you having to think about it daily.",
     checklist: [
       "Content calendar & strategy",
       "Consistent, on-brand execution",
       "Growth tracking & analytics",
       "Built to scale with your business",
     ],
+    problems: [
+      "Posting is inconsistent or stops for weeks at a time",
+      "Content doesn't look cohesive with the brand",
+      "No clear sense of what's actually driving growth",
+      "No time to plan, shoot, edit and post regularly",
+    ],
+    capabilities: [
+      { title: "Content strategy", desc: "A plan tied to real business goals, not just posting for the sake of it." },
+      { title: "Reels & posts", desc: "On-brand content built for how each platform actually performs." },
+      { title: "Brand consistency", desc: "A visual language that's recognizable across every post." },
+      { title: "Audience growth", desc: "Deliberate tactics to grow reach and engagement over time." },
+      { title: "Analytics & reporting", desc: "Clear monthly insight into what's working and what to change." },
+    ],
+    process: [
+      { title: "Audit & strategy", desc: "We study your audience, brand and goals before posting anything." },
+      { title: "Content calendar", desc: "A planned pipeline of content, not last-minute scrambling." },
+      { title: "Create & publish", desc: "Consistent, on-brand execution across your chosen platforms." },
+      { title: "Track & refine", desc: "Monthly analytics reviewed and used to sharpen the strategy." },
+    ],
+    whyUs: [
+      "Strategy first, content second — never random posting",
+      "On-brand execution every single time",
+      "Transparent growth tracking and reporting",
+      "Scales with your business as you grow",
+    ],
+    relatedWork: ["memories-kraft", "nashik-tours"],
   },
   {
     num: "03",
+    slug: "custom-software",
     title: "Custom Software",
     desc: "Tools and platforms built around how your business actually works.",
+    tagline: "Software built around how your business actually operates — not the other way around.",
+    problems: [
+      "Off-the-shelf tools force you to change how you work",
+      "Manual processes eat up hours every week",
+      "Data lives in scattered spreadsheets, not one system",
+      "Existing tools don't talk to each other",
+    ],
+    capabilities: [
+      { title: "Business-specific systems", desc: "Software modeled around your exact workflow." },
+      { title: "Automation", desc: "Removing repetitive manual work from your team's day." },
+      { title: "Dashboards", desc: "One clear view of the data that matters to you." },
+      { title: "Internal tools", desc: "Purpose-built tools for your team, not generic software." },
+      { title: "Custom web applications", desc: "Full applications, logins, and user roles built from scratch." },
+    ],
+    process: [
+      { title: "Map the workflow", desc: "We learn exactly how the business runs before writing a line of code." },
+      { title: "Design the system", desc: "Architecture and interface planned around real usage." },
+      { title: "Build & test", desc: "Iterative development with regular check-ins, not a black box." },
+      { title: "Deploy & train", desc: "We launch it and make sure your team is confident using it." },
+    ],
+    whyUs: [
+      "Built around your actual workflow, not a rigid template",
+      "Direct access to the people building your system",
+      "Scales as your business and data grow",
+      "Ongoing support once it's live",
+    ],
+    relatedWork: ["scc-portal", "beast-algo"],
   },
   {
     num: "04",
+    slug: "branding-creative",
     title: "Branding & Creative",
     desc: "Identity, visuals and messaging that make your business memorable.",
+    tagline: "A visual identity that makes your business instantly recognizable — and worth remembering.",
+    problems: [
+      "The brand looks different everywhere it appears",
+      "There's no real visual identity, just a logo",
+      "Marketing materials feel thrown together",
+      "Nothing about the brand feels distinct from competitors",
+    ],
+    capabilities: [
+      { title: "Brand identity", desc: "A complete visual system, not just a logo file." },
+      { title: "Visual direction", desc: "Color, typography and imagery that feels intentional." },
+      { title: "Social creatives", desc: "Templates and assets built to keep every post on-brand." },
+      { title: "Logo & branding systems", desc: "A mark and guidelines that scale across every use case." },
+      { title: "Campaign creatives", desc: "Visual assets built for specific launches and promotions." },
+    ],
+    process: [
+      { title: "Discover", desc: "Understanding the business, audience and what should feel different." },
+      { title: "Direction", desc: "Exploring visual concepts until one truly fits the brand." },
+      { title: "Build the system", desc: "Logo, colors, type and guidelines built to scale." },
+      { title: "Roll out", desc: "Applying the identity across the real touchpoints your brand needs." },
+    ],
+    whyUs: [
+      "A real visual system, not just a logo",
+      "Identity built to stay consistent everywhere it's used",
+      "Designed to differentiate, not follow trends blindly",
+      "Guidelines that make future design work easy",
+    ],
+    relatedWork: ["memories-kraft"],
   },
 ];
 
@@ -170,14 +282,18 @@ function Home({ onNavigate }) {
         </div>
         <div className="scroll-row">
           {services.map((s) => (
-            <div className="service-card" key={s.num}>
+            <button
+              key={s.num}
+              className="service-card"
+              onClick={() => onNavigate(`/services/${s.slug}`)}
+            >
               <div>
                 <div className="num">{s.num}</div>
                 <h3>{s.title}</h3>
                 <p>{s.desc}</p>
               </div>
               <div className="arrow">↗</div>
-            </div>
+            </button>
           ))}
         </div>
       </section>
@@ -319,7 +435,10 @@ function Home({ onNavigate }) {
 }
 
 function StartProject() {
-  const [openIndex, setOpenIndex] = useState(1);
+  const params = new URLSearchParams(window.location.search);
+  const preselectSlug = params.get("service");
+  const preselectIndex = services.findIndex((s) => s.slug === preselectSlug);
+  const [openIndex, setOpenIndex] = useState(preselectIndex >= 0 ? preselectIndex : 0);
   const [form, setForm] = useState({ name: "", contact: "", project: "" });
 
   const handleChange = (field) => (e) =>
@@ -412,6 +531,178 @@ function StartProject() {
   );
 }
 
+function ServiceDetail({ slug, onNavigate }) {
+  const service = services.find((s) => s.slug === slug);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
+
+  if (!service) {
+    return (
+      <section className="service-hero">
+        <button className="back-link" onClick={() => onNavigate("/")}>
+          ← Back to NexForge
+        </button>
+        <h1>Service not found.</h1>
+        <p className="lead">That service doesn't exist. Head back to explore what we offer.</p>
+      </section>
+    );
+  }
+
+  const relatedWorkItems = work.filter((w) =>
+    service.relatedWork?.includes(w.img.split("/").pop().replace(".jpg", ""))
+  );
+
+  return (
+    <>
+      <section className="service-hero">
+        <button
+          className="back-link"
+          onClick={() => onNavigate("/")}
+        >
+          ← Back to What We Do
+        </button>
+        <div className="eyebrow">Service / {service.num}</div>
+        <h1>
+          {service.title.split(" ").slice(0, -1).join(" ")}
+          <br />
+          <span className="accent">{service.title.split(" ").slice(-1)}</span>
+        </h1>
+        <p className="lead">{service.tagline}</p>
+        <div className="hero-actions" style={{ justifyContent: "flex-start" }}>
+          <a
+            href={`/start-project?service=${service.slug}`}
+            className="pill-btn primary"
+            onClick={(e) => { e.preventDefault(); onNavigate(`/start-project?service=${service.slug}`); }}
+          >
+            Start a Project ↗
+          </a>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container">
+          <div className="section-eyebrow">The Problem</div>
+          <h2>
+            What This
+            <br />
+            <span className="accent">Solves.</span>
+          </h2>
+          <div className="check-list">
+            {service.problems.map((p) => (
+              <div className="check-item" key={p}>
+                ✓ {p}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container">
+          <div className="section-eyebrow">What We Build</div>
+          <h2>
+            Capabilities
+            <br />
+            <span className="accent">& Features.</span>
+          </h2>
+          <div className="service-grid">
+            {service.capabilities.map((c) => (
+              <div className="service-tile" key={c.title}>
+                <h3>{c.title}</h3>
+                <p>{c.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container">
+          <div className="section-eyebrow">Our Approach</div>
+          <h2>
+            How We
+            <br />
+            <span className="accent">Work.</span>
+          </h2>
+          {service.process.map((step, i) => (
+            <div className="why-item" key={step.title}>
+              <div className="num">{String(i + 1).padStart(2, "0")}</div>
+              <h3>{step.title}</h3>
+              <p>{step.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {relatedWorkItems.length > 0 && (
+        <section className="section" id="work">
+          <div className="container">
+            <div className="section-eyebrow">Relevant Work</div>
+            <h2>
+              See It
+              <br />
+              <span className="accent">In Action.</span>
+            </h2>
+          </div>
+          <div className="scroll-row">
+            {relatedWorkItems.map((w) => (
+              <a
+                className="work-card"
+                key={w.num}
+                href={w.link}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img src={w.img} alt={w.title} />
+                <div className="work-card-body">
+                  <span className="num">{w.num}</span>
+                  <div className="tag">{w.tag}</div>
+                  <h3>{w.title}</h3>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section className="section">
+        <div className="container">
+          <div className="section-eyebrow">Why NexForge</div>
+          <h2>
+            Why Choose
+            <br />
+            <span className="accent">Us.</span>
+          </h2>
+          <div className="check-list">
+            {service.whyUs.map((w) => (
+              <div className="check-item" key={w}>
+                ✓ {w}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="contact-cta">
+        <h2>
+          Ready To
+          <br />
+          <span className="accent">Get Started?</span>
+        </h2>
+        <a
+          href={`/start-project?service=${service.slug}`}
+          className="pill-btn primary"
+          onClick={(e) => { e.preventDefault(); onNavigate(`/start-project?service=${service.slug}`); }}
+        >
+          Start a Project ↗
+        </a>
+      </div>
+    </>
+  );
+}
+
 export default function App() {
   const [path, setPath] = useState(window.location.pathname);
 
@@ -427,11 +718,15 @@ export default function App() {
     window.scrollTo(0, 0);
   };
 
+  const serviceSlugMatch = path.match(/^\/services\/([a-z0-9-]+)/);
+
   return (
     <>
       <AmbientField />
       <Header onNavigate={navigate} />
-      {path === "/start-project" ? (
+      {serviceSlugMatch ? (
+        <ServiceDetail slug={serviceSlugMatch[1]} onNavigate={navigate} />
+      ) : path.startsWith("/start-project") ? (
         <StartProject />
       ) : (
         <Home onNavigate={navigate} />
@@ -439,4 +734,4 @@ export default function App() {
       <Footer onNavigate={navigate} />
     </>
   );
-      }
+       }
