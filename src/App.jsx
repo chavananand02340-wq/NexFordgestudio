@@ -10,7 +10,7 @@ import {
   X,
 } from "lucide-react";
 
-import Hero3D from "./components/Hero3D";
+import Hero3D from "./Hero3D";
 
 const WHATSAPP_NUMBER = "919405370657";
 const EMAIL = "nexforgestudio22@gmail.com";
