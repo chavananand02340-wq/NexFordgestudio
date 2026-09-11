@@ -52,11 +52,6 @@ button { font-family: inherit; cursor: pointer; }
 }
 
 /* ---------- Header ---------- */
-/* position: fixed (not sticky) on purpose -- a sticky header combined
-   with a sticky WebGL canvas section below it caused a real Android
-   Chrome bug where the canvas painted OVER the header during scroll,
-   making it disappear entirely. Fixed positioning has no such
-   stacking conflict. body gets padding-top below to compensate. */
 .site-header {
   position: fixed;
   top: 0;
@@ -132,9 +127,6 @@ button { font-family: inherit; cursor: pointer; }
 }
 
 /* ---------- Hero ---------- */
-/* Simple, robust in-flow section -- no scroll-pin, no sticky, no
-   scroll-linked camera math. The object is a constant premium
-   centerpiece; a scrim keeps the headline readable over it. */
 .hero {
   position: relative;
   padding: 40px 24px;
@@ -318,7 +310,9 @@ button { font-family: inherit; cursor: pointer; }
   flex-direction: column;
   justify-content: space-between;
   min-height: 220px;
+  text-align: left;
 }
+.service-card:active { border-color: var(--accent); }
 .service-card .num {
   color: var(--text-dim);
   font-family: 'Oswald', sans-serif;
@@ -440,6 +434,41 @@ button { font-family: inherit; cursor: pointer; }
 .start-hero h1 { font-size: clamp(2.2rem, 9vw, 3.6rem); margin: 16px 0; }
 .start-hero p.lead { color: var(--text-dim); max-width: 520px; }
 
+/* ---------- Service detail page ---------- */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin-bottom: 28px;
+}
+.service-hero { padding: 60px 24px 20px; }
+.service-hero h1 { font-size: clamp(2.2rem, 9vw, 3.6rem); margin: 16px 0; }
+.service-hero p.lead { color: var(--text-dim); max-width: 560px; font-size: 1.05rem; line-height: 1.6; }
+.service-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.service-tile {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--card);
+  padding: 22px 24px;
+}
+.service-tile h3 {
+  font-family: 'Oswald', sans-serif;
+  text-transform: none;
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+.service-tile p { color: var(--text-dim); line-height: 1.6; font-size: 0.95rem; }
+
 .option-list {
   display: flex;
   flex-direction: column;
@@ -524,4 +553,4 @@ textarea.field { min-height: 100px; resize: vertical; }
   align-items: center;
   justify-content: center;
   gap: 8px;
-  }
+              }
