@@ -4,6 +4,7 @@ import HeroBoundary from "./HeroBoundary";
 import HeroScene from "./HeroScene";
 import AmbientField from "./AmbientField";
 import WorkVisual from "./WorkVisual";
+import Reveal from "./Reveal";
 
 const WHATSAPP_NUMBER = "919405370657";
 const EMAIL = "nexforgestudio22@gmail.com";
@@ -270,22 +271,24 @@ function Home({ onNavigate }) {
 
       <section className="section" id="services">
         <div className="container">
-          <div className="section-eyebrow">01 / What We Do</div>
-          <h2>
+          <Reveal className="section-eyebrow">01 / What We Do</Reveal>
+          <Reveal as="h2" delay={60}>
             Built For
             <br />
             <span className="accent">Forward.</span>
-          </h2>
-          <p className="lead">
+          </Reveal>
+          <Reveal as="p" className="lead" delay={120}>
             From the first idea to the final pixel, we create digital
             experiences that make businesses look and work better.
-          </p>
+          </Reveal>
         </div>
         <div className="scroll-row">
-          {services.map((s) => (
-            <button
+          {services.map((s, i) => (
+            <Reveal
+              as="button"
               key={s.num}
               className="service-card"
+              delay={i * 80}
               onClick={() => onNavigate(`/services/${s.slug}`)}
             >
               <div>
@@ -294,7 +297,7 @@ function Home({ onNavigate }) {
                 <p>{s.desc}</p>
               </div>
               <div className="arrow">↗</div>
-            </button>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -304,16 +307,16 @@ function Home({ onNavigate }) {
           <div className="work-visual-wrap">
             <WorkVisual />
           </div>
-          <div className="section-eyebrow">02 / Selected Work</div>
-          <h2>
+          <Reveal className="section-eyebrow">02 / Selected Work</Reveal>
+          <Reveal as="h2" delay={60}>
             Work That
             <br />
             <span className="accent">Moves.</span>
-          </h2>
-          <p className="lead">
+          </Reveal>
+          <Reveal as="p" className="lead" delay={120}>
             A selection of digital experiences we've designed and built for
             ambitious ideas and growing businesses.
-          </p>
+          </Reveal>
         </div>
         <div className="scroll-row">
           {work.map((w) => (
@@ -340,13 +343,13 @@ function Home({ onNavigate }) {
 
       <section className="section" id="about">
         <div className="container">
-          <div className="section-eyebrow">03 / About NexForge</div>
-          <h2>
+          <Reveal className="section-eyebrow">03 / About NexForge</Reveal>
+          <Reveal as="h2" delay={60}>
             Not Just
             <br />
             <span className="accent">A Website.</span>
-          </h2>
-          <p className="lead">
+          </Reveal>
+          <Reveal as="p" className="lead" delay={140}>
             NexForge Studio is a digital studio focused on building brands,
             websites and software that feel as good as they perform.
             <br />
@@ -354,86 +357,94 @@ function Home({ onNavigate }) {
             We combine strategy, design and technology to turn ideas into
             digital experiences people remember — without unnecessary
             complexity.
-          </p>
-          <a
-            href="/start-project"
-            className="pill-btn outline"
-            onClick={(e) => { e.preventDefault(); onNavigate("/start-project"); }}
-          >
-            Start something with us →
-          </a>
+          </Reveal>
+          <Reveal delay={220}>
+            <a
+              href="/start-project"
+              className="pill-btn outline"
+              onClick={(e) => { e.preventDefault(); onNavigate("/start-project"); }}
+            >
+              Start something with us →
+            </a>
+          </Reveal>
         </div>
       </section>
 
       <section className="section" id="why">
         <div className="container">
-          <div className="section-eyebrow">04 / Why NexForge</div>
-          <h2>
+          <Reveal className="section-eyebrow">04 / Why NexForge</Reveal>
+          <Reveal as="h2" delay={60}>
             Why We
             <br />
             <span className="accent">Build.</span>
-          </h2>
-          <p className="lead">
+          </Reveal>
+          <Reveal as="p" className="lead" delay={120}>
             Good digital work isn't about adding more. It's about making the
             right things better.
-          </p>
-          {whyPoints.map((w) => (
-            <div className="why-item" key={w.num}>
+          </Reveal>
+          {whyPoints.map((w, i) => (
+            <Reveal as="div" className="why-item" key={w.num} delay={i * 90}>
               <div className="num">{w.num}</div>
               <h3>{w.title}</h3>
               <p>{w.desc}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>
 
       <div className="contact-cta">
-        <h2>
+        <Reveal as="h2" className="contact-cta-heading">
           Have An Idea?
           <br />
           <span className="accent">Let's Build It.</span>
-        </h2>
-        <a
-          href="/start-project"
-          className="pill-btn primary"
-          onClick={(e) => { e.preventDefault(); onNavigate("/start-project"); }}
-        >
-          Start a Project ↗
-        </a>
+        </Reveal>
+        <Reveal delay={100}>
+          <a
+            href="/start-project"
+            className="pill-btn primary"
+            onClick={(e) => { e.preventDefault(); onNavigate("/start-project"); }}
+          >
+            Start a Project ↗
+          </a>
+        </Reveal>
       </div>
 
       <section className="section" id="contact">
         <div className="container">
-          <div className="section-eyebrow">05 / Contact</div>
-          <h2>
+          <Reveal className="section-eyebrow">05 / Contact</Reveal>
+          <Reveal as="h2" delay={60}>
             Let's Make
             <br />
             <span className="accent">Something Good.</span>
-          </h2>
-          <p className="lead">
+          </Reveal>
+          <Reveal as="p" className="lead" delay={120}>
             Have a project, idea or business that needs a stronger digital
             presence? Tell us what you're building.
-          </p>
+          </Reveal>
           <div className="contact-links">
-            <a
+            <Reveal
+              as="a"
               className="contact-link whatsapp"
+              delay={0}
               href={`https://wa.me/${WHATSAPP_NUMBER}`}
               target="_blank"
               rel="noreferrer"
             >
               💬 WhatsApp
-            </a>
-            <a className="contact-link email" href={`mailto:${EMAIL}`}>
+            </Reveal>
+            <Reveal as="a" className="contact-link email" delay={70} href={`mailto:${EMAIL}`}>
               ✉️ Email
-            </a>
-            <a
+            </Reveal>
+            <Reveal
+              as="a"
               className="contact-link instagram"
+              delay={140}
               href={`https://instagram.com/${INSTAGRAM}`}
               target="_blank"
               rel="noreferrer"
             >
               📷 Instagram
-            </a>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -458,31 +469,31 @@ function StartProject() {
 
   return (
     <section className="start-hero">
-      <div className="eyebrow">Start A Project</div>
-      <h1>
+      <Reveal className="eyebrow">Start A Project</Reveal>
+      <Reveal as="h1" delay={60}>
         Let's Build
         <br />
         <span className="accent">What's Next.</span>
-      </h1>
-      <p className="lead">
+      </Reveal>
+      <Reveal as="p" className="lead" delay={140}>
         Pick what you need — we'll show you exactly how we can help.
-      </p>
+      </Reveal>
 
       <div className="option-list">
         {services.map((s, i) => {
           const isOpen = openIndex === i;
           return (
-            <div className="option-card" key={s.num}>
+            <Reveal as="div" className="option-card" key={s.num} delay={i * 70}>
               <button
                 className="option-header"
                 onClick={() => setOpenIndex(isOpen ? -1 : i)}
               >
                 <span className="num">{s.num}</span>
                 <h3>{s.title}</h3>
-                <span className="chev">{isOpen ? "↓" : "↗"}</span>
+                <span className={`chev ${isOpen ? "chev-open" : ""}`}>↗</span>
               </button>
               {isOpen && (
-                <div className="option-body">
+                <div className="option-body option-body-anim">
                   {s.checklist && (
                     <div className="check-list">
                       {s.checklist.map((c) => (
@@ -530,7 +541,7 @@ function StartProject() {
                   </button>
                 </div>
               )}
-            </div>
+            </Reveal>
           );
         })}
       </div>
@@ -570,14 +581,14 @@ function ServiceDetail({ slug, onNavigate }) {
         >
           ← Back to What We Do
         </button>
-        <div className="eyebrow">Service / {service.num}</div>
-        <h1>
+        <Reveal className="eyebrow">Service / {service.num}</Reveal>
+        <Reveal as="h1" delay={60}>
           {service.title.split(" ").slice(0, -1).join(" ")}
           <br />
           <span className="accent">{service.title.split(" ").slice(-1)}</span>
-        </h1>
-        <p className="lead">{service.tagline}</p>
-        <div className="hero-actions" style={{ justifyContent: "flex-start" }}>
+        </Reveal>
+        <Reveal as="p" className="lead" delay={140}>{service.tagline}</Reveal>
+        <Reveal delay={220} className="hero-actions" style={{ justifyContent: "flex-start" }}>
           <a
             href={`/start-project?service=${service.slug}`}
             className="pill-btn primary"
@@ -585,22 +596,22 @@ function ServiceDetail({ slug, onNavigate }) {
           >
             Start a Project ↗
           </a>
-        </div>
+        </Reveal>
       </section>
 
       <section className="section">
         <div className="container">
-          <div className="section-eyebrow">The Problem</div>
-          <h2>
+          <Reveal className="section-eyebrow">The Problem</Reveal>
+          <Reveal as="h2" delay={60}>
             What This
             <br />
             <span className="accent">Solves.</span>
-          </h2>
+          </Reveal>
           <div className="check-list">
-            {service.problems.map((p) => (
-              <div className="check-item" key={p}>
+            {service.problems.map((p, i) => (
+              <Reveal as="div" className="check-item" key={p} delay={i * 60}>
                 ✓ {p}
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -608,18 +619,18 @@ function ServiceDetail({ slug, onNavigate }) {
 
       <section className="section">
         <div className="container">
-          <div className="section-eyebrow">What We Build</div>
-          <h2>
+          <Reveal className="section-eyebrow">What We Build</Reveal>
+          <Reveal as="h2" delay={60}>
             Capabilities
             <br />
             <span className="accent">& Features.</span>
-          </h2>
+          </Reveal>
           <div className="service-grid">
-            {service.capabilities.map((c) => (
-              <div className="service-tile" key={c.title}>
+            {service.capabilities.map((c, i) => (
+              <Reveal as="div" className="service-tile" key={c.title} delay={i * 70}>
                 <h3>{c.title}</h3>
                 <p>{c.desc}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -627,18 +638,18 @@ function ServiceDetail({ slug, onNavigate }) {
 
       <section className="section">
         <div className="container">
-          <div className="section-eyebrow">Our Approach</div>
-          <h2>
+          <Reveal className="section-eyebrow">Our Approach</Reveal>
+          <Reveal as="h2" delay={60}>
             How We
             <br />
             <span className="accent">Work.</span>
-          </h2>
+          </Reveal>
           {service.process.map((step, i) => (
-            <div className="why-item" key={step.title}>
+            <Reveal as="div" className="why-item" key={step.title} delay={i * 80}>
               <div className="num">{String(i + 1).padStart(2, "0")}</div>
               <h3>{step.title}</h3>
               <p>{step.desc}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -646,12 +657,12 @@ function ServiceDetail({ slug, onNavigate }) {
       {relatedWorkItems.length > 0 && (
         <section className="section" id="work">
           <div className="container">
-            <div className="section-eyebrow">Relevant Work</div>
-            <h2>
+            <Reveal className="section-eyebrow">Relevant Work</Reveal>
+            <Reveal as="h2" delay={60}>
               See It
               <br />
               <span className="accent">In Action.</span>
-            </h2>
+            </Reveal>
           </div>
           <div className="scroll-row">
             {relatedWorkItems.map((w) => (
@@ -679,35 +690,37 @@ function ServiceDetail({ slug, onNavigate }) {
 
       <section className="section">
         <div className="container">
-          <div className="section-eyebrow">Why NexForge</div>
-          <h2>
+          <Reveal className="section-eyebrow">Why NexForge</Reveal>
+          <Reveal as="h2" delay={60}>
             Why Choose
             <br />
             <span className="accent">Us.</span>
-          </h2>
+          </Reveal>
           <div className="check-list">
-            {service.whyUs.map((w) => (
-              <div className="check-item" key={w}>
+            {service.whyUs.map((w, i) => (
+              <Reveal as="div" className="check-item" key={w} delay={i * 60}>
                 ✓ {w}
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       <div className="contact-cta">
-        <h2>
+        <Reveal as="h2" className="contact-cta-heading">
           Ready To
           <br />
           <span className="accent">Get Started?</span>
-        </h2>
-        <a
-          href={`/start-project?service=${service.slug}`}
-          className="pill-btn primary"
-          onClick={(e) => { e.preventDefault(); onNavigate(`/start-project?service=${service.slug}`); }}
-        >
-          Start a Project ↗
-        </a>
+        </Reveal>
+        <Reveal delay={100}>
+          <a
+            href={`/start-project?service=${service.slug}`}
+            className="pill-btn primary"
+            onClick={(e) => { e.preventDefault(); onNavigate(`/start-project?service=${service.slug}`); }}
+          >
+            Start a Project ↗
+          </a>
+        </Reveal>
       </div>
     </>
   );
@@ -735,7 +748,7 @@ export default function App() {
       <AmbientField />
       <Header onNavigate={navigate} />
       {serviceSlugMatch ? (
-        <ServiceDetail slug={serviceSlugMatch[1]} onNavigate={navigate} />
+        <ServiceDetail key={serviceSlugMatch[1]} slug={serviceSlugMatch[1]} onNavigate={navigate} />
       ) : path.startsWith("/start-project") ? (
         <StartProject />
       ) : (
@@ -744,4 +757,4 @@ export default function App() {
       <Footer onNavigate={navigate} />
     </>
   );
-  }
+                  }
