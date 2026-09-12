@@ -4,6 +4,7 @@ import HeroBoundary from "./HeroBoundary";
 import HeroScene from "./HeroScene";
 import AmbientField from "./AmbientField";
 import WorkVisual from "./WorkVisual";
+import SectionVisual from "./SectionVisual";
 import Reveal from "./Reveal";
 
 const WHATSAPP_NUMBER = "919405370657";
@@ -14,6 +15,10 @@ const services = [
   {
     num: "01",
     slug: "website-development",
+    visualShape: "cone",
+    visualColor: "#101014",
+    visualRim: "#3b82f6",
+    visualRim2: "#ff6a3d",
     title: "Website Development",
     desc: "Premium websites built to look sharp, load fast and turn attention into action.",
     tagline: "A website that actually earns its place in your business — fast, credible, and built to convert.",
@@ -47,6 +52,10 @@ const services = [
   {
     num: "02",
     slug: "social-media-management",
+    visualShape: "torus",
+    visualColor: "#14101a",
+    visualRim: "#e1306c",
+    visualRim2: "#7c3aed",
     title: "Social Media Management",
     desc: "Consistent, on-brand content and growth tracking designed to scale.",
     tagline: "Consistent, on-brand social presence that actually grows — without you having to think about it daily.",
@@ -86,6 +95,10 @@ const services = [
   {
     num: "03",
     slug: "custom-software",
+    visualShape: "cylinder",
+    visualColor: "#0f1016",
+    visualRim: "#3b82f6",
+    visualRim2: "#7c3aed",
     title: "Custom Software",
     desc: "Tools and platforms built around how your business actually works.",
     tagline: "Software built around how your business actually operates — not the other way around.",
@@ -119,6 +132,10 @@ const services = [
   {
     num: "04",
     slug: "branding-creative",
+    visualShape: "capsule",
+    visualColor: "#150f14",
+    visualRim: "#ff6a3d",
+    visualRim2: "#e1306c",
     title: "Branding & Creative",
     desc: "Identity, visuals and messaging that make your business memorable.",
     tagline: "A visual identity that makes your business instantly recognizable — and worth remembering.",
@@ -270,6 +287,9 @@ function Home({ onNavigate }) {
       </section>
 
       <section className="section" id="services">
+        <div className="section-visual-wrap">
+          <SectionVisual shape="octahedron" color="#12121a" rimColor="#7c3aed" rimColor2="#3b82f6" />
+        </div>
         <div className="container">
           <Reveal className="section-eyebrow">01 / What We Do</Reveal>
           <Reveal as="h2" delay={60}>
@@ -342,6 +362,9 @@ function Home({ onNavigate }) {
       </section>
 
       <section className="section" id="about">
+        <div className="section-visual-wrap">
+          <SectionVisual shape="dodecahedron" color="#101014" rimColor="#3b82f6" rimColor2="#7c3aed" />
+        </div>
         <div className="container">
           <Reveal className="section-eyebrow">03 / About NexForge</Reveal>
           <Reveal as="h2" delay={60}>
@@ -371,6 +394,9 @@ function Home({ onNavigate }) {
       </section>
 
       <section className="section" id="why">
+        <div className="section-visual-wrap">
+          <SectionVisual shape="tetrahedron" color="#14100d" rimColor="#ff6a3d" rimColor2="#3b82f6" />
+        </div>
         <div className="container">
           <Reveal className="section-eyebrow">04 / Why NexForge</Reveal>
           <Reveal as="h2" delay={60}>
@@ -410,6 +436,9 @@ function Home({ onNavigate }) {
       </div>
 
       <section className="section" id="contact">
+        <div className="section-visual-wrap">
+          <SectionVisual shape="sphere" color="#7c3aed" rimColor="#ff6a3d" rimColor2="#3b82f6" glow />
+        </div>
         <div className="container">
           <Reveal className="section-eyebrow">05 / Contact</Reveal>
           <Reveal as="h2" delay={60}>
@@ -469,6 +498,9 @@ function StartProject() {
 
   return (
     <section className="start-hero">
+      <div className="section-visual-wrap">
+        <SectionVisual shape="box" color="#101014" rimColor="#3b82f6" rimColor2="#ff6a3d" />
+      </div>
       <Reveal className="eyebrow">Start A Project</Reveal>
       <Reveal as="h1" delay={60}>
         Let's Build
@@ -575,6 +607,14 @@ function ServiceDetail({ slug, onNavigate }) {
   return (
     <>
       <section className="service-hero">
+        <div className="section-visual-wrap">
+          <SectionVisual
+            shape={service.visualShape}
+            color={service.visualColor}
+            rimColor={service.visualRim}
+            rimColor2={service.visualRim2}
+          />
+        </div>
         <button
           className="back-link"
           onClick={() => onNavigate("/")}
@@ -757,4 +797,4 @@ export default function App() {
       <Footer onNavigate={navigate} />
     </>
   );
-                  }
+        }
