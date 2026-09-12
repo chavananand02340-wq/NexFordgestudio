@@ -3,6 +3,7 @@ import "./index.css";
 import HeroBoundary from "./HeroBoundary";
 import HeroScene from "./HeroScene";
 import AmbientField from "./AmbientField";
+import WorkVisual from "./WorkVisual";
 
 const WHATSAPP_NUMBER = "919405370657";
 const EMAIL = "nexforgestudio22@gmail.com";
@@ -300,6 +301,9 @@ function Home({ onNavigate }) {
 
       <section className="section" id="work">
         <div className="container">
+          <div className="work-visual-wrap">
+            <WorkVisual />
+          </div>
           <div className="section-eyebrow">02 / Selected Work</div>
           <h2>
             Work That
@@ -320,7 +324,10 @@ function Home({ onNavigate }) {
               target="_blank"
               rel="noreferrer"
             >
-              <img src={w.img} alt={w.title} />
+              <div className="work-card-img">
+                <img src={w.img} alt={w.title} />
+                <span className="work-card-view">View Project ↗</span>
+              </div>
               <div className="work-card-body">
                 <span className="num">{w.num}</span>
                 <div className="tag">{w.tag}</div>
@@ -655,7 +662,10 @@ function ServiceDetail({ slug, onNavigate }) {
                 target="_blank"
                 rel="noreferrer"
               >
-                <img src={w.img} alt={w.title} />
+                <div className="work-card-img">
+                  <img src={w.img} alt={w.title} />
+                  <span className="work-card-view">View Project ↗</span>
+                </div>
                 <div className="work-card-body">
                   <span className="num">{w.num}</span>
                   <div className="tag">{w.tag}</div>
@@ -734,4 +744,4 @@ export default function App() {
       <Footer onNavigate={navigate} />
     </>
   );
-       }
+  }
