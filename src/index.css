@@ -374,6 +374,23 @@ a, button {
   .work-visual-wrap { width: 108px; height: 108px; top: -6px; opacity: 0.75; }
 }
 
+/* ---------- Generic per-section 3D accent (distinct shape per section) ---------- */
+.section-visual-wrap {
+  position: absolute;
+  top: -8px;
+  right: 0;
+  width: 130px;
+  height: 130px;
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 0;
+}
+.section-visual { width: 100%; height: 100%; }
+.section-visual canvas { width: 100% !important; height: 100% !important; }
+@media (max-width: 640px) {
+  .section-visual-wrap { width: 92px; height: 92px; top: -2px; opacity: 0.65; }
+}
+
 /* ---------- Work cards ---------- */
 .work-card {
   min-width: 86vw;
@@ -501,7 +518,7 @@ a, button {
 .site-footer .logo { display: block; margin-bottom: 10px; }
 
 /* ---------- Start Project page ---------- */
-.start-hero { padding: 60px 24px 30px; }
+.start-hero { position: relative; padding: 60px 24px 30px; }
 .start-hero h1 { font-size: clamp(2.2rem, 9vw, 3.6rem); margin: 16px 0; }
 .start-hero p.lead { color: var(--text-dim); max-width: 520px; }
 
@@ -517,7 +534,7 @@ a, button {
   padding: 0;
   margin-bottom: 28px;
 }
-.service-hero { padding: 60px 24px 20px; }
+.service-hero { position: relative; padding: 60px 24px 20px; }
 .service-hero h1 { font-size: clamp(2.2rem, 9vw, 3.6rem); margin: 16px 0; }
 .service-hero p.lead { color: var(--text-dim); max-width: 560px; font-size: 1.05rem; line-height: 1.6; }
 .service-grid {
