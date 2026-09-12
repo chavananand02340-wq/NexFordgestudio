@@ -29,7 +29,7 @@ html, body {
 }
 
 body {
-  padding-top: 84px; /* reserves space for the now-fixed header */
+  padding-top: 84px;
 }
 
 h1, h2, h3, .display {
@@ -42,6 +42,9 @@ h1, h2, h3, .display {
 
 a { color: inherit; text-decoration: none; }
 button { font-family: inherit; cursor: pointer; }
+a, button {
+  -webkit-tap-highlight-color: transparent;
+}
 
 .accent { color: var(--accent); }
 
@@ -311,6 +314,8 @@ button { font-family: inherit; cursor: pointer; }
   justify-content: space-between;
   min-height: 220px;
   text-align: left;
+  color: var(--text);
+  transition: border-color 0.15s ease;
 }
 .service-card:active { border-color: var(--accent); }
 .service-card .num {
@@ -319,6 +324,7 @@ button { font-family: inherit; cursor: pointer; }
   font-size: 0.9rem;
 }
 .service-card h3 {
+  color: var(--text);
   font-family: 'Oswald', sans-serif;
   text-transform: none;
   font-weight: 600;
@@ -497,6 +503,7 @@ button { font-family: inherit; cursor: pointer; }
 .option-header h3 {
   flex: 1;
   text-align: left;
+  color: var(--text);
   font-family: 'Oswald', sans-serif;
   text-transform: none;
   font-weight: 600;
@@ -553,4 +560,4 @@ textarea.field { min-height: 100px; resize: vertical; }
   align-items: center;
   justify-content: center;
   gap: 8px;
-              }
+  }
