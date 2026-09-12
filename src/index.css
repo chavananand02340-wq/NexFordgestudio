@@ -46,6 +46,28 @@ a, button {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* ---------- Shared scroll-reveal motion system ---------- */
+/* One consistent entrance animation used across every section, instead
+   of each section inventing its own. Respects reduced-motion. */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 .accent { color: var(--accent); }
 
 .container {
@@ -315,7 +337,8 @@ a, button {
   min-height: 220px;
   text-align: left;
   color: var(--text);
-  transition: border-color 0.15s ease;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.15s ease;
 }
 .service-card:active { border-color: var(--accent); }
 .service-card .num {
@@ -559,11 +582,24 @@ a, button {
   font-weight: 600;
   font-size: 1.2rem;
 }
-.option-header .chev { color: var(--accent); font-size: 1.2rem; }
+.option-header .chev {
+  color: var(--accent);
+  font-size: 1.2rem;
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+.option-header .chev-open { transform: rotate(90deg); }
 
 .option-body {
   border-top: 1px solid var(--border);
   padding: 22px 24px 28px;
+}
+.option-body-anim {
+  animation: optionOpen 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes optionOpen {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 .check-list { margin-bottom: 20px; }
 .check-item {
@@ -610,4 +646,4 @@ textarea.field { min-height: 100px; resize: vertical; }
   align-items: center;
   justify-content: center;
   gap: 8px;
-    }
+                                            }
