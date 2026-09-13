@@ -1,6 +1,7 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment, Float } from "@react-three/drei";
+import HeroBoundary from "./HeroBoundary";
 
 // One shared, cheap Canvas setup that can render any primitive shape.
 // Keeps every section visually distinct (no repeated "same box everywhere"
@@ -85,22 +86,50 @@ export default function SectionVisual({
   size = 0.95,
   glow = false,
 }) {
+  const wrapRef = useRef(null);
+  const [shouldMount, setShouldMount] = useState(false);
+
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    // Don't create a WebGL context until this accent is actually about to
+    // scroll into view. Mobile browsers cap how many simultaneous WebGL
+    // contexts can exist; mounting every section's canvas at once (Hero +
+    // Ambient + Work + 4x Section accents = 7 on the home page alone) can
+    // blow past that limit and crash the whole app.
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldMount(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "300px 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="section-visual-wrap" aria-hidden="true">
-      <div className="section-visual">
-        <Canvas
-          dpr={[1, 1.5]}
-          gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-          camera={{ position: [0, 0, 4.2], fov: 40 }}
-        >
-          <ambientLight intensity={0.28} />
-          <pointLight position={[-3, 2, 3]} intensity={60} color={rimColor} />
-          <pointLight position={[3, -1, -2]} intensity={55} color={rimColor2} />
-          <pointLight position={[0, 1.5, 4]} intensity={22} color="#ffffff" />
-          <Shape shape={shape} size={size} color={color} glow={glow} />
-          <Environment preset="night" />
-        </Canvas>
-      </div>
+    <div className="section-visual-wrap" aria-hidden="true" ref={wrapRef}>
+      {shouldMount && (
+        <div className="section-visual">
+          <HeroBoundary>
+            <Canvas
+              dpr={[1, 1.5]}
+              gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+              camera={{ position: [0, 0, 4.2], fov: 40 }}
+            >
+              <ambientLight intensity={0.28} />
+              <pointLight position={[-3, 2, 3]} intensity={60} color={rimColor} />
+              <pointLight position={[3, -1, -2]} intensity={55} color={rimColor2} />
+              <pointLight position={[0, 1.5, 4]} intensity={22} color="#ffffff" />
+              <Shape shape={shape} size={size} color={color} glow={glow} />
+              <Environment preset="night" />
+            </Canvas>
+          </HeroBoundary>
+        </div>
+      )}
     </div>
   );
 }
