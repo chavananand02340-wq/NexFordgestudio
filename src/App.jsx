@@ -1,800 +1,658 @@
-import { useState, useEffect } from "react";
-import "./index.css";
-import HeroBoundary from "./HeroBoundary";
-import HeroScene from "./HeroScene";
-import AmbientField from "./AmbientField";
-import WorkVisual from "./WorkVisual";
-import SectionVisual from "./SectionVisual";
-import Reveal from "./Reveal";
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
 
-const WHATSAPP_NUMBER = "919405370657";
-const EMAIL = "nexforgestudio22@gmail.com";
-const INSTAGRAM = "nexforge_studio_";
-
-const services = [
-  {
-    num: "01",
-    slug: "website-development",
-    visualShape: "cone",
-    visualColor: "#101014",
-    visualRim: "#3b82f6",
-    visualRim2: "#ff6a3d",
-    title: "Website Development",
-    desc: "Premium websites built to look sharp, load fast and turn attention into action.",
-    tagline: "A website that actually earns its place in your business — fast, credible, and built to convert.",
-    problems: [
-      "Visitors leave before the page even loads",
-      "The site looks outdated next to newer competitors",
-      "There's no clear next step for someone ready to buy or enquire",
-      "Updating content means calling a developer every time",
-    ],
-    capabilities: [
-      { title: "Business & agency websites", desc: "Clean, credible sites that make a strong first impression." },
-      { title: "Landing pages", desc: "Focused, conversion-first pages for campaigns and launches." },
-      { title: "E-commerce", desc: "Product catalogues, checkout flows and storefronts built to sell." },
-      { title: "Web applications", desc: "Custom logged-in tools and dashboards, not just static pages." },
-      { title: "Performance & responsive design", desc: "Fast load times and a layout that works on every screen size." },
-    ],
-    process: [
-      { title: "Understand the goal", desc: "We start with what the site needs to achieve, not a template." },
-      { title: "Design with intent", desc: "Every layout decision serves clarity, credibility or conversion." },
-      { title: "Build & optimize", desc: "Clean code, fast performance, mobile-first from day one." },
-      { title: "Launch & support", desc: "We stay involved after launch — updates, fixes, improvements." },
-    ],
-    whyUs: [
-      "Built around your business, not a generic template",
-      "Fast, modern tech that stays easy to maintain",
-      "Direct communication, no agency bureaucracy",
-      "Ongoing support after launch",
-    ],
-    relatedWork: ["beast-algo", "nashik-tours", "scc-portal", "memories-kraft"],
-  },
-  {
-    num: "02",
-    slug: "social-media-management",
-    visualShape: "torus",
-    visualColor: "#14101a",
-    visualRim: "#e1306c",
-    visualRim2: "#7c3aed",
-    title: "Social Media Management",
-    desc: "Consistent, on-brand content and growth tracking designed to scale.",
-    tagline: "Consistent, on-brand social presence that actually grows — without you having to think about it daily.",
-    checklist: [
-      "Content calendar & strategy",
-      "Consistent, on-brand execution",
-      "Growth tracking & analytics",
-      "Built to scale with your business",
-    ],
-    problems: [
-      "Posting is inconsistent or stops for weeks at a time",
-      "Content doesn't look cohesive with the brand",
-      "No clear sense of what's actually driving growth",
-      "No time to plan, shoot, edit and post regularly",
-    ],
-    capabilities: [
-      { title: "Content strategy", desc: "A plan tied to real business goals, not just posting for the sake of it." },
-      { title: "Reels & posts", desc: "On-brand content built for how each platform actually performs." },
-      { title: "Brand consistency", desc: "A visual language that's recognizable across every post." },
-      { title: "Audience growth", desc: "Deliberate tactics to grow reach and engagement over time." },
-      { title: "Analytics & reporting", desc: "Clear monthly insight into what's working and what to change." },
-    ],
-    process: [
-      { title: "Audit & strategy", desc: "We study your audience, brand and goals before posting anything." },
-      { title: "Content calendar", desc: "A planned pipeline of content, not last-minute scrambling." },
-      { title: "Create & publish", desc: "Consistent, on-brand execution across your chosen platforms." },
-      { title: "Track & refine", desc: "Monthly analytics reviewed and used to sharpen the strategy." },
-    ],
-    whyUs: [
-      "Strategy first, content second — never random posting",
-      "On-brand execution every single time",
-      "Transparent growth tracking and reporting",
-      "Scales with your business as you grow",
-    ],
-    relatedWork: ["memories-kraft", "nashik-tours"],
-  },
-  {
-    num: "03",
-    slug: "custom-software",
-    visualShape: "cylinder",
-    visualColor: "#0f1016",
-    visualRim: "#3b82f6",
-    visualRim2: "#7c3aed",
-    title: "Custom Software",
-    desc: "Tools and platforms built around how your business actually works.",
-    tagline: "Software built around how your business actually operates — not the other way around.",
-    problems: [
-      "Off-the-shelf tools force you to change how you work",
-      "Manual processes eat up hours every week",
-      "Data lives in scattered spreadsheets, not one system",
-      "Existing tools don't talk to each other",
-    ],
-    capabilities: [
-      { title: "Business-specific systems", desc: "Software modeled around your exact workflow." },
-      { title: "Automation", desc: "Removing repetitive manual work from your team's day." },
-      { title: "Dashboards", desc: "One clear view of the data that matters to you." },
-      { title: "Internal tools", desc: "Purpose-built tools for your team, not generic software." },
-      { title: "Custom web applications", desc: "Full applications, logins, and user roles built from scratch." },
-    ],
-    process: [
-      { title: "Map the workflow", desc: "We learn exactly how the business runs before writing a line of code." },
-      { title: "Design the system", desc: "Architecture and interface planned around real usage." },
-      { title: "Build & test", desc: "Iterative development with regular check-ins, not a black box." },
-      { title: "Deploy & train", desc: "We launch it and make sure your team is confident using it." },
-    ],
-    whyUs: [
-      "Built around your actual workflow, not a rigid template",
-      "Direct access to the people building your system",
-      "Scales as your business and data grow",
-      "Ongoing support once it's live",
-    ],
-    relatedWork: ["scc-portal", "beast-algo"],
-  },
-  {
-    num: "04",
-    slug: "branding-creative",
-    visualShape: "capsule",
-    visualColor: "#150f14",
-    visualRim: "#ff6a3d",
-    visualRim2: "#e1306c",
-    title: "Branding & Creative",
-    desc: "Identity, visuals and messaging that make your business memorable.",
-    tagline: "A visual identity that makes your business instantly recognizable — and worth remembering.",
-    problems: [
-      "The brand looks different everywhere it appears",
-      "There's no real visual identity, just a logo",
-      "Marketing materials feel thrown together",
-      "Nothing about the brand feels distinct from competitors",
-    ],
-    capabilities: [
-      { title: "Brand identity", desc: "A complete visual system, not just a logo file." },
-      { title: "Visual direction", desc: "Color, typography and imagery that feels intentional." },
-      { title: "Social creatives", desc: "Templates and assets built to keep every post on-brand." },
-      { title: "Logo & branding systems", desc: "A mark and guidelines that scale across every use case." },
-      { title: "Campaign creatives", desc: "Visual assets built for specific launches and promotions." },
-    ],
-    process: [
-      { title: "Discover", desc: "Understanding the business, audience and what should feel different." },
-      { title: "Direction", desc: "Exploring visual concepts until one truly fits the brand." },
-      { title: "Build the system", desc: "Logo, colors, type and guidelines built to scale." },
-      { title: "Roll out", desc: "Applying the identity across the real touchpoints your brand needs." },
-    ],
-    whyUs: [
-      "A real visual system, not just a logo",
-      "Identity built to stay consistent everywhere it's used",
-      "Designed to differentiate, not follow trends blindly",
-      "Guidelines that make future design work easy",
-    ],
-    relatedWork: ["memories-kraft"],
-  },
-];
-
-const work = [
-  {
-    num: "01",
-    tag: "TRADING / TECHNOLOGY",
-    title: "Beast Algo",
-    img: "/images/beast-algo.jpg",
-    link: "https://beast-algo.vercel.app/",
-  },
-  {
-    num: "02",
-    tag: "TRAVEL / BOOKING",
-    title: "Nashik Tours Cloud",
-    img: "/images/nashik-tours.jpg",
-    link: "https://tours-and-travels-clean.vercel.app/",
-  },
-  {
-    num: "03",
-    tag: "EDUCATION / SOFTWARE",
-    title: "SCC Portal",
-    img: "/images/scc-portal.jpg",
-    link: "https://edusync.me/login",
-  },
-  {
-    num: "04",
-    tag: "E-COMMERCE / GIFTING",
-    title: "Memories Kraft",
-    img: "/images/memories-kraft.jpg",
-    link: "https://memories-kraft.vercel.app/",
-  },
-];
-
-const whyPoints = [
-  {
-    num: "01",
-    title: "Built around the business",
-    desc: "We don't start with a template. We understand the goal first, then build around it.",
-  },
-  {
-    num: "02",
-    title: "Design that means something",
-    desc: "Every visual decision has a purpose — clarity, credibility, attention or conversion.",
-  },
-  {
-    num: "03",
-    title: "Made to move forward",
-    desc: "From first idea to launch, we focus on digital work that actually helps the business grow.",
-  },
-];
-
-function Header({ onNavigate }) {
-  return (
-    <header className="site-header">
-      <a href="/" className="logo" onClick={(e) => { e.preventDefault(); onNavigate("/"); }}>
-        NEXFORGE<span className="accent">.</span>
-      </a>
-      <a
-        href="/start-project"
-        className="pill-btn light"
-        onClick={(e) => { e.preventDefault(); onNavigate("/start-project"); }}
-      >
-        Start a Project ↗
-      </a>
-      <button className="menu-btn" aria-label="Menu">☰</button>
-    </header>
-  );
+:root {
+  --bg: #0d0c0a;
+  --bg-soft: #151310;
+  --card: #161412;
+  --border: rgba(255, 255, 255, 0.08);
+  --text: #f4efe6;
+  --text-dim: #a89f95;
+  --accent: #ff6a3d;
+  --whatsapp: #25d366;
+  --instagram: #e1306c;
+  --radius-pill: 999px;
+  --radius-card: 20px;
 }
 
-function Footer({ onNavigate }) {
-  return (
-    <footer className="site-footer">
-      <span className="logo">NEXFORGE<span className="accent">.</span></span>
-      <p>Digital studio building brands, websites and software · India</p>
-      <p style={{ marginTop: 8 }}>
-        © {new Date().getFullYear()} NexForge Studio. All rights reserved.
-      </p>
-    </footer>
-  );
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-function Home({ onNavigate }) {
-  return (
-    <>
-      <section className="hero">
-        <div className="hero-canvas-wrap" aria-hidden="true">
-          <HeroBoundary>
-            <HeroScene />
-          </HeroBoundary>
-        </div>
-        <div className="hero-scrim" aria-hidden="true" />
-        <div className="hero-content">
-          <div className="eyebrow">Digital Studio · India</div>
-          <h1>
-            Digital Experiences,
-            <br />
-            <span className="accent">Forged.</span>
-          </h1>
-          <p className="lead">
-            We build premium websites, custom software, brands and digital
-            experiences for businesses ready to move forward.
-          </p>
-          <div className="hero-actions">
-            <a
-              href="/start-project"
-              className="pill-btn primary"
-              onClick={(e) => { e.preventDefault(); onNavigate("/start-project"); }}
-            >
-              Start a Project ↗
-            </a>
-            <a href="#work" className="pill-btn outline">Explore Our Work</a>
-          </div>
-          <div className="hero-tags">
-            WEBSITE <span className="dot">•</span> SOFTWARE{" "}
-            <span className="dot">•</span> BRANDING{" "}
-            <span className="dot">•</span> GROWTH
-          </div>
-        </div>
-      </section>
-
-      <section className="section" id="services">
-        <div className="section-visual-wrap">
-          <SectionVisual shape="octahedron" color="#12121a" rimColor="#7c3aed" rimColor2="#3b82f6" />
-        </div>
-        <div className="container">
-          <Reveal className="section-eyebrow">01 / What We Do</Reveal>
-          <Reveal as="h2" delay={60}>
-            Built For
-            <br />
-            <span className="accent">Forward.</span>
-          </Reveal>
-          <Reveal as="p" className="lead" delay={120}>
-            From the first idea to the final pixel, we create digital
-            experiences that make businesses look and work better.
-          </Reveal>
-        </div>
-        <div className="scroll-row">
-          {services.map((s, i) => (
-            <Reveal
-              as="button"
-              key={s.num}
-              className="service-card"
-              delay={i * 80}
-              onClick={() => onNavigate(`/services/${s.slug}`)}
-            >
-              <div>
-                <div className="num">{s.num}</div>
-                <h3>{s.title}</h3>
-                <p>{s.desc}</p>
-              </div>
-              <div className="arrow">↗</div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      <section className="section" id="work">
-        <div className="container">
-          <div className="work-visual-wrap">
-            <WorkVisual />
-          </div>
-          <Reveal className="section-eyebrow">02 / Selected Work</Reveal>
-          <Reveal as="h2" delay={60}>
-            Work That
-            <br />
-            <span className="accent">Moves.</span>
-          </Reveal>
-          <Reveal as="p" className="lead" delay={120}>
-            A selection of digital experiences we've designed and built for
-            ambitious ideas and growing businesses.
-          </Reveal>
-        </div>
-        <div className="scroll-row">
-          {work.map((w) => (
-            <a
-              className="work-card"
-              key={w.num}
-              href={w.link}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <div className="work-card-img">
-                <img src={w.img} alt={w.title} />
-                <span className="work-card-view">View Project ↗</span>
-              </div>
-              <div className="work-card-body">
-                <span className="num">{w.num}</span>
-                <div className="tag">{w.tag}</div>
-                <h3>{w.title}</h3>
-              </div>
-            </a>
-          ))}
-        </div>
-      </section>
-
-      <section className="section" id="about">
-        <div className="section-visual-wrap">
-          <SectionVisual shape="dodecahedron" color="#101014" rimColor="#3b82f6" rimColor2="#7c3aed" />
-        </div>
-        <div className="container">
-          <Reveal className="section-eyebrow">03 / About NexForge</Reveal>
-          <Reveal as="h2" delay={60}>
-            Not Just
-            <br />
-            <span className="accent">A Website.</span>
-          </Reveal>
-          <Reveal as="p" className="lead" delay={140}>
-            NexForge Studio is a digital studio focused on building brands,
-            websites and software that feel as good as they perform.
-            <br />
-            <br />
-            We combine strategy, design and technology to turn ideas into
-            digital experiences people remember — without unnecessary
-            complexity.
-          </Reveal>
-          <Reveal delay={220}>
-            <a
-              href="/start-project"
-              className="pill-btn outline"
-              onClick={(e) => { e.preventDefault(); onNavigate("/start-project"); }}
-            >
-              Start something with us →
-            </a>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="section" id="why">
-        <div className="section-visual-wrap">
-          <SectionVisual shape="tetrahedron" color="#14100d" rimColor="#ff6a3d" rimColor2="#3b82f6" />
-        </div>
-        <div className="container">
-          <Reveal className="section-eyebrow">04 / Why NexForge</Reveal>
-          <Reveal as="h2" delay={60}>
-            Why We
-            <br />
-            <span className="accent">Build.</span>
-          </Reveal>
-          <Reveal as="p" className="lead" delay={120}>
-            Good digital work isn't about adding more. It's about making the
-            right things better.
-          </Reveal>
-          {whyPoints.map((w, i) => (
-            <Reveal as="div" className="why-item" key={w.num} delay={i * 90}>
-              <div className="num">{w.num}</div>
-              <h3>{w.title}</h3>
-              <p>{w.desc}</p>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      <div className="contact-cta">
-        <Reveal as="h2" className="contact-cta-heading">
-          Have An Idea?
-          <br />
-          <span className="accent">Let's Build It.</span>
-        </Reveal>
-        <Reveal delay={100}>
-          <a
-            href="/start-project"
-            className="pill-btn primary"
-            onClick={(e) => { e.preventDefault(); onNavigate("/start-project"); }}
-          >
-            Start a Project ↗
-          </a>
-        </Reveal>
-      </div>
-
-      <section className="section" id="contact">
-        <div className="section-visual-wrap">
-          <SectionVisual shape="sphere" color="#7c3aed" rimColor="#ff6a3d" rimColor2="#3b82f6" glow />
-        </div>
-        <div className="container">
-          <Reveal className="section-eyebrow">05 / Contact</Reveal>
-          <Reveal as="h2" delay={60}>
-            Let's Make
-            <br />
-            <span className="accent">Something Good.</span>
-          </Reveal>
-          <Reveal as="p" className="lead" delay={120}>
-            Have a project, idea or business that needs a stronger digital
-            presence? Tell us what you're building.
-          </Reveal>
-          <div className="contact-links">
-            <Reveal
-              as="a"
-              className="contact-link whatsapp"
-              delay={0}
-              href={`https://wa.me/${WHATSAPP_NUMBER}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              💬 WhatsApp
-            </Reveal>
-            <Reveal as="a" className="contact-link email" delay={70} href={`mailto:${EMAIL}`}>
-              ✉️ Email
-            </Reveal>
-            <Reveal
-              as="a"
-              className="contact-link instagram"
-              delay={140}
-              href={`https://instagram.com/${INSTAGRAM}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              📷 Instagram
-            </Reveal>
-          </div>
-        </div>
-      </section>
-    </>
-  );
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
-function StartProject() {
-  const params = new URLSearchParams(window.location.search);
-  const preselectSlug = params.get("service");
-  const preselectIndex = services.findIndex((s) => s.slug === preselectSlug);
-  const [openIndex, setOpenIndex] = useState(preselectIndex >= 0 ? preselectIndex : 0);
-  const [form, setForm] = useState({ name: "", contact: "", project: "" });
-
-  const handleChange = (field) => (e) =>
-    setForm((f) => ({ ...f, [field]: e.target.value }));
-
-  const sendWhatsApp = (serviceTitle) => {
-    const message = `Hi NexForge! I'm interested in ${serviceTitle}.%0A%0AName: ${form.name}%0AContact: ${form.contact}%0AProject: ${form.project}`;
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, "_blank");
-  };
-
-  return (
-    <section className="start-hero">
-      <div className="section-visual-wrap">
-        <SectionVisual shape="box" color="#101014" rimColor="#3b82f6" rimColor2="#ff6a3d" />
-      </div>
-      <Reveal className="eyebrow">Start A Project</Reveal>
-      <Reveal as="h1" delay={60}>
-        Let's Build
-        <br />
-        <span className="accent">What's Next.</span>
-      </Reveal>
-      <Reveal as="p" className="lead" delay={140}>
-        Pick what you need — we'll show you exactly how we can help.
-      </Reveal>
-
-      <div className="option-list">
-        {services.map((s, i) => {
-          const isOpen = openIndex === i;
-          return (
-            <Reveal as="div" className="option-card" key={s.num} delay={i * 70}>
-              <button
-                className="option-header"
-                onClick={() => setOpenIndex(isOpen ? -1 : i)}
-              >
-                <span className="num">{s.num}</span>
-                <h3>{s.title}</h3>
-                <span className={`chev ${isOpen ? "chev-open" : ""}`}>↗</span>
-              </button>
-              {isOpen && (
-                <div className="option-body option-body-anim">
-                  {s.checklist && (
-                    <div className="check-list">
-                      {s.checklist.map((c) => (
-                        <div className="check-item" key={c}>
-                          ✓ {c}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  {!s.checklist && (
-                    <p style={{ color: "var(--text-dim)", marginBottom: 20 }}>
-                      {s.desc}
-                    </p>
-                  )}
-
-                  <label className="field-label">Your Name</label>
-                  <input
-                    className="field"
-                    placeholder="Your name"
-                    value={form.name}
-                    onChange={handleChange("name")}
-                  />
-
-                  <label className="field-label">Phone / Email</label>
-                  <input
-                    className="field"
-                    placeholder="Phone or email"
-                    value={form.contact}
-                    onChange={handleChange("contact")}
-                  />
-
-                  <label className="field-label">Your Project</label>
-                  <textarea
-                    className="field"
-                    placeholder="Tell us briefly about your project"
-                    value={form.project}
-                    onChange={handleChange("project")}
-                  />
-
-                  <button
-                    className="submit-btn"
-                    onClick={() => sendWhatsApp(s.title)}
-                  >
-                    Send on WhatsApp ↗
-                  </button>
-                </div>
-              )}
-            </Reveal>
-          );
-        })}
-      </div>
-    </section>
-  );
+body {
+  padding-top: 84px;
 }
 
-function ServiceDetail({ slug, onNavigate }) {
-  const service = services.find((s) => s.slug === slug);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [slug]);
-
-  if (!service) {
-    return (
-      <section className="service-hero">
-        <button className="back-link" onClick={() => onNavigate("/")}>
-          ← Back to NexForge
-        </button>
-        <h1>Service not found.</h1>
-        <p className="lead">That service doesn't exist. Head back to explore what we offer.</p>
-      </section>
-    );
-  }
-
-  const relatedWorkItems = work.filter((w) =>
-    service.relatedWork?.includes(w.img.split("/").pop().replace(".jpg", ""))
-  );
-
-  return (
-    <>
-      <section className="service-hero">
-        <div className="section-visual-wrap">
-          <SectionVisual
-            shape={service.visualShape}
-            color={service.visualColor}
-            rimColor={service.visualRim}
-            rimColor2={service.visualRim2}
-          />
-        </div>
-        <button
-          className="back-link"
-          onClick={() => onNavigate("/")}
-        >
-          ← Back to What We Do
-        </button>
-        <Reveal className="eyebrow">Service / {service.num}</Reveal>
-        <Reveal as="h1" delay={60}>
-          {service.title.split(" ").slice(0, -1).join(" ")}
-          <br />
-          <span className="accent">{service.title.split(" ").slice(-1)}</span>
-        </Reveal>
-        <Reveal as="p" className="lead" delay={140}>{service.tagline}</Reveal>
-        <Reveal delay={220} className="hero-actions" style={{ justifyContent: "flex-start" }}>
-          <a
-            href={`/start-project?service=${service.slug}`}
-            className="pill-btn primary"
-            onClick={(e) => { e.preventDefault(); onNavigate(`/start-project?service=${service.slug}`); }}
-          >
-            Start a Project ↗
-          </a>
-        </Reveal>
-      </section>
-
-      <section className="section">
-        <div className="container">
-          <Reveal className="section-eyebrow">The Problem</Reveal>
-          <Reveal as="h2" delay={60}>
-            What This
-            <br />
-            <span className="accent">Solves.</span>
-          </Reveal>
-          <div className="check-list">
-            {service.problems.map((p, i) => (
-              <Reveal as="div" className="check-item" key={p} delay={i * 60}>
-                ✓ {p}
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="container">
-          <Reveal className="section-eyebrow">What We Build</Reveal>
-          <Reveal as="h2" delay={60}>
-            Capabilities
-            <br />
-            <span className="accent">& Features.</span>
-          </Reveal>
-          <div className="service-grid">
-            {service.capabilities.map((c, i) => (
-              <Reveal as="div" className="service-tile" key={c.title} delay={i * 70}>
-                <h3>{c.title}</h3>
-                <p>{c.desc}</p>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="container">
-          <Reveal className="section-eyebrow">Our Approach</Reveal>
-          <Reveal as="h2" delay={60}>
-            How We
-            <br />
-            <span className="accent">Work.</span>
-          </Reveal>
-          {service.process.map((step, i) => (
-            <Reveal as="div" className="why-item" key={step.title} delay={i * 80}>
-              <div className="num">{String(i + 1).padStart(2, "0")}</div>
-              <h3>{step.title}</h3>
-              <p>{step.desc}</p>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {relatedWorkItems.length > 0 && (
-        <section className="section" id="work">
-          <div className="container">
-            <Reveal className="section-eyebrow">Relevant Work</Reveal>
-            <Reveal as="h2" delay={60}>
-              See It
-              <br />
-              <span className="accent">In Action.</span>
-            </Reveal>
-          </div>
-          <div className="scroll-row">
-            {relatedWorkItems.map((w) => (
-              <a
-                className="work-card"
-                key={w.num}
-                href={w.link}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <div className="work-card-img">
-                  <img src={w.img} alt={w.title} />
-                  <span className="work-card-view">View Project ↗</span>
-                </div>
-                <div className="work-card-body">
-                  <span className="num">{w.num}</span>
-                  <div className="tag">{w.tag}</div>
-                  <h3>{w.title}</h3>
-                </div>
-              </a>
-            ))}
-          </div>
-        </section>
-      )}
-
-      <section className="section">
-        <div className="container">
-          <Reveal className="section-eyebrow">Why NexForge</Reveal>
-          <Reveal as="h2" delay={60}>
-            Why Choose
-            <br />
-            <span className="accent">Us.</span>
-          </Reveal>
-          <div className="check-list">
-            {service.whyUs.map((w, i) => (
-              <Reveal as="div" className="check-item" key={w} delay={i * 60}>
-                ✓ {w}
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <div className="contact-cta">
-        <Reveal as="h2" className="contact-cta-heading">
-          Ready To
-          <br />
-          <span className="accent">Get Started?</span>
-        </Reveal>
-        <Reveal delay={100}>
-          <a
-            href={`/start-project?service=${service.slug}`}
-            className="pill-btn primary"
-            onClick={(e) => { e.preventDefault(); onNavigate(`/start-project?service=${service.slug}`); }}
-          >
-            Start a Project ↗
-          </a>
-        </Reveal>
-      </div>
-    </>
-  );
+h1, h2, h3, .display {
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.01em;
 }
 
-export default function App() {
-  const [path, setPath] = useState(window.location.pathname);
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+a, button {
+  -webkit-tap-highlight-color: transparent;
+}
 
-  useEffect(() => {
-    const onPop = () => setPath(window.location.pathname);
-    window.addEventListener("popstate", onPop);
-    return () => window.removeEventListener("popstate", onPop);
-  }, []);
+/* ---------- Shared scroll-reveal motion system ---------- */
+/* One consistent entrance animation used across every section, instead
+   of each section inventing its own. */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
-  const navigate = (to) => {
-    window.history.pushState({}, "", to);
-    setPath(to);
-    window.scrollTo(0, 0);
-  };
+.accent { color: var(--accent); }
 
-  const serviceSlugMatch = path.match(/^\/services\/([a-z0-9-]+)/);
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
 
-  return (
-    <>
-      <AmbientField />
-      <Header onNavigate={navigate} />
-      {serviceSlugMatch ? (
-        <ServiceDetail key={serviceSlugMatch[1]} slug={serviceSlugMatch[1]} onNavigate={navigate} />
-      ) : path.startsWith("/start-project") ? (
-        <StartProject />
-      ) : (
-        <Home onNavigate={navigate} />
-      )}
-      <Footer onNavigate={navigate} />
-    </>
+/* ---------- Header ---------- */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  background: rgba(13, 12, 10, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 1.4rem;
+  letter-spacing: 0.02em;
+}
+
+.pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: none;
+  white-space: nowrap;
+}
+
+.pill-btn.primary {
+  background: var(--accent);
+  color: #14100c;
+}
+
+.pill-btn.light {
+  background: #f4efe6;
+  color: #14100c;
+}
+
+.pill-btn.outline {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.menu-btn {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- Ambient field (persistent depth behind the whole page) ---------- */
+.ambient-field {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+.ambient-field canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  padding: 40px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  min-height: calc(100vh - 84px);
+}
+
+.hero-canvas-wrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-canvas-wrap canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: -10%;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(124, 58, 237, 0.22), transparent 55%),
+    radial-gradient(circle at 55% 55%, rgba(59, 130, 246, 0.18), transparent 60%);
+  pointer-events: none;
+}
+
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(
+    ellipse 90% 65% at 50% 46%,
+    rgba(13, 12, 10, 0.78) 0%,
+    rgba(13, 12, 10, 0.5) 45%,
+    transparent 75%
   );
-        }
+  pointer-events: none;
+}
+
+.hero-fallback-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 45%, rgba(124, 58, 237, 0.28), transparent 60%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 640px) {
+  body { padding-top: 74px; }
+  .hero { min-height: calc(100vh - 74px); }
+}
+
+.eyebrow {
+  color: var(--text-dim);
+  letter-spacing: 0.18em;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  font-size: clamp(2.4rem, 9vw, 4.5rem);
+  margin: 18px 0;
+}
+
+.hero p.lead {
+  color: var(--text-dim);
+  max-width: 560px;
+  margin: 0 auto 32px;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.hero-tags {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.hero-tags span.dot { color: var(--accent); margin: 0 10px; }
+
+/* ---------- Section headers ---------- */
+.section { position: relative; padding: 70px 0; border-top: 1px solid var(--border); }
+.section::before {
+  content: "";
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  width: 640px;
+  max-width: 160%;
+  height: 260px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse, rgba(124, 58, 237, 0.08), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+.section > .container,
+.section > .scroll-row {
+  position: relative;
+  z-index: 1;
+}
+#work::before {
+  background:
+    radial-gradient(ellipse at 30% 0%, rgba(59, 130, 246, 0.13), transparent 60%),
+    radial-gradient(ellipse at 70% 100%, rgba(255, 106, 61, 0.09), transparent 60%);
+  height: 420px;
+}
+.contact-cta { position: relative; }
+.contact-cta::before {
+  content: "";
+  position: absolute;
+  inset: -20% -10%;
+  background: radial-gradient(ellipse at 50% 40%, rgba(124, 58, 237, 0.15), transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+.contact-cta h2,
+.contact-cta a {
+  position: relative;
+  z-index: 1;
+}
+.section-eyebrow {
+  color: var(--text-dim);
+  letter-spacing: 0.18em;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.section h2 {
+  font-size: clamp(2rem, 7vw, 3rem);
+  margin-bottom: 18px;
+}
+.section p.lead {
+  color: var(--text-dim);
+  max-width: 600px;
+  line-height: 1.6;
+  margin-bottom: 36px;
+}
+
+/* ---------- Horizontal scroll rows ---------- */
+.scroll-row {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 4px 24px 20px;
+  margin: 0 -24px;
+  -webkit-overflow-scrolling: touch;
+}
+.scroll-row::-webkit-scrollbar { display: none; }
+
+/* ---------- Service cards ---------- */
+.service-card {
+  min-width: 82vw;
+  max-width: 360px;
+  scroll-snap-align: start;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 220px;
+  text-align: left;
+  color: var(--text);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.15s ease;
+}
+.service-card:active { border-color: var(--accent); }
+.service-card .num {
+  color: var(--text-dim);
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.9rem;
+}
+.service-card h3 {
+  color: var(--text);
+  font-family: 'Oswald', sans-serif;
+  text-transform: none;
+  font-weight: 600;
+  font-size: 1.4rem;
+  margin: 14px 0 10px;
+}
+.service-card p {
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.service-card .arrow {
+  margin-top: 18px;
+  color: var(--accent);
+  font-size: 1.3rem;
+}
+
+/* ---------- Work section 3D accent ---------- */
+#work .container { position: relative; }
+.work-visual-wrap {
+  position: absolute;
+  top: -10px;
+  right: 0;
+  width: 150px;
+  height: 150px;
+  opacity: 0.9;
+  pointer-events: none;
+}
+.work-visual { width: 100%; height: 100%; }
+.work-visual canvas { width: 100% !important; height: 100% !important; }
+@media (max-width: 640px) {
+  .work-visual-wrap { width: 108px; height: 108px; top: -6px; opacity: 0.75; }
+}
+
+/* ---------- Generic per-section 3D accent (distinct shape per section) ---------- */
+.section-visual-wrap {
+  position: absolute;
+  top: -14px;
+  right: 0;
+  width: 165px;
+  height: 165px;
+  opacity: 0.97;
+  pointer-events: none;
+  z-index: 0;
+}
+.section-visual { width: 100%; height: 100%; }
+.section-visual canvas { width: 100% !important; height: 100% !important; }
+@media (max-width: 640px) {
+  .section-visual-wrap { width: 120px; height: 120px; top: -4px; opacity: 0.9; }
+}
+
+/* ---------- Work cards ---------- */
+.work-card {
+  min-width: 86vw;
+  max-width: 400px;
+  scroll-snap-align: start;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  display: block;
+  transition: transform 0.15s ease, border-color 0.2s ease;
+}
+.work-card:active { transform: scale(0.97); border-color: var(--accent); }
+.work-card-img {
+  position: relative;
+  overflow: hidden;
+}
+.work-card-img img {
+  width: 100%;
+  aspect-ratio: 16/10;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+.work-card:active .work-card-img img { transform: scale(1.06); }
+.work-card-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(13, 12, 10, 0.85) 100%);
+  pointer-events: none;
+}
+.work-card-view {
+  position: absolute;
+  bottom: 12px;
+  right: 14px;
+  z-index: 1;
+  color: var(--text);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.work-card:active .work-card-view,
+.work-card:hover .work-card-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+.work-card .tag {
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.work-card h3 {
+  font-family: 'Oswald', sans-serif;
+  text-transform: none;
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin-top: 8px;
+}
+.work-card .num {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* ---------- Why list ---------- */
+.why-item {
+  border-top: 1px solid var(--border);
+  padding: 28px 0;
+}
+.why-item:last-child { border-bottom: 1px solid var(--border); }
+.why-item .num { color: var(--accent); font-weight: 700; font-family: 'Oswald', sans-serif; }
+.why-item h3 {
+  font-family: 'Oswald', sans-serif;
+  text-transform: none;
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin: 10px 0 8px;
+}
+.why-item p { color: var(--text-dim); line-height: 1.6; }
+
+/* ---------- Contact ---------- */
+.contact-cta {
+  text-align: center;
+  padding: 70px 24px;
+}
+.contact-cta h2 { font-size: clamp(2.2rem, 8vw, 3.2rem); margin-bottom: 30px; }
+
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+.contact-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 18px 24px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  font-weight: 600;
+  font-size: 1.05rem;
+  background: var(--bg-soft);
+}
+.contact-link.whatsapp svg { color: var(--whatsapp); }
+.contact-link.email svg { color: var(--accent); }
+.contact-link.instagram svg { color: var(--instagram); }
+
+/* ---------- Footer ---------- */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 40px 24px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+.site-footer .logo { display: block; margin-bottom: 10px; }
+
+/* ---------- Start Project page ---------- */
+.start-hero { position: relative; padding: 60px 24px 30px; }
+.start-hero h1 { font-size: clamp(2.2rem, 9vw, 3.6rem); margin: 16px 0; }
+.start-hero p.lead { color: var(--text-dim); max-width: 520px; }
+
+/* ---------- Service detail page ---------- */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin-bottom: 28px;
+}
+.service-hero { position: relative; padding: 60px 24px 20px; }
+.service-hero h1 { font-size: clamp(2.2rem, 9vw, 3.6rem); margin: 16px 0; }
+.service-hero p.lead { color: var(--text-dim); max-width: 560px; font-size: 1.05rem; line-height: 1.6; }
+.service-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.service-tile {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--card);
+  padding: 22px 24px;
+}
+.service-tile h3 {
+  font-family: 'Oswald', sans-serif;
+  text-transform: none;
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+.service-tile p { color: var(--text-dim); line-height: 1.6; font-size: 0.95rem; }
+
+.option-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 0 24px 60px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+.option-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--card);
+  overflow: hidden;
+}
+.option-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 24px;
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--text);
+}
+.option-header .num { color: var(--text-dim); font-family: 'Oswald', sans-serif; }
+.option-header h3 {
+  flex: 1;
+  text-align: left;
+  color: var(--text);
+  font-family: 'Oswald', sans-serif;
+  text-transform: none;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+.option-header .chev {
+  color: var(--accent);
+  font-size: 1.2rem;
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+.option-header .chev-open { transform: rotate(90deg); }
+
+.option-body {
+  border-top: 1px solid var(--border);
+  padding: 22px 24px 28px;
+}
+.option-body-anim {
+  animation: optionOpen 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes optionOpen {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.check-list { margin-bottom: 20px; }
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-dim);
+  padding: 8px 0;
+}
+.check-item svg { color: var(--accent); flex-shrink: 0; }
+
+.field-label {
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  display: block;
+}
+.field {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  color: var(--text);
+  font-size: 1rem;
+  margin-bottom: 18px;
+  font-family: inherit;
+}
+.field::placeholder { color: #6b645c; }
+textarea.field { min-height: 100px; resize: vertical; }
+
+.submit-btn {
+  width: 100%;
+  padding: 16px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: #14100c;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
