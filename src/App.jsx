@@ -218,9 +218,25 @@ const whyPoints = [
 ];
 
 function Header({ onNavigate }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const goTo = (path, hash) => {
+    onNavigate(path);
+    setMenuOpen(false);
+    if (hash) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
+        });
+      });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  };
+
   return (
     <header className="site-header">
-      <a href="/" className="logo" onClick={(e) => { e.preventDefault(); onNavigate("/"); }}>
+      <a href="/" className="logo" onClick={(e) => { e.preventDefault(); goTo("/"); }}>
         NEXFORGE<span className="accent">.</span>
       </a>
       <a
@@ -230,7 +246,31 @@ function Header({ onNavigate }) {
       >
         Start a Project ↗
       </a>
-      <button className="menu-btn" aria-label="Menu">☰</button>
+      <button
+        className="menu-btn"
+        aria-label="Menu"
+        aria-expanded={menuOpen}
+        onClick={() => setMenuOpen((o) => !o)}
+      >
+        {menuOpen ? "✕" : "☰"}
+      </button>
+
+      {menuOpen && (
+        <>
+          <div className="nav-menu-overlay" onClick={() => setMenuOpen(false)} />
+          <nav className="nav-menu">
+            <button onClick={() => goTo("/")}>Home</button>
+            <button onClick={() => goTo("/", "services")}>What We Do</button>
+            <button onClick={() => goTo("/", "work")}>Selected Work</button>
+            <button onClick={() => goTo("/", "about")}>About</button>
+            <button onClick={() => goTo("/", "why")}>Why NexForge</button>
+            <button onClick={() => goTo("/", "contact")}>Contact</button>
+            <button className="nav-menu-cta" onClick={() => goTo("/start-project")}>
+              Start a Project ↗
+            </button>
+          </nav>
+        </>
+      )}
     </header>
   );
 }
@@ -797,4 +837,4 @@ export default function App() {
       <Footer onNavigate={navigate} />
     </>
   );
-        }
+}
