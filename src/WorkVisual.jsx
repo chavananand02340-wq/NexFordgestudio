@@ -1,6 +1,7 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment, Float } from "@react-three/drei";
+import HeroBoundary from "./HeroBoundary";
 
 function WorkShape() {
   const meshRef = useRef();
@@ -48,19 +49,42 @@ function WorkShape() {
 }
 
 export default function WorkVisual() {
+  const wrapRef = useRef(null);
+  const [shouldMount, setShouldMount] = useState(false);
+
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldMount(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "300px 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="work-visual" aria-hidden="true">
-      <Canvas
-        dpr={[1, 1.5]}
-        gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-        camera={{ position: [0, 0, 4.2], fov: 40 }}
-      >
-        <ambientLight intensity={0.15} />
-        <pointLight position={[-3, 2, 3]} intensity={40} color="#3b82f6" />
-        <pointLight position={[3, -1, -2]} intensity={35} color="#ff6a3d" />
-        <WorkShape />
-        <Environment preset="night" />
-      </Canvas>
+    <div className="work-visual" aria-hidden="true" ref={wrapRef}>
+      {shouldMount && (
+        <HeroBoundary>
+          <Canvas
+            dpr={[1, 1.5]}
+            gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+            camera={{ position: [0, 0, 4.2], fov: 40 }}
+          >
+            <ambientLight intensity={0.15} />
+            <pointLight position={[-3, 2, 3]} intensity={40} color="#3b82f6" />
+            <pointLight position={[3, -1, -2]} intensity={35} color="#ff6a3d" />
+            <WorkShape />
+            <Environment preset="night" />
+          </Canvas>
+        </HeroBoundary>
+      )}
     </div>
   );
 }
