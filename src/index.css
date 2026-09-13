@@ -45,8 +45,6 @@ a, button {
 }
 
 /* ---------- Shared scroll-reveal motion system ---------- */
-/* One consistent entrance animation used across every section, instead
-   of each section inventing its own. */
 .reveal {
   opacity: 0;
   transform: translateY(40px);
@@ -127,6 +125,51 @@ a, button {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  z-index: 101;
+}
+
+.nav-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+}
+
+.nav-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 24px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  min-width: 220px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  animation: navMenuOpen 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes navMenuOpen {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.nav-menu button {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  text-align: left;
+  padding: 16px 20px;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+.nav-menu button:last-child { border-bottom: none; }
+.nav-menu button:active { background: rgba(255, 255, 255, 0.05); }
+.nav-menu-cta {
+  color: var(--accent) !important;
+  font-weight: 600 !important;
 }
 
 /* ---------- Ambient field (persistent depth behind the whole page) ---------- */
@@ -657,4 +700,4 @@ textarea.field { min-height: 100px; resize: vertical; }
   align-items: center;
   justify-content: center;
   gap: 8px;
-}
+  }
