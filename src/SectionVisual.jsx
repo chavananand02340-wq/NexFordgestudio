@@ -6,17 +6,28 @@ import { Environment, Float } from "@react-three/drei";
 // Keeps every section visually distinct (no repeated "same box everywhere"
 // feeling) while reusing all the mouse-parallax / lighting / performance
 // logic in one place instead of duplicating a new component per shape.
+//
+// IMPORTANT: platonic solids (octahedron, dodecahedron, tetrahedron) use a
+// detail level of 1, not 0. A detail-0 solid has only a handful of huge
+// flat faces, so as it slowly rotates there are long stretches where every
+// visible face points away from both lights and the whole object reads as
+// a black hole against the dark background. Subdividing gives it many more
+// small facets, so something is almost always catching a highlight --
+// exactly why the Work section's torusKnot (a continuously curved surface)
+// never goes fully dark.
 const GEOMETRIES = {
-  octahedron: (s) => <octahedronGeometry args={[s, 0]} />,
-  dodecahedron: (s) => <dodecahedronGeometry args={[s, 0]} />,
-  tetrahedron: (s) => <tetrahedronGeometry args={[s * 1.1, 0]} />,
-  sphere: (s) => <sphereGeometry args={[s * 0.85, 32, 32]} />,
+  octahedron: (s) => <octahedronGeometry args={[s, 1]} />,
+  dodecahedron: (s) => <dodecahedronGeometry args={[s, 1]} />,
+  tetrahedron: (s) => <tetrahedronGeometry args={[s * 1.15, 1]} />,
+  sphere: (s) => <sphereGeometry args={[s * 0.9, 32, 32]} />,
   box: (s) => <boxGeometry args={[s * 1.2, s * 1.2, s * 1.2]} />,
-  cone: (s) => <coneGeometry args={[s * 0.8, s * 1.5, 32]} />,
-  torus: (s) => <torusGeometry args={[s * 0.75, s * 0.28, 16, 60]} />,
-  cylinder: (s) => <cylinderGeometry args={[s * 0.6, s * 0.6, s * 1.3, 32]} />,
-  capsule: (s) => <capsuleGeometry args={[s * 0.5, s * 0.7, 4, 16]} />,
+  cone: (s) => <coneGeometry args={[s * 0.85, s * 1.55, 32]} />,
+  torus: (s) => <torusGeometry args={[s * 0.78, s * 0.3, 16, 60]} />,
+  cylinder: (s) => <cylinderGeometry args={[s * 0.62, s * 0.62, s * 1.35, 32]} />,
+  capsule: (s) => <capsuleGeometry args={[s * 0.52, s * 0.72, 4, 16]} />,
 };
+
+const FACETED = new Set(["octahedron", "dodecahedron", "tetrahedron"]);
 
 function Shape({ shape, size, color, glow }) {
   const meshRef = useRef();
@@ -52,13 +63,14 @@ function Shape({ shape, size, color, glow }) {
         {GEOMETRIES[shape](size)}
         <meshPhysicalMaterial
           color={color}
-          metalness={glow ? 0.4 : 0.9}
-          roughness={glow ? 0.25 : 0.15}
+          metalness={glow ? 0.4 : 0.85}
+          roughness={glow ? 0.25 : 0.18}
           clearcoat={1}
-          clearcoatRoughness={0.1}
-          envMapIntensity={2}
+          clearcoatRoughness={0.08}
+          envMapIntensity={2.6}
+          flatShading={FACETED.has(shape)}
           emissive={glow ? color : "#000000"}
-          emissiveIntensity={glow ? 0.4 : 0}
+          emissiveIntensity={glow ? 0.45 : 0}
         />
       </mesh>
     </Float>
@@ -70,7 +82,7 @@ export default function SectionVisual({
   color = "#12121a",
   rimColor = "#3b82f6",
   rimColor2 = "#ff6a3d",
-  size = 0.75,
+  size = 0.95,
   glow = false,
 }) {
   return (
@@ -81,9 +93,10 @@ export default function SectionVisual({
           gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
           camera={{ position: [0, 0, 4.2], fov: 40 }}
         >
-          <ambientLight intensity={0.15} />
-          <pointLight position={[-3, 2, 3]} intensity={40} color={rimColor} />
-          <pointLight position={[3, -1, -2]} intensity={35} color={rimColor2} />
+          <ambientLight intensity={0.28} />
+          <pointLight position={[-3, 2, 3]} intensity={60} color={rimColor} />
+          <pointLight position={[3, -1, -2]} intensity={55} color={rimColor2} />
+          <pointLight position={[0, 1.5, 4]} intensity={22} color="#ffffff" />
           <Shape shape={shape} size={size} color={color} glow={glow} />
           <Environment preset="night" />
         </Canvas>
