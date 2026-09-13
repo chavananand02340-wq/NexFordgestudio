@@ -240,7 +240,7 @@ function Footer({ onNavigate }) {
     <footer className="site-footer">
       <span className="logo">NEXFORGE<span className="accent">.</span></span>
       <p>Digital studio building brands, websites and software · India</p>
-      <p style={{ marginTop: 8 }}>
+      <p className="footer-copyright">
         © {new Date().getFullYear()} NexForge Studio. All rights reserved.
       </p>
     </footer>
@@ -252,7 +252,7 @@ function Home({ onNavigate }) {
     <>
       <section className="hero">
         <div className="hero-canvas-wrap" aria-hidden="true">
-          <HeroBoundary>
+          <HeroBoundary fallback={<div className="hero-fallback-glow" aria-hidden="true" />}>
             <HeroScene />
           </HeroBoundary>
         </div>
@@ -536,7 +536,7 @@ function StartProject() {
                     </div>
                   )}
                   {!s.checklist && (
-                    <p style={{ color: "var(--text-dim)", marginBottom: 20 }}>
+                    <p className="option-fallback-desc">
                       {s.desc}
                     </p>
                   )}
@@ -628,7 +628,7 @@ function ServiceDetail({ slug, onNavigate }) {
           <span className="accent">{service.title.split(" ").slice(-1)}</span>
         </Reveal>
         <Reveal as="p" className="lead" delay={140}>{service.tagline}</Reveal>
-        <Reveal delay={220} className="hero-actions" style={{ justifyContent: "flex-start" }}>
+        <Reveal delay={220} className="hero-actions hero-actions-left">
           <a
             href={`/start-project?service=${service.slug}`}
             className="pill-btn primary"
@@ -797,4 +797,4 @@ export default function App() {
       <Footer onNavigate={navigate} />
     </>
   );
-                          }
+        }
