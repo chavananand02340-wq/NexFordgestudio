@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
-
 :root {
   --bg: #0d0c0a;
   --bg-soft: #151310;
@@ -235,6 +233,8 @@ a, button {
   flex-wrap: wrap;
   margin-bottom: 30px;
 }
+
+.hero-actions-left { justify-content: flex-start; }
 
 .hero-tags {
   color: var(--text-dim);
@@ -516,6 +516,7 @@ a, button {
   font-size: 0.85rem;
 }
 .site-footer .logo { display: block; margin-bottom: 10px; }
+.footer-copyright { margin-top: 8px; }
 
 /* ---------- Start Project page ---------- */
 .start-hero { position: relative; padding: 60px 24px 30px; }
@@ -619,6 +620,7 @@ a, button {
   padding: 8px 0;
 }
 .check-item svg { color: var(--accent); flex-shrink: 0; }
+.option-fallback-desc { color: var(--text-dim); margin-bottom: 20px; }
 
 .field-label {
   color: var(--text-dim);
