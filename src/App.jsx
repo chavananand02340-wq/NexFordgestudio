@@ -499,10 +499,17 @@ function Home({ onNavigate }) {
               target="_blank"
               rel="noreferrer"
             >
-              💬 WhatsApp
+              <svg viewBox="0 0 24 24" fill="currentColor" width="21" height="21" aria-hidden="true">
+                <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.39 1.26 4.83L2 22l5.36-1.41c1.4.76 2.99 1.2 4.68 1.2h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.51 2 12.04 2zm5.79 14.09c-.24.68-1.4 1.32-1.93 1.4-.5.08-1.12.11-1.8-.11-.42-.13-.96-.31-1.65-.61-2.9-1.25-4.79-4.17-4.94-4.36-.14-.19-1.18-1.57-1.18-3 0-1.42.75-2.12 1.02-2.41.27-.29.58-.36.78-.36.19 0 .39 0 .56.01.18.01.42-.07.65.5.24.58.82 2 .89 2.15.07.15.12.32.02.51-.09.19-.14.31-.28.48-.14.17-.29.37-.42.5-.14.14-.29.29-.12.57.17.28.75 1.24 1.62 2.01 1.11.99 2.05 1.3 2.33 1.44.28.14.44.12.6-.07.17-.19.71-.83.9-1.11.19-.28.38-.24.64-.14.26.1 1.66.78 1.94.93.28.14.47.21.54.33.07.12.07.68-.17 1.36z" />
+              </svg>
+              WhatsApp
             </Reveal>
             <Reveal as="a" className="contact-link email" delay={70} href={`mailto:${EMAIL}`}>
-              ✉️ Email
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" width="21" height="21" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="14" rx="2" />
+                <path d="M3 7l9 6 9-6" />
+              </svg>
+              Email
             </Reveal>
             <Reveal
               as="a"
@@ -512,7 +519,12 @@ function Home({ onNavigate }) {
               target="_blank"
               rel="noreferrer"
             >
-              📷 Instagram
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" width="21" height="21" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle cx="17.5" cy="6.5" r="0.9" fill="currentColor" stroke="none" />
+              </svg>
+              Instagram
             </Reveal>
           </div>
         </div>
@@ -837,4 +849,4 @@ export default function App() {
       <Footer onNavigate={navigate} />
     </>
   );
-}
+      }
