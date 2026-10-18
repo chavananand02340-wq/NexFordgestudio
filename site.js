@@ -81,54 +81,62 @@
     document.querySelectorAll(".steps li").forEach(function (li) { li.classList.add("on"); });
   }
 
-  /* ---------- Work list: live screenshot preview that follows the cursor (desktop) ---------- */
-  var rows = document.querySelectorAll(".work-list a");
-  if (finePointer && rows.length) {
-    var peek = document.createElement("div");
-    peek.className = "peek";
-    peek.setAttribute("aria-hidden", "true");
-    peek.innerHTML =
-      '<div class="peek-bar"><i></i><i></i><i></i><span></span></div>' +
-      '<div class="peek-shot"><img alt="" width="400" height="250"></div>';
-    document.body.appendChild(peek);
-    var img = peek.querySelector("img");
-    var label = peek.querySelector(".peek-bar span");
-    var shot = peek.querySelector(".peek-shot");
-    img.addEventListener("load", function () { shot.classList.add("ready"); });
-    img.addEventListener("error", function () { shot.classList.remove("ready"); });
-
-    var tx = 0, ty = 0, cx = 0, cy = 0, raf = null, showing = false;
-    var loop = function () {
-      cx += (tx - cx) * (reduce ? 1 : 0.18);
-      cy += (ty - cy) * (reduce ? 1 : 0.18);
-      peek.style.transform = "translate3d(" + cx + "px," + cy + "px,0)";
-      raf = showing ? requestAnimationFrame(loop) : null;
-    };
-    var place = function (e) {
-      var w = 420, h = 300;
-      tx = Math.min(e.clientX + 28, window.innerWidth - w - 16);
-      ty = Math.min(Math.max(e.clientY - h / 2, 16), window.innerHeight - h - 16);
-    };
-
-    rows.forEach(function (row) {
-      row.addEventListener("pointerenter", function (e) {
-        var url = row.getAttribute("href");
-        var src = "https://s0.wp.com/mshots/v1/" + encodeURIComponent(url) + "?w=800&h=500";
-        label.textContent = url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
-        if (img.getAttribute("src") !== src) { shot.classList.remove("ready"); img.src = src; }
-        place(e);
-        if (!showing) { cx = tx; cy = ty; }
-        showing = true;
-        peek.classList.add("show");
-        if (!raf) raf = requestAnimationFrame(loop);
+  /* ---------- Section headings: copper trace draws in on arrival ---------- */
+  root.classList.add("js");
+  var heads = document.querySelectorAll(".block-head");
+  if ("IntersectionObserver" in window && !reduce) {
+    var headIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add("in"); headIO.unobserve(en.target); }
       });
-      row.addEventListener("pointermove", place);
-      row.addEventListener("pointerleave", function () {
-        showing = false;
-        peek.classList.remove("show");
+    }, { rootMargin: "0px 0px -15% 0px" });
+    heads.forEach(function (h) { headIO.observe(h); });
+  } else {
+    heads.forEach(function (h) { h.classList.add("in"); });
+  }
+
+  /* ---------- Work carousel: arrows, counter, keyboard, screenshot fallback ---------- */
+  document.querySelectorAll("[data-car]").forEach(function (car) {
+    var track = car.querySelector(".car-track");
+    var cards = track.querySelectorAll(".card");
+    var prev = car.querySelector('[data-dir="-1"]');
+    var next = car.querySelector('[data-dir="1"]');
+    var count = car.querySelector(".car-count b");
+
+    var step = function () {
+      var c = cards[0];
+      return c ? c.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 16) : track.clientWidth;
+    };
+    var update = function () {
+      var max = track.scrollWidth - track.clientWidth - 2;
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft >= max;
+      var idx = Math.round(track.scrollLeft / step());
+      if (track.scrollLeft >= max) idx = cards.length - 1 - Math.max(0, Math.round(track.clientWidth / step()) - 1);
+      if (count) count.textContent = String(Math.min(cards.length, idx + 1));
+      var allFit = track.scrollWidth <= track.clientWidth + 2;
+      car.querySelector(".car-ctrl").hidden = allFit;
+    };
+    [prev, next].forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        track.scrollBy({ left: Number(btn.dataset.dir) * step(), behavior: reduce ? "auto" : "smooth" });
       });
     });
-  }
+    track.addEventListener("scroll", function () { requestAnimationFrame(update); }, { passive: true });
+    window.addEventListener("resize", update);
+    track.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") { e.preventDefault(); next.click(); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); prev.click(); }
+    });
+    update();
+
+    // If a live screenshot can't load, show the domain instead of a broken image
+    track.querySelectorAll(".card-img img").forEach(function (img) {
+      var fail = function () { img.parentNode.classList.add("noimg"); };
+      img.addEventListener("error", fail);
+      if (img.complete && img.naturalWidth === 0 && img.getAttribute("loading") !== "lazy") fail();
+    });
+  });
 
   /* ---------- WhatsApp form with live message preview ---------- */
   var params = new URLSearchParams(location.search);

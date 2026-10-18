@@ -98,18 +98,44 @@ ${body}
 `;
 }
 
-function workList(items) {
-  return `<ul class="work-list">
+const shot = (u) => `https://s0.wp.com/mshots/v1/${encodeURIComponent(u)}?w=800&h=500`;
+const arrow = (d) =>
+  `<svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="${d === "prev" ? "M12 4 6 10l6 6" : "M8 4l6 6-6 6"}"/></svg>`;
+
+// Horizontal carousel of live projects. Screenshots are generated automatically from each URL.
+function workList(items, { id, heading, sub }) {
+  return `<div class="car" data-car>
+  <div class="car-top">
+    <div class="block-head">
+      <h2 id="${id}">${esc(heading)}</h2>
+      ${sub ? `<p>${esc(sub)}</p>` : ""}
+    </div>
+    <div class="car-ctrl">
+      <span class="car-count" aria-live="polite"><b>1</b> / ${items.length}</span>
+      <button class="car-btn" type="button" data-dir="-1" aria-label="Previous project">${arrow("prev")}</button>
+      <button class="car-btn" type="button" data-dir="1" aria-label="Next project">${arrow("next")}</button>
+    </div>
+  </div>
+  <ul class="car-track" aria-labelledby="${id}">
 ${items
   .map(
-    (w) => `  <li><a href="${esc(w.url)}" target="_blank" rel="noopener">
-    <span class="w-name">${esc(w.name)}</span>
-    <span class="w-cat">${esc(w.category)}</span>
-    <span class="w-url">${esc(domain(w.url))}${extIcon}</span>
-  </a></li>`
+    (w, i) => `    <li class="card">
+      <a href="${esc(w.url)}" target="_blank" rel="noopener">
+        <span class="card-shot">
+          <span class="card-bar" aria-hidden="true"><i></i><i></i><i></i><em>${esc(domain(w.url))}</em></span>
+          <span class="card-img"><img src="${shot(w.url)}" alt="Homepage of ${esc(w.name)}" width="800" height="500" loading="${i < 3 ? "eager" : "lazy"}" decoding="async"><span class="card-fallback" aria-hidden="true">${esc(domain(w.url))}</span></span>
+        </span>
+        <span class="card-meta">
+          <span class="card-cat">${esc(w.category)}</span>
+          <span class="card-name">${esc(w.name)}</span>
+          <span class="card-go">Visit live site${extIcon}</span>
+        </span>
+      </a>
+    </li>`
   )
   .join("\n")}
-</ul>`;
+  </ul>
+</div>`;
 }
 
 function contactForm(selected = "") {
@@ -145,6 +171,13 @@ ${services
 </form>`;
 }
 
+const icon = (d) => `<svg class="r-icon" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+const reasonIcons = [
+  icon('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 14h3M8 17h6"/>'),
+  icon('<path d="M4 5h16v10H9l-5 4z"/><path d="M8 10h8"/>'),
+  icon('<path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><circle cx="12" cy="12" r="4"/>'),
+];
+
 // ---------- Home ----------
 const home = layout({
   path: "/",
@@ -179,13 +212,9 @@ ${services
   </div>
 </section>
 
-<section class="block" id="work" aria-labelledby="work-h">
+<section class="block band" id="work" aria-labelledby="work-h">
   <div class="wrap">
-    <div class="block-head">
-      <h2 id="work-h">Recent work</h2>
-      <p>Live projects you can open and try. Newest first.</p>
-    </div>
-    ${workList(work)}
+    ${workList(work, { id: "work-h", heading: "Recent work", sub: "Live projects you can open and try. Newest first." })}
   </div>
 </section>
 
@@ -195,12 +224,12 @@ ${services
       <h2 id="why-h">Why businesses work with us</h2>
     </div>
     <div class="reasons">
-${reasons.map(([t, d]) => `      <div><h3>${esc(t)}</h3><p>${esc(d)}</p></div>`).join("\n")}
+${reasons.map(([t, d], i) => `      <div class="reason">${reasonIcons[i] || ""}<h3>${esc(t)}</h3><p>${esc(d)}</p></div>`).join("\n")}
     </div>
   </div>
 </section>
 
-<section class="block" id="process" aria-labelledby="process-h">
+<section class="block band" id="process" aria-labelledby="process-h">
   <div class="wrap">
     <div class="block-head">
       <h2 id="process-h">How a project runs</h2>
@@ -263,7 +292,7 @@ ${s.problems.map((p) => `      <li>${esc(p)}</li>`).join("\n")}
   </div>
 </section>
 
-<section class="block" aria-labelledby="c-h">
+<section class="block band" aria-labelledby="c-h">
   <div class="wrap">
     <div class="block-head"><h2 id="c-h">What we build</h2></div>
     <dl class="caps">
@@ -283,10 +312,9 @@ ${s.process.map(([t, d]) => `      <li><h3>${esc(t)}</h3><p>${esc(d)}</p></li>`)
 
 ${
   rel.length
-    ? `<section class="block" aria-labelledby="r-h">
+    ? `<section class="block band" aria-labelledby="r-h">
   <div class="wrap">
-    <div class="block-head"><h2 id="r-h">Related work</h2></div>
-    ${workList(rel)}
+    ${workList(rel, { id: "r-h", heading: "Related work" })}
   </div>
 </section>`
     : ""
@@ -297,6 +325,18 @@ ${
     <div class="block-head"><h2 id="y-h">Why NexForge</h2></div>
     <ul class="ticks">
 ${s.whyUs.map((w) => `      <li>${esc(w)}</li>`).join("\n")}
+    </ul>
+  </div>
+</section>
+
+<section class="block" aria-labelledby="o-h">
+  <div class="wrap">
+    <div class="block-head"><h2 id="o-h">Other services</h2></div>
+    <ul class="others">
+${services
+  .filter((o) => o.slug !== s.slug)
+  .map((o) => `      <li><a href="/services/${o.slug}"><span><strong>${esc(o.title[0].toUpperCase() + o.title.slice(1))}</strong><small>${esc(o.desc)}</small></span>${arrow("next")}</a></li>`)
+  .join("\n")}
     </ul>
   </div>
 </section>
