@@ -56,6 +56,7 @@ function layout({ path, title, description, body, bodyClass = "" }) {
 </head>
 <body class="${bodyClass}">
 <a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
 <header class="top">
   <div class="wrap top-in">
     <a class="brand" href="/" aria-label="NexForge Studio home">
@@ -88,7 +89,7 @@ ${body}
       <li><a href="mailto:${site.email}">${site.email}</a></li>
       <li><a href="https://instagram.com/${site.instagram}" rel="noopener" target="_blank">Instagram @${site.instagram}</a></li>
     </ul>
-    <p class="copy">© ${new Date().getFullYear()} NexForge Studio</p>
+    <p class="copy">© ${new Date().getFullYear()} NexForge Studio. This site is hand-coded: plain HTML, CSS and a little JavaScript, no templates.</p>
   </div>
 </footer>
 <a class="wa-float" href="${wa("Hi NexForge, I'd like to talk about a project.")}" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">${waIcon}</a>
@@ -135,6 +136,10 @@ ${services
     <textarea name="message" rows="4" placeholder="What does your business do, and what should the project achieve?"></textarea>
   </label>
   <p class="form-error" role="alert" hidden>Add your name so we know who we're talking to.</p>
+  <div class="wa-preview" aria-hidden="true">
+    <div class="wa-bar"><img src="/mark-64.png" width="28" height="28" alt=""><span><strong>NexForge Studio</strong><small>Your message preview</small></span></div>
+    <div class="wa-chat"><p class="wa-bubble"><span class="wa-text"></span><time></time></p></div>
+  </div>
   <button class="btn" type="submit">${waIcon} Send on WhatsApp</button>
   <p class="form-note">Opens WhatsApp with your message filled in. Prefer email? <a href="mailto:${site.email}">${site.email}</a></p>
 </form>`;

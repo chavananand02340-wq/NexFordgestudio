@@ -11,6 +11,8 @@ export const site = {
 // Portfolio. NEWEST PROJECT GOES AT THE TOP.
 // Only three things per project: name, category, url.
 export const work = [
+  { name: "Astrodisha", category: "Gemstones & spiritual store", url: "https://www.astrodisha.shop/" },
+  { name: "Forever Handy", category: "Personalised gifts store", url: "https://www.foreverhandy.store/" },
   { name: "Beast Algo", category: "Trading & technology", url: "https://beast-algo.vercel.app/" },
   { name: "Nashik Tours Cloud", category: "Travel & booking", url: "https://tours-and-travels-clean.vercel.app/" },
   { name: "SCC Portal", category: "Education software", url: "https://edusync.me/login" },
