@@ -22,6 +22,7 @@ export const work = [
 
 // Instagram accounts we manage. image = a strip of 3 posts, saved in the repo root.
 export const social = [
+  { name: "Shiv Chhatrapati Classes", handle: "shivchhatrapaticlasses", category: "NEET, JEE & MHT-CET coaching, Nashik", image: "social-scc.jpg" },
   { name: "Peanzo", handle: "peanzo.in", category: "Peanut butter powder", image: "social-peanzo.jpg" },
   { name: "Astrodisha", handle: "astrodisha.in", category: "Astrology & guidance", image: "social-astrodisha.jpg" },
   { name: "Memory Kraft", handle: "memory_kraft", category: "Handmade gifts by Forever Handy", image: "social-memorykraft.jpg" },

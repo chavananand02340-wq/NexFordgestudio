@@ -373,26 +373,12 @@ h3 { font-size: 1.12rem; font-stretch: 108%; line-height: 1.3; }
 .card a:hover .ext { transform: translate(2px, -2px); }
 .ext { transition: transform .15s ease; }
 
-/* Instagram accounts */
-.social { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
-.social a {
-  display: grid; gap: 16px; padding: 16px;
-  background: var(--raised); border: 1px solid var(--line); border-radius: 14px;
-  text-decoration: none; transition: border-color .2s ease;
-}
-.social a:hover { border-color: var(--copper); }
-.s-meta { display: grid; gap: 2px; align-content: start; padding: 4px 4px 0; }
-.s-handle { display: inline-flex; align-items: center; gap: 6px; color: var(--copper); font-size: .92rem; font-weight: 600; }
-.s-name { font-size: 1.3rem; font-weight: 700; font-stretch: 112%; line-height: 1.2; margin-top: 6px; }
-.s-cat { color: var(--dim); font-size: .92rem; }
-.s-meta .card-go { margin-top: 12px; }
-.s-grid { display: block; border-radius: 8px; overflow: hidden; background: var(--field); }
-.s-grid img { width: 100%; height: auto; transition: transform .6s cubic-bezier(.2, .7, .2, 1); }
-.social a:hover .s-grid img { transform: scale(1.02); }
-.social a:hover .ext { transform: translate(2px, -2px); }
-@media (min-width: 760px) {
-  .social a { grid-template-columns: minmax(200px, 1fr) 2.4fr; align-items: center; padding: 20px; gap: 28px; }
-}
+/* Instagram accounts: cards inside the shared carousel */
+.ig-head { display: flex; align-items: center; gap: 8px; padding: 12px 14px; background: #2f3238; color: var(--copper); }
+.ig-head em { font-style: normal; font-size: .85rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ig-grid { display: block; background: var(--field); overflow: hidden; aspect-ratio: 1096 / 480; }
+.ig-grid img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2, .7, .2, 1); }
+.card a:hover .ig-grid img { transform: scale(1.03); }
 
 /* Other services (service pages) */
 .others { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }

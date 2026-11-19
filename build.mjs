@@ -1,9 +1,15 @@
 // Zero-dependency static build: renders pages from data.mjs into dist/.
 // Run: npm run build   (Vercel runs this automatically on every push)
-import { mkdirSync, rmSync, writeFileSync, cpSync, existsSync } from "node:fs";
+import { mkdirSync, rmSync, writeFileSync, cpSync, existsSync, readFileSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { site, work, social, services, reasons, steps, faqs } from "./data.mjs";
 
 const OUT = "dist";
+// Version stamp for CSS/JS so browsers never pair new HTML with an old cached stylesheet.
+const ver = (f) => {
+  const dir = existsSync("static") ? "static" : ".";
+  return createHash("md5").update(readFileSync(`${dir}/${f}`)).digest("hex").slice(0, 8);
+};
 const esc = (s) =>
   String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 const domain = (u) => new URL(u).hostname.replace(/^www\./, "");
@@ -51,9 +57,9 @@ function layout({ path, title, description, body, bodyClass = "" }) {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap">
-<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/styles.css?v=${ver("styles.css")}">
 <script type="application/ld+json">${JSON.stringify(ld)}</script>
-<script src="/site.js" defer></script>
+<script src="/site.js?v=${ver("site.js")}" defer></script>
 </head>
 <body class="${bodyClass}">
 <a class="skip" href="#main">Skip to content</a>
@@ -141,23 +147,38 @@ ${items
 
 const igIcon = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>`;
 
-// Instagram accounts we manage: a real strip of their posts, plus a link to the profile.
-function socialList(items) {
-  return `<ul class="social">
+// Instagram accounts we manage, as a horizontal carousel (same controls as Recent work).
+function socialList(items, { id, heading, sub }) {
+  return `<div class="car" data-car>
+  <div class="car-top">
+    <div class="block-head">
+      <h2 id="${id}">${esc(heading)}</h2>
+      ${sub ? `<p>${esc(sub)}</p>` : ""}
+    </div>
+    <div class="car-ctrl">
+      <span class="car-count" aria-live="polite"><b>1</b> / ${items.length}</span>
+      <button class="car-btn" type="button" data-dir="-1" aria-label="Previous account">${arrow("prev")}</button>
+      <button class="car-btn" type="button" data-dir="1" aria-label="Next account">${arrow("next")}</button>
+    </div>
+  </div>
+  <ul class="car-track ig-track" aria-labelledby="${id}">
 ${items
   .map(
-    (a) => `  <li><a href="https://instagram.com/${esc(a.handle)}" target="_blank" rel="noopener">
-    <span class="s-meta">
-      <span class="s-handle">${igIcon}@${esc(a.handle)}</span>
-      <span class="s-name">${esc(a.name)}</span>
-      <span class="s-cat">${esc(a.category)}</span>
-      <span class="card-go">View on Instagram${extIcon}</span>
-    </span>
-    <span class="s-grid"><img src="/${esc(a.image)}" alt="Recent posts on @${esc(a.handle)}" width="1096" height="480" loading="lazy" decoding="async"></span>
-  </a></li>`
+    (a) => `    <li class="card ig-card">
+      <a href="https://instagram.com/${esc(a.handle)}" target="_blank" rel="noopener">
+        <span class="ig-head">${igIcon}<em>@${esc(a.handle)}</em></span>
+        <span class="ig-grid"><img src="/${esc(a.image)}" alt="Recent posts on @${esc(a.handle)}" width="1096" height="480" loading="lazy" decoding="async"></span>
+        <span class="card-meta">
+          <span class="card-cat">${esc(a.category)}</span>
+          <span class="card-name">${esc(a.name)}</span>
+          <span class="card-go">View on Instagram${extIcon}</span>
+        </span>
+      </a>
+    </li>`
   )
   .join("\n")}
-</ul>`;
+  </ul>
+</div>`;
 }
 
 function contactForm(selected = "") {
@@ -242,11 +263,7 @@ ${services
 
 <section class="block" id="social" aria-labelledby="social-h">
   <div class="wrap">
-    <div class="block-head">
-      <h2 id="social-h">Instagram accounts we run</h2>
-      <p>Posts, reels and creatives we plan and make for these brands.</p>
-    </div>
-    ${socialList(social)}
+    ${socialList(social, { id: "social-h", heading: "Instagram accounts we run", sub: "Posts, reels and creatives we plan and make for these brands." })}
   </div>
 </section>
 
@@ -346,8 +363,7 @@ ${
   s.slug === "social-media-management"
     ? `<section class="block band" aria-labelledby="ig-h">
   <div class="wrap">
-    <div class="block-head"><h2 id="ig-h">Accounts we run</h2><p>Posts, reels and creatives we plan and make for these brands.</p></div>
-    ${socialList(social)}
+    ${socialList(social, { id: "ig-h", heading: "Accounts we run", sub: "Posts, reels and creatives we plan and make for these brands." })}
   </div>
 </section>`
     : ""
