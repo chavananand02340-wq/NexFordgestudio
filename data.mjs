@@ -20,6 +20,13 @@ export const work = [
   { name: "SCC Portal", category: "Education software", url: "https://edusync.me/login" },
 ];
 
+// Instagram accounts we manage. image = a strip of 3 posts, saved in the repo root.
+export const social = [
+  { name: "Peanzo", handle: "peanzo.in", category: "Peanut butter powder", image: "social-peanzo.jpg" },
+  { name: "Astrodisha", handle: "astrodisha.in", category: "Astrology & guidance", image: "social-astrodisha.jpg" },
+  { name: "Memory Kraft", handle: "memory_kraft", category: "Handmade gifts by Forever Handy", image: "social-memorykraft.jpg" },
+];
+
 export const services = [
   {
     slug: "website-development",
@@ -118,7 +125,7 @@ export const services = [
       "Clear reporting on growth",
       "Scales as your business grows",
     ],
-    related: ["Sanskriti Art", "Nashik Tours Cloud"],
+    related: [],
   },
   {
     slug: "branding-creative",
@@ -172,6 +179,6 @@ export const faqs = [
   ["How much does a project cost?", "It depends on what you need. Tell us about your project on WhatsApp and we'll send a clear quote before any work starts."],
   ["How long does it take?", "A focused website takes much less time than custom software, which we plan in stages. You'll get a timeline along with the quote."],
   ["Can customers order and pay on my website?", "Yes. We build product pages, cart and checkout with UPI and card payments, or simple ordering through WhatsApp."],
-  ["Do you work with businesses outside my city?", "Yes. We work with businesses across India over WhatsApp, calls and video meetings."],
+  ["Do you work with businesses outside my city?", "Yes. We're based in Nashik and work with businesses across India over WhatsApp, calls and video meetings. If you're in Nashik, we can also meet in person."],
   ["What happens after the site is live?", "We stay involved for updates, fixes and improvements. You won't be left with a site nobody can change."],
 ];

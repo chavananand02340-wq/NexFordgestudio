@@ -1,7 +1,7 @@
 // Zero-dependency static build: renders pages from data.mjs into dist/.
 // Run: npm run build   (Vercel runs this automatically on every push)
 import { mkdirSync, rmSync, writeFileSync, cpSync, existsSync } from "node:fs";
-import { site, work, services, reasons, steps, faqs } from "./data.mjs";
+import { site, work, social, services, reasons, steps, faqs } from "./data.mjs";
 
 const OUT = "dist";
 const esc = (s) =>
@@ -23,9 +23,10 @@ function layout({ path, title, description, body, bodyClass = "" }) {
     image: `${site.url}/og.jpg`,
     email: site.email,
     telephone: "+" + site.whatsapp,
+    address: { "@type": "PostalAddress", addressLocality: "Nashik", addressRegion: "Maharashtra", addressCountry: "IN" },
     areaServed: "IN",
     sameAs: [`https://instagram.com/${site.instagram}`],
-    description: "Digital studio in India building websites, custom software, social media and brands for growing businesses.",
+    description: "Digital studio in Nashik, India, building websites, custom software, social media and brands for growing businesses.",
   };
   return `<!doctype html>
 <html lang="en">
@@ -82,7 +83,7 @@ ${body}
   <div class="wrap foot-in">
     <div>
       <a class="brand" href="/"><img src="/mark-64.png" width="34" height="34" alt=""><span>NexForge Studio</span></a>
-      <p>Websites, software, social media and branding for businesses in India.</p>
+      <p>Websites, software, social media and branding. Based in Nashik, Maharashtra, working with businesses across India.</p>
     </div>
     <ul class="foot-links">
       <li><a href="${wa()}" rel="noopener" target="_blank">WhatsApp +91 ${site.whatsapp.slice(2, 7)} ${site.whatsapp.slice(7)}</a></li>
@@ -138,6 +139,27 @@ ${items
 </div>`;
 }
 
+const igIcon = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>`;
+
+// Instagram accounts we manage: a real strip of their posts, plus a link to the profile.
+function socialList(items) {
+  return `<ul class="social">
+${items
+  .map(
+    (a) => `  <li><a href="https://instagram.com/${esc(a.handle)}" target="_blank" rel="noopener">
+    <span class="s-meta">
+      <span class="s-handle">${igIcon}@${esc(a.handle)}</span>
+      <span class="s-name">${esc(a.name)}</span>
+      <span class="s-cat">${esc(a.category)}</span>
+      <span class="card-go">View on Instagram${extIcon}</span>
+    </span>
+    <span class="s-grid"><img src="/${esc(a.image)}" alt="Recent posts on @${esc(a.handle)}" width="1096" height="480" loading="lazy" decoding="async"></span>
+  </a></li>`
+  )
+  .join("\n")}
+</ul>`;
+}
+
 function contactForm(selected = "") {
   return `<form class="wa-form" data-wa="${site.whatsapp}" novalidate>
   <label><span>Your name</span>
@@ -181,16 +203,16 @@ const reasonIcons = [
 // ---------- Home ----------
 const home = layout({
   path: "/",
-  title: "NexForge Studio | Websites, software and branding in India",
+  title: "NexForge Studio | Website development and social media in Nashik",
   description:
-    "NexForge Studio designs and builds websites, online stores, custom software, social media and brands for growing businesses across India.",
+    "NexForge Studio is a Nashik digital studio building websites, online stores, custom software, social media and brands for growing businesses across India.",
   bodyClass: "is-home",
   body: `
 <section class="hero">
   <div class="wrap hero-in">
     <div class="hero-copy">
       <h1>We design and build websites, software and brands for growing businesses.</h1>
-      <p class="lead">NexForge is a small digital studio in India. You talk directly to the people building your project, and we stay with you after launch.</p>
+      <p class="lead">NexForge is a small digital studio in Nashik, working with businesses across India. You talk directly to the people building your project, and we stay with you after launch.</p>
       <div class="actions">
         <a class="btn" href="${wa("Hi NexForge, I'd like to talk about a project.")}" target="_blank" rel="noopener">${waIcon} Message us on WhatsApp</a>
         <a class="btn btn-ghost" href="#work">See our work</a>
@@ -218,7 +240,17 @@ ${services
   </div>
 </section>
 
-<section class="block" aria-labelledby="why-h">
+<section class="block" id="social" aria-labelledby="social-h">
+  <div class="wrap">
+    <div class="block-head">
+      <h2 id="social-h">Instagram accounts we run</h2>
+      <p>Posts, reels and creatives we plan and make for these brands.</p>
+    </div>
+    ${socialList(social)}
+  </div>
+</section>
+
+<section class="block band" aria-labelledby="why-h">
   <div class="wrap">
     <div class="block-head">
       <h2 id="why-h">Why businesses work with us</h2>
@@ -229,7 +261,7 @@ ${reasons.map(([t, d], i) => `      <div class="reason">${reasonIcons[i] || ""}<
   </div>
 </section>
 
-<section class="block band" id="process" aria-labelledby="process-h">
+<section class="block" id="process" aria-labelledby="process-h">
   <div class="wrap">
     <div class="block-head">
       <h2 id="process-h">How a project runs</h2>
@@ -309,6 +341,17 @@ ${s.process.map(([t, d]) => `      <li><h3>${esc(t)}</h3><p>${esc(d)}</p></li>`)
     </ol>
   </div>
 </section>
+
+${
+  s.slug === "social-media-management"
+    ? `<section class="block band" aria-labelledby="ig-h">
+  <div class="wrap">
+    <div class="block-head"><h2 id="ig-h">Accounts we run</h2><p>Posts, reels and creatives we plan and make for these brands.</p></div>
+    ${socialList(social)}
+  </div>
+</section>`
+    : ""
+}
 
 ${
   rel.length
@@ -393,6 +436,7 @@ mkdirSync(`${OUT}/services`, { recursive: true });
 // Assets live in static/, or in the repo root if they were uploaded without the folder.
 const ASSETS = ["styles.css", "site.js", "mark-64.png", "mark-192.png", "apple-touch-icon.png", "og.jpg"];
 const assetDir = existsSync("static") ? "static" : ".";
+for (const a of social) ASSETS.push(a.image);
 for (const f of ASSETS) {
   if (!existsSync(`${assetDir}/${f}`)) throw new Error(`Missing asset: ${f} (looked in ${assetDir}/)`);
   cpSync(`${assetDir}/${f}`, `${OUT}/${f}`);

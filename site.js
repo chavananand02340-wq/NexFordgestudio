@@ -211,9 +211,10 @@
     });
   });
 
-  /* ---------- Hide the floating WhatsApp button while a form is on screen ---------- */
+  /* ---------- Hide the floating WhatsApp button while the hero or a form is on screen
+     (both already have their own WhatsApp button, and the float would cover content) ---------- */
   var floatBtn = document.querySelector(".wa-float");
-  var forms = document.querySelectorAll(".wa-form");
+  var forms = document.querySelectorAll(".hero, .page-hero, .wa-form");
   if (floatBtn && forms.length && "IntersectionObserver" in window) {
     var visible = new Set();
     var io = new IntersectionObserver(function (entries) {
