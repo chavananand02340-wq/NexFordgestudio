@@ -11,12 +11,13 @@ export const site = {
 // Portfolio. NEWEST PROJECT GOES AT THE TOP.
 // Only three things per project: name, category, url.
 export const work = [
+  { name: "Sanskriti Art", category: "Handmade resin art & gifts", url: "https://sanskriti-art.vercel.app/" },
+  { name: "Vaishnavi E-Mart", category: "Grocery & quick delivery", url: "https://vaishnavistores.shop/" },
   { name: "Astrodisha", category: "Gemstones & spiritual store", url: "https://www.astrodisha.shop/" },
   { name: "Forever Handy", category: "Personalised gifts store", url: "https://www.foreverhandy.store/" },
   { name: "Beast Algo", category: "Trading & technology", url: "https://beast-algo.vercel.app/" },
   { name: "Nashik Tours Cloud", category: "Travel & booking", url: "https://tours-and-travels-clean.vercel.app/" },
   { name: "SCC Portal", category: "Education software", url: "https://edusync.me/login" },
-  { name: "Memories Kraft", category: "E-commerce & gifting", url: "https://memories-kraft.vercel.app/" },
 ];
 
 export const services = [
@@ -51,7 +52,7 @@ export const services = [
       "You talk directly to the people building it",
       "Support after launch",
     ],
-    related: ["Beast Algo", "Nashik Tours Cloud", "SCC Portal", "Memories Kraft"],
+    related: ["Sanskriti Art", "Vaishnavi E-Mart", "Astrodisha", "Forever Handy", "Beast Algo", "Nashik Tours Cloud"],
   },
   {
     slug: "custom-software",
@@ -117,7 +118,7 @@ export const services = [
       "Clear reporting on growth",
       "Scales as your business grows",
     ],
-    related: ["Memories Kraft", "Nashik Tours Cloud"],
+    related: ["Sanskriti Art", "Nashik Tours Cloud"],
   },
   {
     slug: "branding-creative",
@@ -150,7 +151,7 @@ export const services = [
       "Designed to stand apart, not follow trends",
       "Guidelines that make future design work easy",
     ],
-    related: ["Memories Kraft"],
+    related: [],
   },
 ];
 
