@@ -12,27 +12,30 @@ export const site = {
 // Only three things per project: name, category, url.
 export const work = [
   // url: the live site. No public link? Leave url out and set demo: true (the card asks for a demo on WhatsApp).
-  { name: "Sanskriti Art", category: "Handmade resin art & gifts", url: "https://sanskriti-art.vercel.app/",
-    desc: "Online store for handmade art and gifts, with a step-by-step custom order flow and WhatsApp support.",
-    tags: ["Online store", "Custom orders", "WhatsApp"] },
-  { name: "Vaishnavi E-Mart", category: "Grocery & quick delivery", url: "https://vaishnavistores.shop/",
-    desc: "Grocery store with categories, a PIN-code delivery check, UPI, card and COD payments, and ordering by WhatsApp list.",
-    tags: ["Online store", "Payments", "WhatsApp"] },
+  // featured: true shows the project large at the top of the work section (keep it to 3).
+  // shots: your own screenshots, saved in the repo root, e.g. shots: { desktop: "shot-sanskriti-desktop.jpg", mobile: "shot-sanskriti-mobile.jpg" }.
+  //        Without shots, screenshots are generated automatically from the live site.
+  { name: "Sanskriti Art", featured: true, category: "Handmade resin art & gifts", url: "https://sanskriti-art.vercel.app/",
+    desc: "Online store for handmade resin art and gifts, with a step-by-step custom order flow and WhatsApp support.",
+    tags: ["Online store", "Custom orders", "WhatsApp"], shots: { mobile: "shot-sanskriti-mobile.jpg" } },
+  { name: "Vaishnavi E-Mart", featured: true, category: "Grocery & quick delivery", url: "https://vaishnavistores.shop/",
+    desc: "Grocery store with search, categories, a PIN-code delivery check, offers, UPI, card and COD payments, and ordering by WhatsApp list.",
+    tags: ["Online store", "Payments", "WhatsApp"], shots: { mobile: "shot-vaishnavi-mobile.jpg" } },
+  { name: "Astrodisha", featured: true, category: "Gemstones & spiritual store", url: "https://www.astrodisha.shop/",
+    desc: "Online store for gemstones, crystals, Rudraksha and puja essentials, with a WhatsApp line to their experts. We also run their Instagram.",
+    tags: ["Online store", "WhatsApp", "Instagram"], shots: { mobile: "shot-astrodisha-mobile.jpg" } },
   { name: "OMR Checker", category: "Education software", demo: true, art: "omr",
     desc: "Software for coaching classes that checks OMR answer sheets and prepares results. Private tool, demo on request.",
     tags: ["Custom software"] },
-  { name: "Astrodisha", category: "Gemstones & spiritual store", url: "https://www.astrodisha.shop/",
-    desc: "Online store for gemstones and spiritual products. We also run their Instagram.",
-    tags: ["Online store", "Instagram"] },
+  { name: "SCC Portal", category: "Coaching institute software", url: "https://edusync.me/login",
+    desc: "Portal for Shiv Chhatrapati Classes to manage students, fees, attendance and results, with a parent portal and WhatsApp alerts. We also run their Instagram.",
+    tags: ["Web app", "WhatsApp automation", "Instagram"], shots: { mobile: "shot-scc-mobile.jpg" } },
   { name: "Forever Handy", category: "Personalised gifts store", url: "https://www.foreverhandy.store/",
-    desc: "Online store for personalised gifts. We also run their Instagram, @memory_kraft.",
-    tags: ["Online store", "Instagram"] },
+    desc: "Online store for handmade, personalised gifts with a custom gift builder, shop, cart and accounts. We also run their Instagram, @memory_kraft.",
+    tags: ["Online store", "Custom orders", "Instagram"], shots: { mobile: "shot-foreverhandy-mobile.jpg" } },
   { name: "Beast Algo", category: "Trading & technology", url: "https://beast-algo.vercel.app/",
-    desc: "Website for a trading technology product.",
-    tags: ["Website"] },
-  { name: "SCC Portal", category: "Education software", url: "https://edusync.me/login",
-    desc: "Login portal for a coaching institute.",
-    tags: ["Web app"] },
+    desc: "Website for an algorithmic trading product, with backtest results, a demo video and a community link.",
+    tags: ["Website"], shots: { mobile: "shot-beast-mobile.jpg" } },
 ];
 
 // Instagram accounts we manage. image = a strip of 3 posts, saved in the repo root.
@@ -195,6 +198,9 @@ export const faqs = [
   ["How much does a project cost?", "It depends on what you need. Tell us about your project on WhatsApp and we'll send a clear quote before any work starts."],
   ["How long does it take?", "A focused website takes much less time than custom software, which we plan in stages. You'll get a timeline along with the quote."],
   ["Can customers order and pay on my website?", "Yes. We build product pages, cart and checkout with UPI and card payments, or simple ordering through WhatsApp."],
+  ["Can you redesign my existing website?", "Yes. We look at what you have, keep what works, and rebuild the rest so it's faster and easier to order from."],
+  ["Who takes care of hosting and the domain?", "We can set up hosting and connect your domain for you, or work with the hosting and domain you already have."],
+  ["How do payments for the project work?", "The payment terms are written into the quote, so you know what's due and when before any work starts."],
+  ["Do you maintain the site after launch?", "Yes. We stay involved for updates, fixes and improvements. You won't be left with a site nobody can change."],
   ["Do you work with businesses outside my city?", "Yes. We're based in Nashik and work with businesses across India over WhatsApp, calls and video meetings. If you're in Nashik, we can also meet in person."],
-  ["What happens after the site is live?", "We stay involved for updates, fixes and improvements. You won't be left with a site nobody can change."],
 ];

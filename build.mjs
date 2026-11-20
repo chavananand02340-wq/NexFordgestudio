@@ -86,6 +86,13 @@ function layout({ path, title, description, body, bodyClass = "" }) {
 ${body}
 </main>
 <footer class="foot">
+  <div class="wrap foot-cta">
+    <p class="foot-big">Have a project in mind?</p>
+    <div class="actions">
+      <a class="btn" href="${wa("Hi NexForge, I'd like to talk about a project.")}" target="_blank" rel="noopener">${waIcon} Message us on WhatsApp</a>
+      <a class="btn btn-ghost" href="/start-project">Start a project</a>
+    </div>
+  </div>
   <div class="wrap foot-in">
     <div>
       <a class="brand" href="/"><img src="/mark-64.png" width="34" height="34" alt=""><span>NexForge Studio</span></a>
@@ -150,6 +157,91 @@ const arts = {
 };
 
 const shot = (u) => `https://s0.wp.com/mshots/v1/${encodeURIComponent(u)}?w=800&h=500`;
+// Own screenshot if provided in data.mjs, otherwise an automatic one from the live site.
+const shotFor = (w, kind) => {
+  if (w.shots && w.shots[kind]) return "/" + w.shots[kind];
+  const u = encodeURIComponent(w.url);
+  return kind === "mobile"
+    ? `https://s0.wp.com/mshots/v1/${u}?vpw=390&vph=844&w=390&h=844`
+    : `https://s0.wp.com/mshots/v1/${u}?w=1200&h=750`;
+};
+const ownShots = () => work.flatMap((w) => (w.shots ? Object.values(w.shots) : []));
+
+function desktopFrame(w, eager) {
+  return `<span class="f-desk">
+    <span class="f-bar" aria-hidden="true"><i></i><i></i><i></i><em>${esc(domain(w.url))}</em></span>
+    <span class="f-screen"><img data-shot src="${shotFor(w, "desktop")}" alt="${esc(w.name)} website on a laptop" width="1200" height="750" loading="${eager ? "eager" : "lazy"}" decoding="async"><span class="f-fallback" aria-hidden="true">${esc(domain(w.url))}</span></span>
+  </span>`;
+}
+function phoneFrame(w, eager) {
+  return `<span class="f-phone">
+    <span class="f-screen"><img data-shot src="${shotFor(w, "mobile")}" alt="${esc(w.name)} website on a phone" width="390" height="844" loading="${eager ? "eager" : "lazy"}" decoding="async"><span class="f-fallback" aria-hidden="true">${esc(w.name)}</span></span>
+  </span>`;
+}
+
+// Three large featured projects: laptop + phone preview, what we built, services delivered.
+function featuredList(items) {
+  return `<ol class="feat" role="list">
+${items
+  .map(
+    (w, i) => `  <li class="feat-item${i % 2 ? " flip" : ""}">
+    <a class="feat-media" href="${esc(w.url)}" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+      ${w.shots && w.shots.desktop ? desktopFrame(w, i === 0) : ""}
+      ${phoneFrame(w, i === 0)}
+    </a>
+    <div class="feat-copy">
+      <p class="feat-cat">${esc(w.category)}</p>
+      <h3>${esc(w.name)}</h3>
+      <p class="feat-desc">${esc(w.desc || "")}</p>
+      ${w.tags ? `<p class="feat-label">Services delivered</p><ul class="card-tags" role="list">${w.tags.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}
+      <a class="btn btn-ghost" href="${esc(w.url)}" target="_blank" rel="noopener">Visit ${esc(domain(w.url))}${extIcon}</a>
+    </div>
+  </li>`
+  )
+  .join("\n")}
+</ol>`;
+}
+
+// Small drawn visuals for each service (illustrations, not client work).
+const svcArt = {
+  "website-development": `<svg viewBox="0 0 280 180" aria-hidden="true"><rect x="10" y="12" width="260" height="160" rx="10" fill="#18191c" stroke="#3a3e45"/><rect x="10" y="12" width="260" height="22" rx="10" fill="#2f3238"/><circle cx="24" cy="23" r="3" fill="#4a4e56"/><circle cx="34" cy="23" r="3" fill="#4a4e56"/><circle cx="44" cy="23" r="3" fill="#4a4e56"/><rect x="24" y="46" width="120" height="12" rx="6" fill="#e6e6e3"/><rect x="24" y="64" width="86" height="8" rx="4" fill="#5b5f66"/><rect x="24" y="80" width="54" height="16" rx="8" fill="#cf8c5d"/><g fill="#25282d" stroke="#3a3e45"><rect x="24" y="106" width="72" height="54" rx="6"/><rect x="104" y="106" width="72" height="54" rx="6"/><rect x="184" y="106" width="72" height="54" rx="6"/></g><g fill="#3a3e45"><rect x="32" y="114" width="56" height="26" rx="4"/><rect x="112" y="114" width="56" height="26" rx="4"/><rect x="192" y="114" width="56" height="26" rx="4"/></g><g fill="#cf8c5d"><rect x="32" y="146" width="24" height="6" rx="3"/><rect x="112" y="146" width="24" height="6" rx="3"/><rect x="192" y="146" width="24" height="6" rx="3"/></g><rect x="196" y="44" width="60" height="50" rx="8" fill="#25282d" stroke="#cf8c5d"/><path d="M212 62h28l-4 14h-20z" fill="none" stroke="#cf8c5d" stroke-width="2"/><circle cx="218" cy="82" r="2.5" fill="#cf8c5d"/><circle cx="234" cy="82" r="2.5" fill="#cf8c5d"/></svg>`,
+  "custom-software": `<svg viewBox="0 0 280 180" aria-hidden="true"><rect x="10" y="12" width="260" height="160" rx="10" fill="#18191c" stroke="#3a3e45"/><rect x="10" y="12" width="56" height="160" rx="10" fill="#25282d"/><g fill="#3a3e45"><rect x="22" y="30" width="32" height="6" rx="3"/><rect x="22" y="46" width="26" height="6" rx="3"/><rect x="22" y="62" width="30" height="6" rx="3"/></g><rect x="22" y="78" width="32" height="6" rx="3" fill="#cf8c5d"/><g fill="#cf8c5d"><rect x="86" y="88" width="16" height="36" rx="3"/><rect x="110" y="70" width="16" height="54" rx="3"/><rect x="134" y="98" width="16" height="26" rx="3"/><rect x="158" y="58" width="16" height="66" rx="3"/></g><path d="M80 124h104" stroke="#3a3e45"/><rect x="196" y="30" width="60" height="40" rx="6" fill="#25282d" stroke="#3a3e45"/><rect x="204" y="40" width="30" height="6" rx="3" fill="#5b5f66"/><rect x="204" y="52" width="40" height="10" rx="3" fill="#e6e6e3"/><g fill="#25282d"><rect x="80" y="138" width="176" height="10" rx="3"/><rect x="80" y="154" width="176" height="10" rx="3"/></g><rect x="80" y="30" width="100" height="10" rx="5" fill="#e6e6e3"/></svg>`,
+  "social-media-management": `<svg viewBox="0 0 280 180" aria-hidden="true"><rect x="92" y="6" width="96" height="170" rx="14" fill="#18191c" stroke="#3a3e45"/><circle cx="112" cy="30" r="10" fill="none" stroke="#cf8c5d" stroke-width="2"/><rect x="128" y="24" width="44" height="5" rx="2.5" fill="#e6e6e3"/><rect x="128" y="33" width="30" height="4" rx="2" fill="#5b5f66"/><g fill="#2f3238"><rect x="100" y="50" width="25" height="32" rx="2"/><rect x="128" y="50" width="25" height="32" rx="2"/><rect x="156" y="50" width="25" height="32" rx="2"/><rect x="100" y="85" width="25" height="32" rx="2"/><rect x="156" y="85" width="25" height="32" rx="2"/><rect x="100" y="120" width="25" height="32" rx="2"/><rect x="128" y="120" width="25" height="32" rx="2"/><rect x="156" y="120" width="25" height="32" rx="2"/></g><rect x="128" y="85" width="25" height="32" rx="2" fill="#cf8c5d"/><path d="M137 95v12l9-6z" fill="#1c140d"/><path d="M40 70c0-8 12-10 14-2 2-8 14-6 14 2 0 10-14 16-14 16s-14-6-14-16z" fill="#cf8c5d"/><rect x="206" y="60" width="52" height="22" rx="11" fill="#25282d" stroke="#3a3e45"/><rect x="216" y="69" width="32" height="4" rx="2" fill="#a0a4aa"/><rect x="24" y="110" width="52" height="22" rx="11" fill="#25282d" stroke="#3a3e45"/><rect x="34" y="119" width="32" height="4" rx="2" fill="#a0a4aa"/></svg>`,
+  "branding-creative": `<svg viewBox="0 0 280 180" aria-hidden="true"><rect x="10" y="12" width="260" height="160" rx="10" fill="#18191c" stroke="#3a3e45"/><circle cx="76" cy="78" r="38" fill="none" stroke="#cf8c5d" stroke-width="3"/><path d="M60 98V60l32 38V60" fill="none" stroke="#e6e6e3" stroke-width="4" stroke-linejoin="round"/><g><rect x="140" y="38" width="28" height="28" rx="6" fill="#cf8c5d"/><rect x="174" y="38" width="28" height="28" rx="6" fill="#e6e6e3"/><rect x="208" y="38" width="28" height="28" rx="6" fill="#2a2d32" stroke="#3a3e45"/></g><text x="140" y="112" font-family="Archivo, sans-serif" font-weight="700" font-size="34" fill="#e6e6e3">Aa</text><rect x="196" y="88" width="48" height="6" rx="3" fill="#5b5f66"/><rect x="196" y="100" width="34" height="6" rx="3" fill="#5b5f66"/><rect x="38" y="138" width="204" height="18" rx="4" fill="#25282d"/><rect x="46" y="144" width="70" height="6" rx="3" fill="#cf8c5d"/></svg>`,
+};
+
+const projectNoun = {
+  "website-development": "website",
+  "custom-software": "software",
+  "social-media-management": "social media",
+  "branding-creative": "branding",
+};
+
+function servicesShowcase() {
+  return `<div class="board svc-board">
+  <span class="board-node" aria-hidden="true"><img src="/mark-192.png" width="72" height="72" alt=""></span>
+  <ul>
+${services
+  .map(
+    (s, i) => `    <li class="svc${i % 2 ? " flip" : ""}">
+      <div class="svc-copy">
+        <h3><a href="/services/${s.slug}">${esc(s.title[0].toUpperCase() + s.title.slice(1))}</a></h3>
+        <p>${esc(s.desc)}</p>
+        <ul class="svc-get" role="list">
+${s.capabilities.slice(0, 4).map(([t]) => `          <li>${esc(t)}</li>`).join("\n")}
+        </ul>
+        <div class="svc-cta">
+          <a class="btn btn-sm" href="/start-project?service=${s.slug}">Start a ${esc(projectNoun[s.slug] || "")} project</a>
+          <a class="svc-more" href="/services/${s.slug}">How we work<span class="sr-only"> on ${esc(s.title)}</span></a>
+        </div>
+      </div>
+      <div class="svc-art">${svcArt[s.slug] || ""}</div>
+    </li>`
+  )
+  .join("\n")}
+  </ul>
+</div>`;
+}
 const arrow = (d) =>
   `<svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="${d === "prev" ? "M12 4 6 10l6 6" : "M8 4l6 6-6 6"}"/></svg>`;
 
@@ -175,6 +267,8 @@ ${items
       const bar = w.url ? domain(w.url) : "Private software, demo on request";
       const img = w.art
         ? `<span class="card-art">${arts[w.art] || ""}<span class="art-note">Illustration</span></span>`
+        : w.shots && w.shots.mobile
+        ? `<img src="/${esc(w.shots.mobile)}" alt="${esc(w.name)} on a phone" width="540" height="929" loading="lazy" decoding="async">`
         : `<img src="${shot(w.url)}" alt="Homepage of ${esc(w.name)}" width="800" height="500" loading="${i < 3 ? "eager" : "lazy"}" decoding="async"><span class="card-fallback" aria-hidden="true">${esc(domain(w.url))}</span>`;
       return `    <li class="card">
       <a href="${esc(href)}" target="_blank" rel="noopener">
@@ -291,6 +385,9 @@ const reasonIcons = [
   icon('<path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><circle cx="12" cy="12" r="4"/>'),
 ];
 
+const featured = work.filter((w) => w.featured && w.url).slice(0, 3);
+const others = work.filter((w) => !featured.includes(w));
+
 // ---------- Home ----------
 const home = layout({
   path: "/",
@@ -309,29 +406,37 @@ const home = layout({
         <a class="btn btn-ghost" href="#work">See our work</a>
       </div>
     </div>
-    <nav class="board" id="services" aria-label="Services">
-      <span class="board-node" aria-hidden="true"><img src="/mark-192.png" width="72" height="72" alt=""></span>
-      <ul>
-${services
-  .map(
-    (s) => `        <li><a href="/services/${s.slug}">
-          <strong>${esc(s.title)}</strong>
-          <span>${esc(s.desc)}</span>
-        </a></li>`
-  )
-  .join("\n")}
-      </ul>
-    </nav>
+    <a class="showcase" href="#work" aria-label="See our work: ${featured.map((w) => esc(w.name)).join(", ")}">
+${featured.map((w, i) => `      <span class="sc-phone sc-${i}">${phoneFrame(w, true)}</span>`).join("\n")}
+      <span class="showcase-note" aria-hidden="true"><b>Live now</b> ${featured.map((w) => esc(w.name)).join(", ")}</span>
+    </a>
   </div>
 </section>
 
 <section class="block band" id="work" aria-labelledby="work-h">
   <div class="wrap">
-    ${workList(work, { id: "work-h", heading: "Recent work", sub: "Live projects you can open and try. Newest first." })}
+    <div class="block-head">
+      <h2 id="work-h">Selected work</h2>
+      <p>Live projects you can open and try.</p>
+    </div>
+    ${featuredList(featured)}
+    <div class="more-work">
+      ${workList(others, { id: "more-h", heading: "More projects" })}
+    </div>
   </div>
 </section>
 
-<section class="block" id="social" aria-labelledby="social-h">
+<section class="block" id="services" aria-labelledby="services-h">
+  <div class="wrap">
+    <div class="block-head">
+      <h2 id="services-h">What we do</h2>
+      <p>Four services, one team. Pick one, or let us suggest where to start.</p>
+    </div>
+    ${servicesShowcase()}
+  </div>
+</section>
+
+<section class="block band" id="social" aria-labelledby="social-h">
   <div class="wrap">
     ${socialList(social, { id: "social-h", heading: "Instagram accounts we run", sub: "Posts, reels and creatives we plan and make for these brands." })}
   </div>
@@ -347,18 +452,18 @@ ${services
   </div>
 </section>
 
-<section class="block band" aria-labelledby="why-h">
+<section class="block" aria-labelledby="why-h">
   <div class="wrap">
     <div class="block-head">
       <h2 id="why-h">Why businesses work with us</h2>
     </div>
-    <div class="reasons">
-${reasons.map(([t, d], i) => `      <div class="reason">${reasonIcons[i] || ""}<h3>${esc(t)}</h3><p>${esc(d)}</p></div>`).join("\n")}
-    </div>
+    <ul class="why" role="list">
+${reasons.map(([t, d], i) => `      <li>${reasonIcons[i] || ""}<h3>${esc(t)}</h3><p>${esc(d)}</p></li>`).join("\n")}
+    </ul>
   </div>
 </section>
 
-<section class="block" id="process" aria-labelledby="process-h">
+<section class="block band" id="process" aria-labelledby="process-h">
   <div class="wrap">
     <div class="block-head">
       <h2 id="process-h">How a project runs</h2>
@@ -533,6 +638,7 @@ mkdirSync(`${OUT}/services`, { recursive: true });
 const ASSETS = ["styles.css", "site.js", "mark-64.png", "mark-192.png", "apple-touch-icon.png", "og.jpg"];
 const assetDir = existsSync("static") ? "static" : ".";
 for (const a of social) ASSETS.push(a.image);
+for (const f of ownShots()) ASSETS.push(f);
 for (const f of ASSETS) {
   if (!existsSync(`${assetDir}/${f}`)) throw new Error(`Missing asset: ${f} (looked in ${assetDir}/)`);
   cpSync(`${assetDir}/${f}`, `${OUT}/${f}`);

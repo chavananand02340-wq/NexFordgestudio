@@ -43,20 +43,28 @@
   }, { passive: true });
   onScroll();
 
-  /* ---------- Hero board: a signal that travels the copper bus ---------- */
-  var board = document.querySelector(".board ul");
-  if (board) {
+  /* ---------- Services board: traces power up in view, then a signal travels the copper bus ---------- */
+  var boardEl = document.querySelector(".board");
+  if (boardEl) {
+    var bus = boardEl.querySelector(":scope > ul");
     var setBus = function () {
-      var items = board.querySelectorAll("li");
+      var items = bus.querySelectorAll(":scope > li");
       var last = items[items.length - 1];
-      if (last) board.style.setProperty("--bus", last.offsetTop + 26 + "px");
+      if (last) bus.style.setProperty("--bus", last.offsetTop + 40 + "px");
     };
     setBus();
     window.addEventListener("resize", setBus);
-    if (!reduce) setTimeout(function () { board.classList.add("live"); }, 1300);
-
-    // Light up the trace for whichever service is hovered or focused
-    board.querySelectorAll("li").forEach(function (li) {
+    var start = function () {
+      boardEl.classList.add("go");
+      if (!reduce) setTimeout(function () { boardEl.classList.add("live"); }, 1400);
+    };
+    if ("IntersectionObserver" in window && !reduce) {
+      var bio = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting) { start(); bio.disconnect(); }
+      }, { rootMargin: "0px 0px -20% 0px" });
+      bio.observe(boardEl);
+    } else { start(); }
+    bus.querySelectorAll(":scope > li").forEach(function (li) {
       var on = function () { li.classList.add("lit"); };
       var off = function () { li.classList.remove("lit"); };
       li.addEventListener("pointerenter", on);
@@ -65,6 +73,13 @@
       li.addEventListener("focusout", off);
     });
   }
+
+  /* ---------- Screenshot frames: show the site name if an image can't load ---------- */
+  document.querySelectorAll("img[data-shot]").forEach(function (img) {
+    var fail = function () { img.parentNode.classList.add("noimg"); };
+    img.addEventListener("error", fail);
+    if (img.complete && img.naturalWidth === 0) fail();
+  });
 
   /* ---------- Process steps light up as you scroll past them ---------- */
   if ("IntersectionObserver" in window) {
