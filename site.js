@@ -158,6 +158,10 @@
     lines.push("Name: " + (name || "…"));
     if (business) lines.push("Business: " + business);
     if (needs.length) lines.push("Looking for: " + needs.join(", "));
+    var when = data.get("when");
+    var have = data.getAll("have");
+    if (when) lines.push("Timeline: " + when);
+    if (have.length) lines.push("Already have: " + have.join(", "));
     if (message) lines.push("", message);
     return { name: name, text: lines.join("\n") };
   }

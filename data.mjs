@@ -11,13 +11,28 @@ export const site = {
 // Portfolio. NEWEST PROJECT GOES AT THE TOP.
 // Only three things per project: name, category, url.
 export const work = [
-  { name: "Sanskriti Art", category: "Handmade resin art & gifts", url: "https://sanskriti-art.vercel.app/" },
-  { name: "Vaishnavi E-Mart", category: "Grocery & quick delivery", url: "https://vaishnavistores.shop/" },
-  { name: "Astrodisha", category: "Gemstones & spiritual store", url: "https://www.astrodisha.shop/" },
-  { name: "Forever Handy", category: "Personalised gifts store", url: "https://www.foreverhandy.store/" },
-  { name: "Beast Algo", category: "Trading & technology", url: "https://beast-algo.vercel.app/" },
-  { name: "Nashik Tours Cloud", category: "Travel & booking", url: "https://tours-and-travels-clean.vercel.app/" },
-  { name: "SCC Portal", category: "Education software", url: "https://edusync.me/login" },
+  // url: the live site. No public link? Leave url out and set demo: true (the card asks for a demo on WhatsApp).
+  { name: "Sanskriti Art", category: "Handmade resin art & gifts", url: "https://sanskriti-art.vercel.app/",
+    desc: "Online store for handmade art and gifts, with a step-by-step custom order flow and WhatsApp support.",
+    tags: ["Online store", "Custom orders", "WhatsApp"] },
+  { name: "Vaishnavi E-Mart", category: "Grocery & quick delivery", url: "https://vaishnavistores.shop/",
+    desc: "Grocery store with categories, a PIN-code delivery check, UPI, card and COD payments, and ordering by WhatsApp list.",
+    tags: ["Online store", "Payments", "WhatsApp"] },
+  { name: "OMR Checker", category: "Education software", demo: true, art: "omr",
+    desc: "Software for coaching classes that checks OMR answer sheets and prepares results. Private tool, demo on request.",
+    tags: ["Custom software"] },
+  { name: "Astrodisha", category: "Gemstones & spiritual store", url: "https://www.astrodisha.shop/",
+    desc: "Online store for gemstones and spiritual products. We also run their Instagram.",
+    tags: ["Online store", "Instagram"] },
+  { name: "Forever Handy", category: "Personalised gifts store", url: "https://www.foreverhandy.store/",
+    desc: "Online store for personalised gifts. We also run their Instagram, @memory_kraft.",
+    tags: ["Online store", "Instagram"] },
+  { name: "Beast Algo", category: "Trading & technology", url: "https://beast-algo.vercel.app/",
+    desc: "Website for a trading technology product.",
+    tags: ["Website"] },
+  { name: "SCC Portal", category: "Education software", url: "https://edusync.me/login",
+    desc: "Login portal for a coaching institute.",
+    tags: ["Web app"] },
 ];
 
 // Instagram accounts we manage. image = a strip of 3 posts, saved in the repo root.
@@ -60,7 +75,7 @@ export const services = [
       "You talk directly to the people building it",
       "Support after launch",
     ],
-    related: ["Sanskriti Art", "Vaishnavi E-Mart", "Astrodisha", "Forever Handy", "Beast Algo", "Nashik Tours Cloud"],
+    related: ["Sanskriti Art", "Vaishnavi E-Mart", "Astrodisha", "Forever Handy", "Beast Algo"],
   },
   {
     slug: "custom-software",
@@ -93,7 +108,7 @@ export const services = [
       "Grows as your business and data grow",
       "Support once it's live",
     ],
-    related: ["SCC Portal", "Beast Algo"],
+    related: ["OMR Checker", "SCC Portal", "Beast Algo"],
   },
   {
     slug: "social-media-management",

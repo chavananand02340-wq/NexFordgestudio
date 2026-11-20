@@ -91,11 +91,32 @@ ${body}
       <a class="brand" href="/"><img src="/mark-64.png" width="34" height="34" alt=""><span>NexForge Studio</span></a>
       <p>Websites, software, social media and branding. Based in Nashik, Maharashtra, working with businesses across India.</p>
     </div>
-    <ul class="foot-links">
-      <li><a href="${wa()}" rel="noopener" target="_blank">WhatsApp +91 ${site.whatsapp.slice(2, 7)} ${site.whatsapp.slice(7)}</a></li>
-      <li><a href="mailto:${site.email}">${site.email}</a></li>
-      <li><a href="https://instagram.com/${site.instagram}" rel="noopener" target="_blank">Instagram @${site.instagram}</a></li>
-    </ul>
+    <nav class="foot-cols" aria-label="Footer">
+      <div>
+        <h2>Services</h2>
+        <ul class="foot-links">
+${services.map((sv) => `          <li><a href="/services/${sv.slug}">${esc(sv.title[0].toUpperCase() + sv.title.slice(1))}</a></li>`).join("\n")}
+        </ul>
+      </div>
+      <div>
+        <h2>Studio</h2>
+        <ul class="foot-links">
+          <li><a href="/#work">Recent work</a></li>
+          <li><a href="/#social">Instagram we run</a></li>
+          <li><a href="/#process">Process</a></li>
+          <li><a href="/#faq">FAQ</a></li>
+          <li><a href="/start-project">Start a project</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <ul class="foot-links">
+          <li><a href="${wa()}" rel="noopener" target="_blank">WhatsApp +91 ${site.whatsapp.slice(2, 7)} ${site.whatsapp.slice(7)}</a></li>
+          <li><a href="mailto:${site.email}">${site.email}</a></li>
+          <li><a href="https://instagram.com/${site.instagram}" rel="noopener" target="_blank">Instagram @${site.instagram}</a></li>
+        </ul>
+      </div>
+    </nav>
     <p class="copy">© ${new Date().getFullYear()} NexForge Studio. This site is hand-coded: plain HTML, CSS and a little JavaScript, no templates.</p>
   </div>
 </footer>
@@ -104,6 +125,29 @@ ${body}
 </html>
 `;
 }
+
+// Drawn illustrations for work that has no public link.
+const omrRows = Array.from({ length: 6 }, (_, r) => {
+  const pick = [1, 3, 0, 2, 1, 3][r];
+  const y = 74 + r * 26;
+  const bubbles = [0, 1, 2, 3]
+    .map((c) => `<circle cx="${88 + c * 30}" cy="${y}" r="9" ${c === pick ? 'fill="#cf8c5d" stroke="#cf8c5d"' : 'fill="none" stroke="#9a948a"'} stroke-width="1.6"/>`)
+    .join("");
+  return `<text x="52" y="${y + 4}" font-size="11" fill="#6b665e" font-family="sans-serif">${r + 1}</text>${bubbles}<path d="M222 ${y} l5 5 9 -10" fill="none" stroke="#3f9b6a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>`;
+}).join("");
+const arts = {
+  omr: `<svg viewBox="0 0 400 250" role="img" aria-label="Illustration of an OMR answer sheet being checked">
+  <rect width="400" height="250" fill="#18191c"/>
+  <rect x="34" y="18" width="222" height="226" rx="6" fill="#ece9e2"/>
+  <rect x="34" y="18" width="222" height="34" rx="6" fill="#d9d4ca"/>
+  <rect x="48" y="30" width="90" height="8" rx="4" fill="#8f897f"/><rect x="190" y="30" width="52" height="8" rx="4" fill="#8f897f"/>
+  ${omrRows}
+  <rect x="276" y="60" width="96" height="124" rx="10" fill="#25282d" stroke="#3a3e45"/>
+  <circle cx="324" cy="98" r="22" fill="none" stroke="#cf8c5d" stroke-width="3"/>
+  <path d="M313 98 l8 8 15 -16" fill="none" stroke="#cf8c5d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="292" y="136" width="64" height="7" rx="3.5" fill="#a0a4aa"/><rect x="300" y="152" width="48" height="7" rx="3.5" fill="#5b5f66"/>
+</svg>`,
+};
 
 const shot = (u) => `https://s0.wp.com/mshots/v1/${encodeURIComponent(u)}?w=800&h=500`;
 const arrow = (d) =>
@@ -126,19 +170,28 @@ function workList(items, { id, heading, sub }) {
   <ul class="car-track" aria-labelledby="${id}">
 ${items
   .map(
-    (w, i) => `    <li class="card">
-      <a href="${esc(w.url)}" target="_blank" rel="noopener">
+    (w, i) => {
+      const href = w.url || wa(`Hi NexForge, I'd like a demo of ${w.name}.`);
+      const bar = w.url ? domain(w.url) : "Private software, demo on request";
+      const img = w.art
+        ? `<span class="card-art">${arts[w.art] || ""}<span class="art-note">Illustration</span></span>`
+        : `<img src="${shot(w.url)}" alt="Homepage of ${esc(w.name)}" width="800" height="500" loading="${i < 3 ? "eager" : "lazy"}" decoding="async"><span class="card-fallback" aria-hidden="true">${esc(domain(w.url))}</span>`;
+      return `    <li class="card">
+      <a href="${esc(href)}" target="_blank" rel="noopener">
         <span class="card-shot">
-          <span class="card-bar" aria-hidden="true"><i></i><i></i><i></i><em>${esc(domain(w.url))}</em></span>
-          <span class="card-img"><img src="${shot(w.url)}" alt="Homepage of ${esc(w.name)}" width="800" height="500" loading="${i < 3 ? "eager" : "lazy"}" decoding="async"><span class="card-fallback" aria-hidden="true">${esc(domain(w.url))}</span></span>
+          <span class="card-bar" aria-hidden="true"><i></i><i></i><i></i><em>${esc(bar)}</em></span>
+          <span class="card-img">${img}</span>
         </span>
         <span class="card-meta">
           <span class="card-cat">${esc(w.category)}</span>
           <span class="card-name">${esc(w.name)}</span>
-          <span class="card-go">Visit live site${extIcon}</span>
+          ${w.desc ? `<span class="card-desc">${esc(w.desc)}</span>` : ""}
+          ${w.tags ? `<span class="card-tags">${w.tags.map((t) => `<span>${esc(t)}</span>`).join("")}</span>` : ""}
+          <span class="card-go">${w.url ? "Visit live site" : "Ask for a demo"}${extIcon}</span>
         </span>
       </a>
-    </li>`
+    </li>`;
+    }
   )
   .join("\n")}
   </ul>
@@ -201,6 +254,23 @@ ${services
       <label class="chip"><input type="checkbox" name="need" value="Not sure yet"><span>Not sure yet</span></label>
     </div>
   </fieldset>
+  <fieldset>
+    <legend>When do you need it? <span class="opt">(optional)</span></legend>
+    <div class="chips">
+      <label class="chip"><input type="radio" name="when" value="This month"><span>This month</span></label>
+      <label class="chip"><input type="radio" name="when" value="In 1–2 months"><span>In 1–2 months</span></label>
+      <label class="chip"><input type="radio" name="when" value="Just exploring"><span>Just exploring</span></label>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend>What do you already have? <span class="opt">(optional)</span></legend>
+    <div class="chips">
+      <label class="chip"><input type="checkbox" name="have" value="Logo"><span>Logo</span></label>
+      <label class="chip"><input type="checkbox" name="have" value="Product photos"><span>Product photos</span></label>
+      <label class="chip"><input type="checkbox" name="have" value="Domain name"><span>Domain name</span></label>
+      <label class="chip"><input type="checkbox" name="have" value="Instagram page"><span>Instagram page</span></label>
+    </div>
+  </fieldset>
   <label><span>Tell us a little about it</span>
     <textarea name="message" rows="4" placeholder="What does your business do, and what should the project achieve?"></textarea>
   </label>
@@ -232,8 +302,8 @@ const home = layout({
 <section class="hero">
   <div class="wrap hero-in">
     <div class="hero-copy">
-      <h1>We design and build websites, software and brands for growing businesses.</h1>
-      <p class="lead">NexForge is a small digital studio in Nashik, working with businesses across India. You talk directly to the people building your project, and we stay with you after launch.</p>
+      <h1>Websites, software and Instagram for growing businesses.</h1>
+      <p class="lead">A small team in Nashik building online stores with UPI checkout, coaching-class software and weekly reels. You talk directly to the people doing the work, and we stay with you after launch.</p>
       <div class="actions">
         <a class="btn" href="${wa("Hi NexForge, I'd like to talk about a project.")}" target="_blank" rel="noopener">${waIcon} Message us on WhatsApp</a>
         <a class="btn btn-ghost" href="#work">See our work</a>
@@ -264,6 +334,16 @@ ${services
 <section class="block" id="social" aria-labelledby="social-h">
   <div class="wrap">
     ${socialList(social, { id: "social-h", heading: "Instagram accounts we run", sub: "Posts, reels and creatives we plan and make for these brands." })}
+  </div>
+</section>
+
+<section class="cta-strip" aria-label="Start a project">
+  <div class="wrap cta-in">
+    <p><strong>Want something like this for your business?</strong><span>Tell us what you sell and we'll suggest what to build first.</span></p>
+    <div class="actions">
+      <a class="btn" href="${wa("Hi NexForge, I saw your work and want something similar for my business.")}" target="_blank" rel="noopener">${waIcon} Message us on WhatsApp</a>
+      <a class="btn btn-ghost" href="/start-project">Start a project</a>
+    </div>
   </div>
 </section>
 
