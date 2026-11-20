@@ -107,7 +107,7 @@ p { margin: 0; }
 .hero { padding: 44px 0 56px; }
 .hero-in { display: grid; gap: 44px; }
 .hero h1 {
-  font-size: clamp(2rem, 7.6vw, 3.6rem);
+  font-size: clamp(2.3rem, 10vw, 3.6rem);
   font-stretch: 116%;
   line-height: 1.04;
   letter-spacing: -.015em;
@@ -209,6 +209,16 @@ p { margin: 0; }
   .svc-copy h3::before { left: -19px; }
   .svc.flip .svc-art { order: -1; }
   .svc-art { margin-top: 0; justify-self: center; width: 100%; }
+}
+@media (max-width: 899px) {
+  .hero { padding: 32px 0 0; }
+  .hero-in { gap: 28px; }
+  .hero .lead { font-size: 1rem; margin-top: 14px; }
+  .hero .actions { display: grid; grid-template-columns: 1.3fr 1fr; gap: 10px; margin-top: 22px; }
+  .hero .actions .btn { flex: none; padding: 12px 10px; font-size: .95rem; }
+  /* phones rise out of the bottom edge instead of taking a full screen */
+  .showcase { aspect-ratio: 100 / 56; overflow: hidden; -webkit-mask-image: linear-gradient(#000 72%, transparent); mask-image: linear-gradient(#000 72%, transparent); }
+  .showcase-note { display: none; }
 }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
@@ -377,6 +387,49 @@ h3 { font-size: 1.12rem; font-stretch: 108%; line-height: 1.3; }
 
 /* ---------- Bands: alternate sections get a deeper plate ---------- */
 .band { background: #18191c; }
+
+/* Section label: copper trace + section name, so you always know where you are */
+.kicker { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; color: var(--copper); font-weight: 600; font-size: .95rem; }
+.kicker::before {
+  content: ""; width: 40px; height: 10px; flex: none;
+  background:
+    radial-gradient(circle at calc(100% - 5px) 50%, transparent 2.5px, var(--copper) 3px 4.5px, transparent 5px),
+    linear-gradient(var(--copper), var(--copper)) left center / calc(100% - 9px) 2px no-repeat;
+  transform-origin: left; transition: transform .6s cubic-bezier(.5, 0, .2, 1);
+}
+.js .block-head:not(.in) .kicker::before { transform: scaleX(0); }
+.block-head.has-kicker::before { display: none; }
+
+/* Each home section has its own surface, so sections read as different places */
+.tone-work { background: #17181b; }
+.tone-services { background: var(--bg); }
+.tone-ig { background: linear-gradient(180deg, rgba(207, 140, 93, .09), rgba(207, 140, 93, 0) 55%), #1b1c20; }
+.tone-why { background: var(--bg); }
+.tone-process { background: #17181b; }
+.tone-faq { background: var(--bg); }
+.tone-contact { background: radial-gradient(ellipse 80% 60% at 0% 0%, rgba(207, 140, 93, .14), transparent 70%), #17181b; }
+.tone-work .block-head h2, .tone-services .block-head h2 { font-size: clamp(2rem, 7vw, 3.2rem); }
+
+/* Section bar: sticky list of sections with the current one highlighted (phones and tablets) */
+.secnav {
+  position: sticky; top: 64px; z-index: 45;
+  background: rgba(30, 32, 36, .94); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  transition: top .3s cubic-bezier(.2, .7, .2, 1);
+}
+.hdr-hidden .secnav { top: 0; }
+.secnav ul { list-style: none; margin: 0 auto; padding: 8px var(--gutter); max-width: var(--wrap); display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+.secnav ul::-webkit-scrollbar { display: none; }
+.secnav a {
+  display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px; border-radius: 999px;
+  color: var(--dim); text-decoration: none; white-space: nowrap; font-size: .92rem; font-weight: 500;
+  border: 1px solid transparent; transition: color .2s ease, background-color .2s ease, border-color .2s ease;
+}
+.secnav a:hover { color: var(--text); }
+.secnav a.on { color: var(--copper-ink); background: var(--copper); font-weight: 600; }
+@media (min-width: 820px) { .secnav { display: none; } .nav a.on:not(.btn) { color: var(--copper); } }
+html { scroll-padding-top: 120px; }
+@media (min-width: 820px) { html { scroll-padding-top: 80px; } }
 
 /* Copper trace above each heading, drawn as the section arrives */
 .block-head::before {

@@ -73,6 +73,7 @@ function layout({ path, title, description, body, bodyClass = "" }) {
     <nav class="nav" id="nav" aria-label="Main">
       <a href="/#work">Work</a>
       <a href="/#services">Services</a>
+      <a href="/#social">Instagram</a>
       <a href="/#process">Process</a>
       <a href="/#faq">FAQ</a>
       <a class="btn btn-sm" href="/start-project">Start a project</a>
@@ -295,10 +296,11 @@ ${items
 const igIcon = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>`;
 
 // Instagram accounts we manage, as a horizontal carousel (same controls as Recent work).
-function socialList(items, { id, heading, sub }) {
+function socialList(items, { id, heading, sub, kicker }) {
   return `<div class="car" data-car>
   <div class="car-top">
-    <div class="block-head">
+    <div class="block-head${kicker ? " has-kicker" : ""}">
+      ${kicker ? `<p class="kicker">${esc(kicker)}</p>` : ""}
       <h2 id="${id}">${esc(heading)}</h2>
       ${sub ? `<p>${esc(sub)}</p>` : ""}
     </div>
@@ -399,10 +401,10 @@ const home = layout({
 <section class="hero">
   <div class="wrap hero-in">
     <div class="hero-copy">
-      <h1>Websites, software and Instagram for growing businesses.</h1>
-      <p class="lead">A small team in Nashik building online stores with UPI checkout, coaching-class software and weekly reels. You talk directly to the people doing the work, and we stay with you after launch.</p>
+      <h1>We forge your business online.</h1>
+      <p class="lead">Websites, software and Instagram, built by a small team in Nashik. You talk directly to the people doing the work.</p>
       <div class="actions">
-        <a class="btn" href="${wa("Hi NexForge, I'd like to talk about a project.")}" target="_blank" rel="noopener">${waIcon} Message us on WhatsApp</a>
+        <a class="btn" href="${wa("Hi NexForge, I'd like to talk about a project.")}" target="_blank" rel="noopener">${waIcon} Chat on WhatsApp</a>
         <a class="btn btn-ghost" href="#work">See our work</a>
       </div>
     </div>
@@ -413,9 +415,22 @@ ${featured.map((w, i) => `      <span class="sc-phone sc-${i}">${phoneFrame(w, t
   </div>
 </section>
 
-<section class="block band" id="work" aria-labelledby="work-h">
+<nav class="secnav" aria-label="Sections on this page">
+  <ul>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#social">Instagram</a></li>
+    <li><a href="#why">Why us</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="block tone-work" id="work" aria-labelledby="work-h">
   <div class="wrap">
-    <div class="block-head">
+    <div class="block-head has-kicker">
+      <p class="kicker">Work</p>
       <h2 id="work-h">Selected work</h2>
       <p>Live projects you can open and try.</p>
     </div>
@@ -426,9 +441,10 @@ ${featured.map((w, i) => `      <span class="sc-phone sc-${i}">${phoneFrame(w, t
   </div>
 </section>
 
-<section class="block" id="services" aria-labelledby="services-h">
+<section class="block tone-services" id="services" aria-labelledby="services-h">
   <div class="wrap">
-    <div class="block-head">
+    <div class="block-head has-kicker">
+      <p class="kicker">Services</p>
       <h2 id="services-h">What we do</h2>
       <p>Four services, one team. Pick one, or let us suggest where to start.</p>
     </div>
@@ -436,9 +452,9 @@ ${featured.map((w, i) => `      <span class="sc-phone sc-${i}">${phoneFrame(w, t
   </div>
 </section>
 
-<section class="block band" id="social" aria-labelledby="social-h">
+<section class="block tone-ig" id="social" aria-labelledby="social-h">
   <div class="wrap">
-    ${socialList(social, { id: "social-h", heading: "Instagram accounts we run", sub: "Posts, reels and creatives we plan and make for these brands." })}
+    ${socialList(social, { kicker: "Instagram", id: "social-h", heading: "Instagram accounts we run", sub: "Posts, reels and creatives we plan and make for these brands." })}
   </div>
 </section>
 
@@ -452,9 +468,10 @@ ${featured.map((w, i) => `      <span class="sc-phone sc-${i}">${phoneFrame(w, t
   </div>
 </section>
 
-<section class="block" aria-labelledby="why-h">
+<section class="block tone-why" id="why" aria-labelledby="why-h">
   <div class="wrap">
-    <div class="block-head">
+    <div class="block-head has-kicker">
+      <p class="kicker">Why us</p>
       <h2 id="why-h">Why businesses work with us</h2>
     </div>
     <ul class="why" role="list">
@@ -463,9 +480,10 @@ ${reasons.map(([t, d], i) => `      <li>${reasonIcons[i] || ""}<h3>${esc(t)}</h3
   </div>
 </section>
 
-<section class="block band" id="process" aria-labelledby="process-h">
+<section class="block tone-process" id="process" aria-labelledby="process-h">
   <div class="wrap">
-    <div class="block-head">
+    <div class="block-head has-kicker">
+      <p class="kicker">Process</p>
       <h2 id="process-h">How a project runs</h2>
       <p>Four steps, from first message to a live project.</p>
     </div>
@@ -475,9 +493,10 @@ ${steps.map(([t, d]) => `      <li><h3>${esc(t)}</h3><p>${esc(d)}</p></li>`).joi
   </div>
 </section>
 
-<section class="block" id="faq" aria-labelledby="faq-h">
+<section class="block tone-faq" id="faq" aria-labelledby="faq-h">
   <div class="wrap narrow">
-    <div class="block-head">
+    <div class="block-head has-kicker">
+      <p class="kicker">FAQ</p>
       <h2 id="faq-h">Questions people ask</h2>
     </div>
     <div class="faq">
@@ -486,9 +505,10 @@ ${faqs.map(([q, a]) => `      <details><summary>${esc(q)}</summary><p>${esc(a)}<
   </div>
 </section>
 
-<section class="block contact" id="contact" aria-labelledby="contact-h">
+<section class="block contact tone-contact" id="contact" aria-labelledby="contact-h">
   <div class="wrap contact-in">
-    <div class="block-head">
+    <div class="block-head has-kicker">
+      <p class="kicker">Contact</p>
       <h2 id="contact-h">Tell us what you're building</h2>
       <p>Fill this in and it opens WhatsApp with your message ready to send.</p>
     </div>

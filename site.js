@@ -33,6 +33,7 @@
       var hide = y > 160 && y > lastY + 4 && !menuOpen;
       if (hide) header.classList.add("is-hidden");
       else if (y < lastY - 4 || y < 160) header.classList.remove("is-hidden");
+      root.classList.toggle("hdr-hidden", header.classList.contains("is-hidden"));
       header.classList.toggle("is-scrolled", y > 8);
     }
     lastY = y;
@@ -80,6 +81,35 @@
     img.addEventListener("error", fail);
     if (img.complete && img.naturalWidth === 0) fail();
   });
+
+  /* ---------- Where am I: highlight the current section in the section bar and header ---------- */
+  var secLinks = document.querySelectorAll('.secnav a, .nav a[href^="/#"]');
+  var secIds = ["work", "services", "social", "why", "process", "faq", "contact"];
+  var secEls = secIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+  var secBar = document.querySelector(".secnav ul");
+  if (secEls.length && secLinks.length) {
+    var current = null;
+    var mark = function () {
+      var line = window.innerHeight * 0.35, cur = null;
+      secEls.forEach(function (el) { if (el.getBoundingClientRect().top <= line) cur = el.id; });
+      if (cur === current) return;
+      current = cur;
+      secLinks.forEach(function (a) {
+        var on = cur && a.getAttribute("href").replace("/", "") === "#" + cur;
+        a.classList.toggle("on", !!on);
+        if (on) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current");
+        if (on && secBar && a.closest(".secnav")) {
+          var left = a.offsetLeft - (secBar.clientWidth - a.offsetWidth) / 2;
+          secBar.scrollTo({ left: left, behavior: reduce ? "auto" : "smooth" });
+        }
+      });
+    };
+    var mTick = false;
+    window.addEventListener("scroll", function () {
+      if (!mTick) { mTick = true; requestAnimationFrame(function () { mark(); mTick = false; }); }
+    }, { passive: true });
+    mark();
+  }
 
   /* ---------- Process steps light up as you scroll past them ---------- */
   if ("IntersectionObserver" in window) {
